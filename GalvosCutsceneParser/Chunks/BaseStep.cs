@@ -8,6 +8,8 @@ namespace GalvosCutsceneParser.Chunks
 {
     public abstract class BaseStep
     {
+        public const string ID_PREFIX = "____";
+
         public abstract string ToXML();
     }
 }
