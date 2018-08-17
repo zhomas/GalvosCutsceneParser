@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ParserTests
 {
     [TestClass]
-    public class UnitTest1
+    public class SpeechBubbleTest
     {
         [TestMethod]
         public void TestSpeechBubbleProducesValidOutputMini()
@@ -25,6 +25,11 @@ namespace ParserTests
             "</0>".FormattedXML();
 
             Assert.AreEqual(expected, sb.ToXML());
+        }
+
+        public void TestSpeechBubbleStepCreated()
+        {
+            string input = "Joey say 'Hello!'";
         }
 
         //[TestMethod]

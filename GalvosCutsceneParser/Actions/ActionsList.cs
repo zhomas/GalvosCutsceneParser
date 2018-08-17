@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GalvosCutsceneParser
+namespace GalvosCutsceneParser.Actions
 {
-    public class Parser
+    public enum StepAction
     {
-
-
+        Speech,
+        Undefined
     }
 }
