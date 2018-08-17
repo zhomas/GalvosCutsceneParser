@@ -1,0 +1,6 @@
+.xml
+
+
+GalvosCutsceneParser/packages/*
+GalvosCutsceneParser/.vs/*
+ParserTests/obj/*
