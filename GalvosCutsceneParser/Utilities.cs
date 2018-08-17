@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace GalvosCutsceneParser
 {
@@ -11,8 +12,9 @@ namespace GalvosCutsceneParser
     {
         public static string FormattedXML(this string original)
         {
-            Regex rgx = new Regex("[\r\t\n]");
-            return rgx.Replace(original, "");
+            Regex whitespace = new Regex(@"([\s]{2,}|[\r\n\t])");
+            string output = whitespace.Replace(original, "");
+            return Regex.Replace(output, @"\s+>", ">");
         }
     }
 }

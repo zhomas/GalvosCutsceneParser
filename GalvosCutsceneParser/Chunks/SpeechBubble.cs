@@ -22,23 +22,24 @@ namespace GalvosCutsceneParser.Chunks
             this.next = -1;
         }
 
-        public override string ToXML()
+        protected override XAttribute[] GetBooleanParams()
         {
-            XElement element = new XElement(ID_PREFIX + "0", 
-                new XAttribute("aID", this.aID), 
-                new XAttribute("guiBoxID", 0), 
-                new XAttribute("next", this.next)
-            );
-
-            element.Add(new XElement("_bool", 
+            return new List<XAttribute>()
+            {
                 new XAttribute("cameraTarget", false.ToString()),
                 new XAttribute("active", true.ToString()),
                 new XAttribute("overrideNodeName", false.ToString())
-            ));
+            }.ToArray();
+        }
 
-
-
-            return element.ToString().Replace(ID_PREFIX, "").FormattedXML();
+        protected override XAttribute[] GetRootNodeParams()
+        {
+            return new List<XAttribute>()
+            {
+                new XAttribute("aID", this.aID), 
+                new XAttribute("guiBoxID", 0), 
+                new XAttribute("next", this.next)
+            }.ToArray();
         }
     }
 }

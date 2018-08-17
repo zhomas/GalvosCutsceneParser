@@ -20,10 +20,10 @@ namespace ParserTests
 
             // Produces correct XML
 
-            string expected = "<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\" >" +
-				"<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
-			"</5>".FormattedXML();
-            
+            string expected = "<0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+                "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
+            "</0>".FormattedXML();
+
             Assert.AreEqual(expected, sb.ToXML());
         }
 
