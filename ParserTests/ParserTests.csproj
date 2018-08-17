@@ -52,6 +52,7 @@
     <Compile Include="Chunks\SpeechBubbleTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StepBuilderTest.cs" />
+    <Compile Include="ParserTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
