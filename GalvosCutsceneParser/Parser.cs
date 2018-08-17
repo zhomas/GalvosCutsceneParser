@@ -21,7 +21,7 @@ namespace GalvosCutsceneParser
 
         public string GetXML()
         {
-            return "Jimmy...";
+            return "Lenny...";
         }
 
         private void WriteXMLToDesktop(string xml)
