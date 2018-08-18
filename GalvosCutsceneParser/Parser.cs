@@ -21,25 +21,12 @@ namespace GalvosCutsceneParser
 
             
             XmlDocument doc = new XmlDocument();
+            doc.PreserveWhitespace = true;
             doc.InnerXml = xml.SanitizeORKXml();
-            
-            var steps = doc.DocumentElement.GetElementsByTagName("step");
+            doc.RemoveByTagName("step");
 
-            for (int i = 0; i < steps.Count; i++)
-            {
-                var childs = steps[i].ChildNodes;
-
-                for (int j = 0; j < childs.Count; j++)
-                {
-                    Console.WriteLine(childs[j].OuterXml);
-                    Console.WriteLine();
-                }
-
-                
-            }
-
+            Console.WriteLine(doc.InnerXml);
             Console.ReadKey();
-
         }
 
         public string GetXML()

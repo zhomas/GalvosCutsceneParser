@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace GalvosCutsceneParser
 {
-    public static class Utilities
+    public static class RegexUtilities
     {
         public static string WhitespaceCleanupXML(this string original)
         {

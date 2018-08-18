@@ -23,7 +23,7 @@ namespace GalvosCutsceneParser
 
         public string GetParameterFromInput(string inputLine)
         {
-            string parameter = Utilities.PullOutTextInsideQuotes(ref inputLine);
+            string parameter = RegexUtilities.PullOutTextInsideQuotes(ref inputLine);
             return parameter;
         }
 
@@ -42,7 +42,7 @@ namespace GalvosCutsceneParser
         public BaseStep BuildStep(string inputLine)
         {
             BaseEntity entity = this.GetEntityFromInput(inputLine);
-            string parameter = Utilities.PullOutTextInsideQuotes(ref inputLine);
+            string parameter = RegexUtilities.PullOutTextInsideQuotes(ref inputLine);
             StepAction action = this.GetActionFromInput(inputLine);
 
             switch (action)

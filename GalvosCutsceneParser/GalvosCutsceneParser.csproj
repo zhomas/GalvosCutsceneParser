@@ -51,7 +51,8 @@
     <Compile Include="Entities\Humanoid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StepBuilder.cs" />
-    <Compile Include="Utilities.cs" />
+    <Compile Include="Utilities\RegexUtilities.cs" />
+    <Compile Include="Utilities\XmlUtilities.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

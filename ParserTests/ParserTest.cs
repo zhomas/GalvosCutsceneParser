@@ -47,5 +47,18 @@ namespace ParserTests
                 Assert.Fail(ex.ToString());
             }
         }
+
+        [TestMethod]
+        public void TestRemovingTagsRemovesTags()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.InnerXml = "<a><b></b></a>";
+
+            Assert.IsTrue(doc.GetElementsByTagName("b").Count > 0);
+
+            doc.RemoveByTagName("b");
+
+            Assert.IsTrue(doc.GetElementsByTagName("b").Count == 0);
+        }
     }
 }
