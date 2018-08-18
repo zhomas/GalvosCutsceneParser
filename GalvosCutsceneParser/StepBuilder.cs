@@ -71,7 +71,7 @@ namespace GalvosCutsceneParser
             switch (action)
             {
                 case StepAction.Speech:
-                    return new SpeechBubble(entity.ID, parameter, -1);
+                    return new SpeechBubble(entity.ID, parameter);
             }
 
             return null;

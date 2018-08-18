@@ -8,7 +8,13 @@ namespace GalvosCutsceneParser.Chunks
 {
     public abstract class BaseStep
     {
-        protected abstract List<XAttribute> GetRootNodeAttributes();
+        protected virtual List<XAttribute> GetRootNodeAttributes(int index, bool isFinalStep)
+        {
+            return new List<XAttribute>()
+            {
+                new XAttribute("next", isFinalStep ? -1 : index + 1)
+            };
+        }
 
         protected abstract List<XAttribute> GetBooleanAttributes();
 
@@ -25,9 +31,9 @@ namespace GalvosCutsceneParser.Chunks
             };
         }
 
-        public XElement ToXML(int index)
+        public XElement ToXML(int index, bool isFinalStep)
         {
-            XElement element = new XElement(Parser.XML_PREFIX + index.ToString(), this.GetRootNodeAttributes());
+            XElement element = new XElement(Parser.XML_PREFIX + index.ToString(), this.GetRootNodeAttributes(index, isFinalStep));
 
             var bools = this.GetBooleanAttributes();
             var strings = this.GetStringElements();

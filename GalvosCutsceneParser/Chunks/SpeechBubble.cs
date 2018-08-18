@@ -11,14 +11,12 @@ namespace GalvosCutsceneParser.Chunks
     public class SpeechBubble : BaseStep
     {
         private int aID;
-        private int next;
         private string message;
 
-        public SpeechBubble(int aID, string message, int next)
+        public SpeechBubble(int aID, string message)
         {
             this.aID = aID;
             this.message = message;
-            this.next = -1;
         }
 
         protected override List<XAttribute> GetBooleanAttributes()
@@ -31,14 +29,13 @@ namespace GalvosCutsceneParser.Chunks
             };
         }
 
-        protected override List<XAttribute> GetRootNodeAttributes()
+        protected override List<XAttribute> GetRootNodeAttributes(int index, bool isFinal)
         {
             return new List<XAttribute>()
             {
                 new XAttribute("aID", this.aID),
                 new XAttribute("guiBoxID", 0),
-                new XAttribute("next", this.next)
-            };
+            }.Concat(base.GetRootNodeAttributes(index, isFinal)).ToList();
         }
 
         protected override List<XElement> GetStringElements()

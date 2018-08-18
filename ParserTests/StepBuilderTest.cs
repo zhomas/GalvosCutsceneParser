@@ -28,6 +28,7 @@ namespace ParserTests
             Assert.AreEqual(2, result.Count);
         }
 
+
         [TestMethod]
         public void TestSpeechBubbleCreated()
         {

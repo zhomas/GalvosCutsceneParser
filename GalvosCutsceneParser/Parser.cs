@@ -35,7 +35,7 @@ namespace GalvosCutsceneParser
 
             this.document.Descendants("step").Remove();
             XElement step = new XElement("step",
-                steps.Select((s, i) => s.ToXML(i))
+                steps.Select((s, i) => s.ToXML(i, i == steps.Count - 1))
             );
             stepParent.Add(step);
             return this;
