@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml;
+using System.Xml.Linq;
 using UnityEngine;
 
 namespace GalvosCutsceneParser
@@ -14,19 +14,40 @@ namespace GalvosCutsceneParser
         public const string XML_PREFIX = "____";
 
         private string inputXml;
+        private XDocument document;
 
-        public void LoadEventXML(string xml)
+        public Parser LoadEventXML(string xml)
         {
-            this.inputXml = xml.SanitizeORKXml();
-
-            
-            XmlDocument doc = new XmlDocument();
-            doc.PreserveWhitespace = true;
-            doc.InnerXml = xml.SanitizeORKXml();
-            doc.RemoveByTagName("step");
-
-            Console.WriteLine(doc.InnerXml);
+            Console.WriteLine(xml);
             Console.ReadKey();
+
+            this.inputXml = xml.ConvertORKToValidXML();
+            this.document = XDocument.Parse(this.inputXml);
+            return this;
+        }
+
+        public Parser ReplaceXMLStepsWithGPLSteps(string gpl)
+        {
+            if (this.document == null)
+            {
+                throw new Exception("No Document Intialised!");
+            }
+
+            var stepParent = this.document.Descendants("step").First().Parent;
+
+            this.document.Descendants("step").Remove();
+
+            var step = new XElement("step",
+                this.GetStepsFromInput(gpl).Select((s, i) => s.ToXML(i))
+            );
+
+            stepParent.Add(step);
+
+            Console.Clear();
+            Console.ReadKey();
+            Console.Write(this.document.ToString());
+            Console.ReadKey();
+            return this;
         }
 
         public string GetXML()
@@ -42,7 +63,7 @@ namespace GalvosCutsceneParser
             File.WriteAllText(desktop + "/xml.txt", xml);
         }
 
-        public List<BaseStep> ProcessInputString(string input)
+        public List<BaseStep> GetStepsFromInput(string input)
         {
             List < BaseStep > list = new List<BaseStep>();
             StepBuilder builder = new StepBuilder();

@@ -8,18 +8,43 @@ namespace GalvosCutsceneParser.Chunks
 {
     public abstract class BaseStep
     {
+        protected abstract List<XAttribute> GetRootNodeAttributes();
 
-        protected abstract XAttribute[] GetRootNodeParams();
+        protected abstract List<XAttribute> GetBooleanAttributes();
 
-        protected abstract XAttribute[] GetBooleanParams();
+        protected abstract List<XElement> GetStringArrayElements();
 
-        public string ToXML()
+        protected virtual List<XElement> GetStringElements()
         {
-            XElement element = new XElement(Parser.XML_PREFIX + "0", this.GetRootNodeParams());
+            var nodeName = new XElement("nodeName");
+            nodeName.Add(new XCData(""));
 
-            element.Add(new XElement("_bool", this.GetBooleanParams()));
+            return new List<XElement>()
+            {
+                nodeName
+            };
+        }
 
-            return element.ToString().Replace(Parser.XML_PREFIX, "").WhitespaceCleanupXML();
+        public XElement ToXML(int index)
+        {
+            XElement element = new XElement(Parser.XML_PREFIX + index.ToString(), this.GetRootNodeAttributes());
+
+            if (this.GetBooleanAttributes().Count > 0)
+            {
+                element.Add(new XElement("_bool", this.GetBooleanAttributes()));
+            }
+
+            if (this.GetStringElements().Count > 0)
+            {
+                element.Add(new XElement("_string", this.GetStringElements()));
+            }
+
+            if (this.GetStringArrayElements().Count > 0)
+            {
+                element.Add(new XElement("_stringarrays", this.GetStringArrayElements()));
+            }
+
+            return element;
         }
     }
 }

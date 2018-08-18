@@ -18,7 +18,7 @@ namespace GalvosCutsceneParser
             return Regex.Replace(output, @"\s+>", ">");
         }
 
-        public static string SanitizeORKXml(this string original)
+        public static string ConvertORKToValidXML(this string original)
         {
             // Replace the first weird tag name :: <0
             var replaced = Regex.Replace(original, @"(<)(\d)", "$1" + Parser.XML_PREFIX + "$2");
@@ -30,6 +30,13 @@ namespace GalvosCutsceneParser
             replaced = Regex.Replace(replaced, @"(<\w+) (\d+)\s+(\d+)", "$1 x=\"$2\" y=\"$3\"");
 
             return replaced;
+        }
+
+        public static string ConvertValidXMLToORK(this string original)
+        {
+
+
+            return original;
         }
 
         public static string PullOutTextInsideQuotes(ref string original)

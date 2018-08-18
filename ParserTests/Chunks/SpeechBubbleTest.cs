@@ -10,57 +10,56 @@ namespace ParserTests
     public class SpeechBubbleTest
     {
         [TestMethod]
-        public void TestSpeechBubbleProducesValidOutputMini()
+        public void TestSpeechBubbleProducesValidOutputFull()
         {
             var parser = new Parser();
-            var sb = new SpeechBubble(5, "Hello!", -1);
+            var sb = new SpeechBubble(0, "Hello!", -1);
 
-            // Given input 
-            // Joey say 'hello'
-
-            // Produces correct XML
-
-            string expected = "<0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+            string expected = "<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\" >" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
-            "</0>".WhitespaceCleanupXML();
+                "<_string>" +
+                    "<nodeName><![CDATA[]]></nodeName>" +
+                    "<_type><![CDATA[SpeechBubbleStep]]></_type>" +
+                "</_string>" +
+                "<_stringarrays>" +
+                    "<message>" +
+                        "<0><![CDATA[Hello!]]></0>" +
+                    "</message>" +
+                "</_stringarrays>" +
+            "</5>";
 
-            Assert.AreEqual(expected, sb.ToXML());
+            expected = expected.ConvertORKToValidXML().WhitespaceCleanupXML();
+
+            string actual = sb.ToXML(5).ToString().WhitespaceCleanupXML();
+
+            Assert.AreEqual(expected, actual);
         }
 
-        public void TestSpeechBubbleStepCreated()
+
+        [TestMethod]
+        public void TestSpeechBubbleMessage()
         {
-            string input = "Joey say 'Hello!'";
+            var parser = new Parser();
+            var sb = new SpeechBubble(0, "Suck My Balls!", -1);
+
+            string expected = "<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\" >" +
+                "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
+                "<_string>" +
+                    "<nodeName><![CDATA[]]></nodeName>" +
+                    "<_type><![CDATA[SpeechBubbleStep]]></_type>" +
+                "</_string>" +
+                "<_stringarrays>" +
+                    "<message>" +
+                        "<0><![CDATA[Suck My Balls!]]></0>" +
+                    "</message>" +
+                "</_stringarrays>" +
+            "</5>";
+
+            expected = expected.ConvertORKToValidXML().WhitespaceCleanupXML();
+
+            string actual = sb.ToXML(5).ToString().WhitespaceCleanupXML();
+
+            Assert.AreEqual(expected, actual);
         }
-
-        //[TestMethod]
-        //public void TestSpeechBubbleProducesValidOutputFull()
-        //{
-        //    var parser = new Parser();
-        //    var sb = new SpeechBubble(0, "Hello!", -1);
-
-        //    // Given input 
-        //    // Joey say 'hello'
-
-        //    // Produces correct XML
-
-        //    string expected = "<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\" >" +
-        //        "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
-        //        "<_floatarrays>" +
-        //            "<nodePosition 893 171 />" +
-        //        "</_floatarrays>" +
-        //        "<_string>" +
-        //            "<nodeName><![CDATA[]]></nodeName>" +
-        //            "<_type><![CDATA[SpeechBubbleStep]]></_type>" +
-        //        "</_string>" +
-        //        "<_stringarrays>" +
-        //            "<message>" +
-        //                "<0><![CDATA[Hello!]]></0>" +
-        //            "</message>" +
-        //        "</_stringarrays>" +
-        //    "</5>";
-
-        //    Assert.AreEqual(expected, sb.ToXML());
-
-        //}
     }
 }

@@ -16,10 +16,12 @@ namespace Executable
             string desktop = Environment.GetFolderPath(
                          System.Environment.SpecialFolder.DesktopDirectory);
 
-            string text = System.IO.File.ReadAllText(desktop + "/xml.txt");
+            string xml = System.IO.File.ReadAllText(desktop + "/xml.txt");
+            string gpl = "Joey say \"Wuuut wuuuuut!\"";
 
-            parser.LoadEventXML(text);
-
+            parser
+                .LoadEventXML(xml)
+                .ReplaceXMLStepsWithGPLSteps(gpl);
         }
     }
 }
