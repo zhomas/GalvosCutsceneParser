@@ -20,6 +20,7 @@ namespace GalvosCutsceneParser
         {
             this.inputXml = xml.ConvertORKToValidXML();
             this.document = XDocument.Parse(this.inputXml);
+            this.document.Root.SetAttributeValue("startIndex", 0);
             return this;
         }
 

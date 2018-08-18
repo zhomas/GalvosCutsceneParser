@@ -73,7 +73,7 @@ namespace ParserTests
             "<" + Parser.XML_PREFIX + "0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" + 
-                    "< nodePosition x=\"38\" y=\"38\" />" +
+                    "< nodePosition " + Parser.XML_PREFIX + "x=\"38\" " + Parser.XML_PREFIX + "y=\"38\" />" +
                 "</ _floatarrays > " +
             "</" + Parser.XML_PREFIX + "0>".WhitespaceCleanupXML();
 
@@ -96,7 +96,7 @@ namespace ParserTests
             "<" + Parser.XML_PREFIX + "0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" +
-                    "< nodePosition x=\"38\" y=\"38\" />" +
+                    "< nodePosition " + Parser.XML_PREFIX + "x=\"38\" " + Parser.XML_PREFIX + "y=\"38\" />" +
                 "</ _floatarrays > " +
             "</" + Parser.XML_PREFIX + "0>".WhitespaceCleanupXML();
 
