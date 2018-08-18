@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Xml;
 using GalvosCutsceneParser;
-using GalvosCutsceneParser.Chunks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ParserTests
@@ -12,7 +11,7 @@ namespace ParserTests
         [TestMethod]
         public void TestSpeechBubbleProducesValidOutputFull()
         {
-            var parser = new Parser();
+            var parser = new GalvosCutsceneParser.Parser();
             var sb = new SpeechBubble(0, "Hello!");
 
             //expected = expected.ConvertORKToValidXML().WhitespaceCleanupXML();

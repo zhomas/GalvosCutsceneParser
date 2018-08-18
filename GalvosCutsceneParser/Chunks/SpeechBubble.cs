@@ -6,7 +6,7 @@ using System.Xml;
 using System.Xml.Linq;
 using GalvosCutsceneParser;
 
-namespace GalvosCutsceneParser.Chunks
+namespace GalvosCutsceneParser
 {
     public class SpeechBubble : BaseStep
     {

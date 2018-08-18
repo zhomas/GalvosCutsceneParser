@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GalvosCutsceneParser.Actions
+namespace GalvosCutsceneParser
 {
     public enum StepAction
     {

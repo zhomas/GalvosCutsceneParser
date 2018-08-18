@@ -1,7 +1,4 @@
-﻿using GalvosCutsceneParser.Actions;
-using GalvosCutsceneParser.Chunks;
-using GalvosCutsceneParser.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

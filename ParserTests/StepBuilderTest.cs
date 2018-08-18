@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Text;
 using GalvosCutsceneParser;
-using GalvosCutsceneParser.Actions;
-using GalvosCutsceneParser.Chunks;
-using GalvosCutsceneParser.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ParserTests

@@ -4,7 +4,6 @@ using System.Xml;
 using System.Linq;
 using System.Xml.Linq;
 using GalvosCutsceneParser;
-using GalvosCutsceneParser.Chunks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 

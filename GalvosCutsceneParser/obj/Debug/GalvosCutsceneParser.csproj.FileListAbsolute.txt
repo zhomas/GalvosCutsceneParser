@@ -2,7 +2,6 @@ C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\bin\Debug\Gal
 C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\bin\Debug\GalvosCutsceneParser.pdb
 C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\bin\Debug\UnityEngine.dll
 C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\bin\Debug\UnityEngine.xml
-C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\obj\Debug\GalvosCutsceneParser.csprojResolveAssemblyReference.cache
 C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\obj\Debug\GalvosCutsceneParser.csproj.CoreCompileInputs.cache
 C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\obj\Debug\GalvosCutsceneParser.dll
 C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\obj\Debug\GalvosCutsceneParser.pdb
