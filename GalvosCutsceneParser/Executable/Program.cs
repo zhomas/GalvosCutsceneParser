@@ -12,6 +12,7 @@ namespace Executable
         static void Main(string[] args)
         {
             var parser = new Parser();
+            var stepBuilder = new StepBuilder();
 
             string desktop = Environment.GetFolderPath(
                          System.Environment.SpecialFolder.DesktopDirectory);
@@ -19,9 +20,16 @@ namespace Executable
             string xml = System.IO.File.ReadAllText(desktop + "/xml.txt");
             string gpl = "Joey say \"Wuuut wuuuuut!\"";
 
-            parser
-                .LoadEventXML(xml)
-                .ReplaceXMLStepsWithGPLSteps(gpl);
+
+            var steps = stepBuilder.GetStepsFromInput(gpl);
+
+            var result = parser.LoadEventXML(xml)
+                      .ReplaceXMLStepsWithGPLSteps(steps)
+                      .GetXML();
+
+
+            Console.Write(result);
+            Console.ReadLine();
         }
     }
 }

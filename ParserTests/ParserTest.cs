@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using GalvosCutsceneParser;
 using GalvosCutsceneParser.Chunks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace ParserTests
 {
@@ -13,41 +14,102 @@ namespace ParserTests
     public class ParserTest
     {
         [TestMethod]
-        public void TestParserBuildsMultipleSteps()
+        public void TestStepReplacement()
         {
-            Parser parser = new Parser();
+            var parser = new Parser();
+            List<BaseStep> steps = new List<BaseStep>()
+            {
+                new SpeechBubble(0, "Hi", 1),
+                new SpeechBubble(1, "Wooo", 2)
+            };
 
-            StringBuilder builder = new StringBuilder();
-            builder.AppendLine("Joey say \"Hello Good bean!\"");
-            builder.AppendLine("Joey say \"Hello Good bean!\"");
+            string xml =
+            @"<a>" +
+                "<b>" +
+                    "<step>" +
+                        "<cheese></cheese>" +
+                    "</step>" +
+                "</b>" +
+            "</a>";
 
-            var result = parser.GetStepsFromInput(builder.ToString());
+            var before = parser
+                    .LoadEventXML(xml)
+                    .Document;
 
-            Assert.AreEqual(typeof(SpeechBubble), result[0].GetType());
-            Assert.AreEqual(typeof(SpeechBubble), result[1].GetType());
+            Assert.IsTrue(before.Descendants("cheese").Count() == 1);
+            Assert.IsTrue(before.Descendants(Parser.XML_PREFIX + "0").Count() == 0);
 
-            Assert.AreEqual(2, result.Count);
+            var after = parser
+                .ReplaceXMLStepsWithGPLSteps(steps)
+                .Document;
+
+            Assert.IsTrue(after.Descendants("cheese").Count() == 0);
+            Assert.IsTrue(after.Descendants(Parser.XML_PREFIX + "0").Count() > 0);
         }
 
         [TestMethod]
-        public void TestInvalidXMLCanBeMadeValid()
+        public void TestInvalidORKXMLParsedOkay()
         {
+            Parser parser = new Parser();
+
             string invalid = "<0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" /></0>";
 
-
-            string valid = invalid.ConvertORKToValidXML();
-
             try
             {
-                XmlDocument doc = new XmlDocument();
-                doc.InnerXml = valid;
+                parser.LoadEventXML(invalid);
             }
 
             catch (Exception ex)
             {
                 Assert.Fail(ex.ToString());
             }
+        }
+
+        [TestMethod]
+        public void TestValidXMLCanBeConvertedToInvalid()
+        {
+            string valid = 
+            "<" + Parser.XML_PREFIX + "0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+                "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
+                "<_floatarrays>" + 
+                    "< nodePosition x=\"38\" y=\"38\" />" +
+                "</ _floatarrays > " +
+            "</" + Parser.XML_PREFIX + "0>".WhitespaceCleanupXML();
+
+            string invalid =
+            "<0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+                "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
+                "<_floatarrays>" +
+                    "< nodePosition 38 38 />" +
+                "</ _floatarrays > " +
+            "</0>".WhitespaceCleanupXML();
+
+
+            Assert.AreEqual(invalid, valid.ConvertValidXMLToORK());
+        }
+
+        [TestMethod]
+        public void TestInvalidXMLCanBeConvertedToValid()
+        {
+            string valid =
+            "<" + Parser.XML_PREFIX + "0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+                "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
+                "<_floatarrays>" +
+                    "< nodePosition x=\"38\" y=\"38\" />" +
+                "</ _floatarrays > " +
+            "</" + Parser.XML_PREFIX + "0>".WhitespaceCleanupXML();
+
+            string invalid =
+            "<0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+                "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
+                "<_floatarrays>" +
+                    "< nodePosition 38 38 />" +
+                "</ _floatarrays > " +
+            "</0>".WhitespaceCleanupXML();
+
+
+            Assert.AreEqual(valid, invalid.ConvertORKToValidXML());
         }
 
         [TestMethod]

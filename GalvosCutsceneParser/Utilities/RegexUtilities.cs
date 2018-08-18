@@ -27,16 +27,23 @@ namespace GalvosCutsceneParser
             replaced = Regex.Replace(replaced, @"(\/)(\d)(>)", "$1" + Parser.XML_PREFIX + "$2$3");
 
             // Replace bad attribute names
-            replaced = Regex.Replace(replaced, @"(<\w+) (\d+)\s+(\d+)", "$1 x=\"$2\" y=\"$3\"");
+            replaced = Regex.Replace(replaced, @"(<\s*\w+)\s+(\d+)\s+(\d+)", "$1 x=\"$2\" y=\"$3\"");
 
             return replaced;
         }
 
         public static string ConvertValidXMLToORK(this string original)
         {
+            // Replace the opening tag
+            var replaced = Regex.Replace(original, @"<" + Parser.XML_PREFIX + @"(\d)", "<$1");
 
+            // Replace the closing tag
+            replaced = Regex.Replace(replaced, Parser.XML_PREFIX + @"(\d)>", "$1>");
 
-            return original;
+            // Replace the attribute names (just X and Y for now)
+            replaced = Regex.Replace(replaced, @"[xy]=""(\d+)""", "$1");
+
+            return replaced;
         }
 
         public static string PullOutTextInsideQuotes(ref string original)

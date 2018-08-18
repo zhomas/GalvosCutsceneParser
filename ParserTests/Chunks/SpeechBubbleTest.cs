@@ -15,7 +15,11 @@ namespace ParserTests
             var parser = new Parser();
             var sb = new SpeechBubble(0, "Hello!", -1);
 
-            string expected = "<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\" >" +
+            //expected = expected.ConvertORKToValidXML().WhitespaceCleanupXML();
+
+            string actual = sb.ToXML(5).ToString().WhitespaceCleanupXML();
+
+            Assert.AreEqual(("<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\" >" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_string>" +
                     "<nodeName><![CDATA[]]></nodeName>" +
@@ -26,13 +30,7 @@ namespace ParserTests
                         "<0><![CDATA[Hello!]]></0>" +
                     "</message>" +
                 "</_stringarrays>" +
-            "</5>";
-
-            expected = expected.ConvertORKToValidXML().WhitespaceCleanupXML();
-
-            string actual = sb.ToXML(5).ToString().WhitespaceCleanupXML();
-
-            Assert.AreEqual(expected, actual);
+            "</5>").ConvertORKToValidXML().WhitespaceCleanupXML(), actual);
         }
 
 

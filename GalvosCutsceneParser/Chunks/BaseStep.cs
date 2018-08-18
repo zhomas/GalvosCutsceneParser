@@ -29,19 +29,23 @@ namespace GalvosCutsceneParser.Chunks
         {
             XElement element = new XElement(Parser.XML_PREFIX + index.ToString(), this.GetRootNodeAttributes());
 
-            if (this.GetBooleanAttributes().Count > 0)
+            var bools = this.GetBooleanAttributes();
+            var strings = this.GetStringElements();
+            var stringArrays = this.GetStringArrayElements();
+
+            if (bools.Count > 0)
             {
-                element.Add(new XElement("_bool", this.GetBooleanAttributes()));
+                element.Add(new XElement("_bool", bools));
             }
 
-            if (this.GetStringElements().Count > 0)
+            if (strings.Count > 0)
             {
-                element.Add(new XElement("_string", this.GetStringElements()));
+                element.Add(new XElement("_string", strings));
             }
 
-            if (this.GetStringArrayElements().Count > 0)
+            if (stringArrays.Count > 0)
             {
-                element.Add(new XElement("_stringarrays", this.GetStringArrayElements()));
+                element.Add(new XElement("_stringarrays", stringArrays));
             }
 
             return element;

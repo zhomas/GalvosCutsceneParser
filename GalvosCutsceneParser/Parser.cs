@@ -18,15 +18,12 @@ namespace GalvosCutsceneParser
 
         public Parser LoadEventXML(string xml)
         {
-            Console.WriteLine(xml);
-            Console.ReadKey();
-
             this.inputXml = xml.ConvertORKToValidXML();
             this.document = XDocument.Parse(this.inputXml);
             return this;
         }
 
-        public Parser ReplaceXMLStepsWithGPLSteps(string gpl)
+        public Parser ReplaceXMLStepsWithGPLSteps(List<BaseStep> steps)
         {
             if (this.document == null)
             {
@@ -36,23 +33,25 @@ namespace GalvosCutsceneParser
             var stepParent = this.document.Descendants("step").First().Parent;
 
             this.document.Descendants("step").Remove();
-
-            var step = new XElement("step",
-                this.GetStepsFromInput(gpl).Select((s, i) => s.ToXML(i))
+            XElement step = new XElement("step",
+                steps.Select((s, i) => s.ToXML(i))
             );
-
             stepParent.Add(step);
-
-            Console.Clear();
-            Console.ReadKey();
-            Console.Write(this.document.ToString());
-            Console.ReadKey();
             return this;
+        }
+
+        public XDocument Document
+        {
+            get
+            {
+                return this.document;
+            }
         }
 
         public string GetXML()
         {
-            return "Lenny...";
+            string validXml = this.document.ToString();
+            return validXml.ConvertValidXMLToORK();
         }
 
         private void WriteXMLToDesktop(string xml)
@@ -61,29 +60,6 @@ namespace GalvosCutsceneParser
                          System.Environment.SpecialFolder.DesktopDirectory);
 
             File.WriteAllText(desktop + "/xml.txt", xml);
-        }
-
-        public List<BaseStep> GetStepsFromInput(string input)
-        {
-            List < BaseStep > list = new List<BaseStep>();
-            StepBuilder builder = new StepBuilder();
-
-            using (StringReader reader = new StringReader(input))
-            {
-                string line = string.Empty;
-                do
-                {
-                    line = reader.ReadLine();
-                    if (line != null)
-                    {
-                        BaseStep step = builder.BuildStep(line);
-                        list.Add(step);
-                    }
-                }
-                while (line != null);
-            }
-
-            return list;
         }
     }
 }

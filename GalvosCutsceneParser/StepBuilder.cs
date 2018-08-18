@@ -3,6 +3,7 @@ using GalvosCutsceneParser.Chunks;
 using GalvosCutsceneParser.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -10,6 +11,28 @@ namespace GalvosCutsceneParser
 {
     public class StepBuilder
     {
+        public List<BaseStep> GetStepsFromInput(string input)
+        {
+            List<BaseStep> list = new List<BaseStep>();
+
+            using (StringReader reader = new StringReader(input))
+            {
+                string line = string.Empty;
+                do
+                {
+                    line = reader.ReadLine();
+                    if (line != null)
+                    {
+                        BaseStep step = this.BuildStep(line);
+                        list.Add(step);
+                    }
+                }
+                while (line != null);
+            }
+
+            return list;
+        }
+
         public BaseEntity GetEntityFromInput(string inputLine)
         {
             var chunks = inputLine.Split(' ');

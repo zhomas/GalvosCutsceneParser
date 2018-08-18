@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using GalvosCutsceneParser;
 using GalvosCutsceneParser.Actions;
 using GalvosCutsceneParser.Chunks;
@@ -10,6 +11,23 @@ namespace ParserTests
     [TestClass]
     public class StepBuilderTest
     {
+        [TestMethod]
+        public void TestParserBuildsMultipleSteps()
+        {
+            var step = new StepBuilder();
+
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("Joey say \"Hello Good bean!\"");
+            builder.AppendLine("Joey say \"Hello Good bean!\"");
+
+            var result = step.GetStepsFromInput(builder.ToString());
+
+            Assert.AreEqual(typeof(SpeechBubble), result[0].GetType());
+            Assert.AreEqual(typeof(SpeechBubble), result[1].GetType());
+
+            Assert.AreEqual(2, result.Count);
+        }
+
         [TestMethod]
         public void TestSpeechBubbleCreated()
         {
