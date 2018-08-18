@@ -4,19 +4,42 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using UnityEngine;
 
 namespace GalvosCutsceneParser
 {
     public class Parser
     {
+        public const string XML_PREFIX = "____";
+
         private string inputXml;
 
         public void LoadEventXML(string xml)
         {
-            this.inputXml = xml;
-            Debug.Log(xml);
-            this.WriteXMLToDesktop(xml);
+            this.inputXml = xml.SanitizeORKXml();
+
+            
+            XmlDocument doc = new XmlDocument();
+            doc.InnerXml = xml.SanitizeORKXml();
+            
+            var steps = doc.DocumentElement.GetElementsByTagName("step");
+
+            for (int i = 0; i < steps.Count; i++)
+            {
+                var childs = steps[i].ChildNodes;
+
+                for (int j = 0; j < childs.Count; j++)
+                {
+                    Console.WriteLine(childs[j].OuterXml);
+                    Console.WriteLine();
+                }
+
+                
+            }
+
+            Console.ReadKey();
+
         }
 
         public string GetXML()

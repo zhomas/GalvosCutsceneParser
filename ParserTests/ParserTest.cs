@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Xml;
 using GalvosCutsceneParser;
 using GalvosCutsceneParser.Chunks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,6 +25,27 @@ namespace ParserTests
             Assert.AreEqual(typeof(SpeechBubble), result[1].GetType());
 
             Assert.AreEqual(2, result.Count);
+        }
+
+        [TestMethod]
+        public void TestInvalidXMLCanBeMadeValid()
+        {
+            string invalid = "<0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+                "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" /></0>";
+
+
+            string valid = invalid.SanitizeORKXml();
+
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.InnerXml = valid;
+            }
+
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.ToString());
+            }
         }
     }
 }

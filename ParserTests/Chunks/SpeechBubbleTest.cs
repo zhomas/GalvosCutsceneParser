@@ -22,7 +22,7 @@ namespace ParserTests
 
             string expected = "<0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
-            "</0>".FormattedXML();
+            "</0>".WhitespaceCleanupXML();
 
             Assert.AreEqual(expected, sb.ToXML());
         }

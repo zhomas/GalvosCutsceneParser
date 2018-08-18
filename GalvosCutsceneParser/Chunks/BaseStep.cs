@@ -8,7 +8,6 @@ namespace GalvosCutsceneParser.Chunks
 {
     public abstract class BaseStep
     {
-        public const string ID_PREFIX = "____";
 
         protected abstract XAttribute[] GetRootNodeParams();
 
@@ -16,11 +15,11 @@ namespace GalvosCutsceneParser.Chunks
 
         public string ToXML()
         {
-            XElement element = new XElement(ID_PREFIX + "0", this.GetRootNodeParams());
+            XElement element = new XElement(Parser.XML_PREFIX + "0", this.GetRootNodeParams());
 
             element.Add(new XElement("_bool", this.GetBooleanParams()));
 
-            return element.ToString().Replace(ID_PREFIX, "").FormattedXML();
+            return element.ToString().Replace(Parser.XML_PREFIX, "").WhitespaceCleanupXML();
         }
     }
 }

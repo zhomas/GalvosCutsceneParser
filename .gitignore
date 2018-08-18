@@ -1,6 +1,6 @@
 .xml
 
-
+GalvosCutsceneParser/Assets/
 GalvosCutsceneParser/packages/*
 GalvosCutsceneParser/.vs/*
 ParserTests/obj/*

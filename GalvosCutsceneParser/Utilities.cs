@@ -8,11 +8,28 @@ namespace GalvosCutsceneParser
 {
     public static class Utilities
     {
-        public static string FormattedXML(this string original)
+        public static string WhitespaceCleanupXML(this string original)
         {
+            // Trim whitespace
             Regex whitespace = new Regex(@"([\s]{2,}|[\r\n\t])");
             string output = whitespace.Replace(original, "");
+
+            // Trim trailing whitespace
             return Regex.Replace(output, @"\s+>", ">");
+        }
+
+        public static string SanitizeORKXml(this string original)
+        {
+            // Replace the first weird tag name :: <0
+            var replaced = Regex.Replace(original, @"(<)(\d)", "$1" + Parser.XML_PREFIX + "$2");
+
+            // Replace the closing weird tag name
+            replaced = Regex.Replace(replaced, @"(\/)(\d)(>)", "$1" + Parser.XML_PREFIX + "$2$3");
+
+            // Replace bad attribute names
+            replaced = Regex.Replace(replaced, @"(<\w+) (\d+)\s+(\d+)", "$1 x=\"$2\" y=\"$3\"");
+
+            return replaced;
         }
 
         public static string PullOutTextInsideQuotes(ref string original)
