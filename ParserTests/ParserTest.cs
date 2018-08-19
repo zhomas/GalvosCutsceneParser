@@ -36,14 +36,14 @@ namespace ParserTests
                     .Document;
 
             Assert.IsTrue(before.Descendants("cheese").Count() == 1);
-            Assert.IsTrue(before.Descendants(Parser.XML_PREFIX + "0").Count() == 0);
+            Assert.IsTrue(before.Descendants(Parser.XML_DELIMITER + "0").Count() == 0);
 
             var after = parser
                 .ReplaceXMLStepsWithGPLSteps(steps)
                 .Document;
 
             Assert.IsTrue(after.Descendants("cheese").Count() == 0);
-            Assert.IsTrue(after.Descendants(Parser.XML_PREFIX + "0").Count() > 0);
+            Assert.IsTrue(after.Descendants(Parser.XML_DELIMITER + "0").Count() > 0);
         }
 
         [TestMethod]
@@ -69,18 +69,18 @@ namespace ParserTests
         public void TestValidXMLCanBeConvertedToInvalid()
         {
             string valid = 
-            "<" + Parser.XML_PREFIX + "0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+            "<" + Parser.XML_DELIMITER + "0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" + 
-                    "< nodePosition " + Parser.XML_PREFIX + "x=\"38\" " + Parser.XML_PREFIX + "x=\"38\" />" +
+                    "< nodePosition " + Parser.XML_DELIMITER + "a=\"38\" " + Parser.XML_DELIMITER + "b=\"-39\" />" +
                 "</ _floatarrays > " +
-            "</" + Parser.XML_PREFIX + "0>".WhitespaceCleanupXML();
+            "</" + Parser.XML_DELIMITER + "0>".WhitespaceCleanupXML();
 
             string invalid =
             "<0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" +
-                    "< nodePosition 38 38 />" +
+                    "< nodePosition 38 -39 />" +
                 "</ _floatarrays > " +
             "</0>".WhitespaceCleanupXML();
 
@@ -92,18 +92,18 @@ namespace ParserTests
         public void TestInvalidXMLCanBeConvertedToValid()
         {
             string valid =
-            "<" + Parser.XML_PREFIX + "0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+            "<" + Parser.XML_DELIMITER + "0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" +
-                    "< nodePosition " + Parser.XML_PREFIX + "x=\"38\" " + Parser.XML_PREFIX + "x=\"38\" />" +
+                    "< nodePosition " + Parser.XML_DELIMITER + "a=\"-38\" " + Parser.XML_DELIMITER + "b=\"39\" />" +
                 "</ _floatarrays > " +
-            "</" + Parser.XML_PREFIX + "0>".WhitespaceCleanupXML();
+            "</" + Parser.XML_DELIMITER + "0>".WhitespaceCleanupXML();
 
             string invalid =
             "<0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" +
-                    "< nodePosition 38 38 />" +
+                    "< nodePosition -38 39 />" +
                 "</ _floatarrays > " +
             "</0>".WhitespaceCleanupXML();
 
@@ -116,12 +116,12 @@ namespace ParserTests
         {
             string badXML = 
             "<_floatarrays>" +
-                "< nodePosition 38 38 />" +
+                "< nodePosition -38 -38 />" +
             "</ _floatarrays >";
 
             string goodXML =
             "<_floatarrays>" +
-                "< nodePosition " + Parser.XML_PREFIX + "x=\"38\" " + Parser.XML_PREFIX + "x=\"38\" />" +
+                "< nodePosition " + Parser.XML_DELIMITER + "a=\"-38\" " + Parser.XML_DELIMITER + "b=\"-38\" />" +
             "</ _floatarrays >";
 
             Assert.AreEqual(goodXML, badXML.ConvertORKToValidXML());
@@ -203,9 +203,9 @@ namespace ParserTests
                 .ReplaceXMLStepsWithGPLSteps(steps)
                 .Document;
 
-            var zeros = testDoc.Descendants("step").Elements(Parser.XML_PREFIX + "0");
-            var ones = testDoc.Descendants("step").Elements(Parser.XML_PREFIX + "1");
-            var twos = testDoc.Descendants("step").Elements(Parser.XML_PREFIX + "2");
+            var zeros = testDoc.Descendants("step").Elements(Parser.XML_DELIMITER + "0");
+            var ones = testDoc.Descendants("step").Elements(Parser.XML_DELIMITER + "1");
+            var twos = testDoc.Descendants("step").Elements(Parser.XML_DELIMITER + "2");
 
             Assert.IsTrue(zeros.Count() == 1);
             Assert.IsTrue(ones.Count() == 1);
@@ -226,9 +226,9 @@ namespace ParserTests
                 .ReplaceXMLStepsWithGPLSteps(steps)
                 .Document;
 
-            var zeros = testDoc.Descendants("step").Elements(Parser.XML_PREFIX + "0");
-            var ones = testDoc.Descendants("step").Elements(Parser.XML_PREFIX + "1");
-            var twos = testDoc.Descendants("step").Elements(Parser.XML_PREFIX + "2");
+            var zeros = testDoc.Descendants("step").Elements(Parser.XML_DELIMITER + "0");
+            var ones = testDoc.Descendants("step").Elements(Parser.XML_DELIMITER + "1");
+            var twos = testDoc.Descendants("step").Elements(Parser.XML_DELIMITER + "2");
 
             Assert.IsTrue(zeros.First().Attribute("next").Value == "1");
             Assert.IsTrue(ones.First().Attribute("next").Value == "2");

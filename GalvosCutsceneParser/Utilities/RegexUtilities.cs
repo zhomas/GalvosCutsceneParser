@@ -22,29 +22,42 @@ namespace GalvosCutsceneParser
         public static string ConvertORKToValidXML(this string original)
         {
             // Replace the first weird tag name :: <0
-            var replaced = Regex.Replace(original, @"(<)(\d)", "$1" + Parser.XML_PREFIX + "$2");
+            var output = Regex.Replace(original, @"(<)(\d)", "$1" + Parser.XML_DELIMITER + "$2");
 
             // Replace the closing weird tag name
-            replaced = Regex.Replace(replaced, @"(\/)(\d)(>)", "$1" + Parser.XML_PREFIX + "$2$3");
+            output = Regex.Replace(output, @"(\/)(\d)(>)", "$1" + Parser.XML_DELIMITER + "$2$3");
 
+            
             // Replace bad attribute names
-            replaced = Regex.Replace(replaced, @" (-*\d+)", " " + Parser.XML_PREFIX + "x=\"$1\"");
+            Regex loneDigitsFinder = new Regex(@" (-*\d+)");
+            string[] replacements = new string[] { "a", "b", "c", "d" };
 
-            return replaced;
+            int i = 0;
+            while(loneDigitsFinder.IsMatch(output))
+            {
+                if (i > replacements.Length) break;
+                output = loneDigitsFinder.Replace(
+                    output, 
+                    " " + Parser.XML_DELIMITER + replacements[i] + "=\"$1\"", 
+                1);
+                i++;
+            }
+
+            return output;
         }
 
         public static string ConvertValidXMLToORK(this string original)
         {
             // Replace the opening tag
-            var replaced = Regex.Replace(original, @"<" + Parser.XML_PREFIX + @"(\d)", "<$1");
+            var output = Regex.Replace(original, @"<" + Parser.XML_DELIMITER + @"(\d)", "<$1");
 
             // Replace the closing tag
-            replaced = Regex.Replace(replaced, Parser.XML_PREFIX + @"(\d)>", "$1>");
+            output = Regex.Replace(output, Parser.XML_DELIMITER + @"(\d)>", "$1>");
 
-            // Replace the attribute names (just X and Y for now)
-            replaced = Regex.Replace(replaced, Parser.XML_PREFIX + @"x=""(-*\d+)""", "$1");
+            // Replace bad attribute names
+            output = Regex.Replace(output, Parser.XML_DELIMITER + @"\w=""(-*\d+)""", "$1");
 
-            return replaced;
+            return output;
         }
 
         public static string PullOutTextInsideQuotes(ref string original)

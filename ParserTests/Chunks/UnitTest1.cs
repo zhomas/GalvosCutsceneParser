@@ -57,11 +57,11 @@ namespace ParserTests
                 "</moveSpeed>" +
             "</6>";
 
-            expected = expected.ConvertORKToValidXML().WhitespaceCleanupXML();
+            expected = expected.WhitespaceCleanupXML();
 
             var step = new MoveAiInDirectionStep(new Vector3(-32, 0, 0));
 
-            string actual = step.ToXML(6, false).ToString().WhitespaceCleanupXML();
+            string actual = step.ToXML(6, false).ToString().ConvertValidXMLToORK().WhitespaceCleanupXML();
 
             Assert.AreEqual(expected, actual);
         }

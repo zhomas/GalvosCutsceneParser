@@ -45,7 +45,7 @@ namespace GalvosCutsceneParser
 
         public XElement ToXML(int index, bool isFinalStep)
         {
-            XElement element = new XElement(Parser.XML_PREFIX + index.ToString(), this.GetRootNodeAttributes(index, isFinalStep));
+            XElement element = new XElement(Parser.XML_DELIMITER + index.ToString(), this.GetRootNodeAttributes(index, isFinalStep));
 
             var bools = this.GetBooleanAttributes();
             var floatArrays = this.GetFloatArrayElements();
@@ -60,7 +60,7 @@ namespace GalvosCutsceneParser
 
             if (floatArrays.Count > 0)
             {
-                element.Add(new XElement("_floatarrays"), floatArrays);
+                element.Add(new XElement("_floatarrays", floatArrays));
             }
 
             if (strings.Count > 0)

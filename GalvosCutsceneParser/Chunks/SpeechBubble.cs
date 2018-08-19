@@ -54,7 +54,7 @@ namespace GalvosCutsceneParser
             return new List<XElement>()
             {
                 new XElement("message",
-                    new XElement(Parser.XML_PREFIX + "0", 
+                    new XElement(Parser.XML_DELIMITER + "0", 
                         new XCData(this.message)))
             };
         }

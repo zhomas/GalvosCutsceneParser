@@ -32,9 +32,9 @@ namespace GalvosCutsceneParser
         {
             return new List<XAttribute>()
             {
-                new XAttribute("WaitUntilComplete", true),
-                new XAttribute("active", true),
-                new XAttribute("overrideNodeName", false)
+                new XAttribute("WaitUntilComplete", true.ToString()),
+                new XAttribute("active", true.ToString()),
+                new XAttribute("overrideNodeName", false.ToString())
             };
         }
 
@@ -43,9 +43,47 @@ namespace GalvosCutsceneParser
             return new List<XElement>()
             {
                 new XElement("Direction",
-                    new XAttribute("x", this.direction.x),
-                    new XAttribute("y", this.direction.y),
-                    new XAttribute("z", this.direction.z))
+                    new XAttribute(Parser.XML_DELIMITER + "a", this.direction.x),
+                    new XAttribute(Parser.XML_DELIMITER + "b", this.direction.y),
+                    new XAttribute(Parser.XML_DELIMITER + "c", this.direction.z))
+            };
+        }
+
+        protected override List<XElement> GetStringElements()
+        {
+            var nodeType = new XElement("_type");
+            nodeType.Add(new XCData("MoveAIByDirection"));
+
+            return base.GetStringElements().Concat(new List<XElement>()
+            {
+                nodeType
+            }).ToList();
+        }
+
+        protected override List<XElement> GetNodeSpecialElements()
+        {
+            var emptyChildName = new XElement("childName");
+            emptyChildName.Add(new XCData(""));
+
+            var emptyValue = new XElement("value");
+            emptyValue.Add(new XCData(""));
+
+            return new List<XElement>()
+            {
+                new XElement("movingObject",
+                        new XAttribute("type", 0),
+                        new XAttribute("aID", 0),
+                        new XAttribute("wID", 0),
+                        new XAttribute("pID", 0),
+                        new XAttribute("pID2", -1),
+                    new XElement("_string", emptyChildName),
+                    new XElement("objectKey",
+                            new XAttribute("type", 0),
+                        new XElement("_string", emptyValue))),
+                new XElement("moveSpeed",
+                        new XAttribute("type", 3),
+                    new XElement("_float", 
+                        new XAttribute("speed", 32)))
             };
         }
 

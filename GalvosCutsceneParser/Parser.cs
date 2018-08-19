@@ -10,7 +10,7 @@ namespace GalvosCutsceneParser
 {
     public class Parser
     {
-        public const string XML_PREFIX = "____";
+        public const string XML_DELIMITER = "____";
 
         private string inputXml;
         private XDocument document;
