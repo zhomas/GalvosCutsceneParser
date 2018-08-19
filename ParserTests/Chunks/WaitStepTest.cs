@@ -8,7 +8,7 @@ namespace ParserTests.Chunks
     public class WaitStepTest
     {
         [TestMethod]
-        public void TestWaitStepMatchesExpected()
+        public void TestWaitStepProducesCorrectXML()
         {
             string expected = "<2 next=\"3\" >" +
 				"<_bool random=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
@@ -40,6 +40,13 @@ namespace ParserTests.Chunks
         {
             int time = WaitStep.ParseMillisecondsFromInputLine("wait 1000");
             Assert.AreEqual(1000, time);
+        }
+
+        [TestMethod]
+        public void TestValueIsParsed()
+        {
+            var ws = new WaitStep(150);
+            Assert.AreEqual(.15f, ws.Seconds);
         }
     }
 }

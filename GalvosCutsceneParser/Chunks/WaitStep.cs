@@ -16,6 +16,14 @@ namespace GalvosCutsceneParser
             this.milliseconds = milliseconds;
         }
 
+        public float Seconds
+        {
+            get
+            {
+                return ((float)this.milliseconds / 1000);
+            }
+        }
+
         public static int ParseMillisecondsFromInputLine(string inputLine)
         {
             if (inputLine.Contains("wait"))
@@ -66,7 +74,7 @@ namespace GalvosCutsceneParser
                     new XElement("_float", 
                         new XAttribute("initialValue", 0),
                         new XAttribute("offset", 0),
-                        new XAttribute("value", 1),
+                        new XAttribute("value", this.Seconds),
                         new XAttribute("value2", 0)),
                     new XElement("_bool", 
                         new XAttribute("useObject", true.ToString()),

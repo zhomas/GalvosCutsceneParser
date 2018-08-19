@@ -11,11 +11,7 @@ namespace ParserTests
         [TestMethod]
         public void TestSpeechBubbleProducesValidOutputFull()
         {
-            var parser = new GalvosCutsceneParser.Parser();
             var sb = new SpeechBubble(0, "Hello!");
-
-            //expected = expected.ConvertORKToValidXML().WhitespaceCleanupXML();
-
             string actual = sb.ToXML(5, true).ToString().WhitespaceCleanupXML();
 
             Assert.AreEqual(("<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\" >" +
@@ -35,11 +31,7 @@ namespace ParserTests
         [TestMethod]
         public void TestSpeechBubbleRespectsNextIndex()
         {
-            var parser = new Parser();
             var sb = new SpeechBubble(0, "Hello!");
-
-            //expected = expected.ConvertORKToValidXML().WhitespaceCleanupXML();
-
             string actual = sb.ToXML(5, true).ToString().WhitespaceCleanupXML();
 
             Assert.AreEqual(("<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\" >" +
@@ -59,9 +51,7 @@ namespace ParserTests
         [TestMethod]
         public void TestSpeechBubbleMessage()
         {
-            var parser = new Parser();
             var sb = new SpeechBubble(0, "Suck My Balls!");
-
             string expected = "<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\" >" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_string>" +
