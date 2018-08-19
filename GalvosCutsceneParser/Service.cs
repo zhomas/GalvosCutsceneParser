@@ -19,7 +19,8 @@ namespace GalvosCutsceneParser
         public string GetEventXML()
         {
             var parser = new Parser();
-            var stepbuilder = new StepBuilder();
+            var aliasBuilder = new AliasBuilder(this.gpl);
+            var stepbuilder = new StepBuilder(aliasBuilder);
 
             var steps = stepbuilder.GetStepsFromInput(this.gpl);
 

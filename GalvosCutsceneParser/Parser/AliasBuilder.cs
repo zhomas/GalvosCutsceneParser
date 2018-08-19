@@ -6,15 +6,29 @@ using System.Text;
 
 namespace GalvosCutsceneParser
 {
-    public class AliasBuilder
+    public class AliasBuilder : IEntitySupplier
     {
         public const string START_ALIAS = "#alias";
         public const string END_ALIAS = "#endalias";
 
-        public List<BaseEntity> GetEntitiesFromAliasText(string aliasText)
-        {
-            List<BaseEntity> list = new List<BaseEntity>();
+        public List<CutsceneEntity> Entities { get; private set; }
 
+        public AliasBuilder(string gplText)
+        {
+            List<CutsceneEntity> list = new List<CutsceneEntity>();
+
+            string aliasText = string.Empty;
+
+            try
+            {
+                aliasText = RegexUtilities.GetTextBetween(gplText, START_ALIAS, END_ALIAS);
+            }
+
+            catch (Exception e)
+            {
+                throw new NoAliasException();
+            }
+            
             using (StringReader reader = new StringReader(aliasText))
             {
                 string line = string.Empty;
@@ -23,40 +37,51 @@ namespace GalvosCutsceneParser
                     line = reader.ReadLine();
                     if (line != null)
                     {
-                        BaseEntity entity = this.BuildEntity(line);
+                        CutsceneEntity entity = BuildEntity(line);
                         list.Add(entity);
                     }
                 }
                 while (line != null);
             }
 
-            return list;
-        }
-
-        public string GetAliasSectionOfInputText(string input)
-        {
-            int startIndex = input.IndexOf(START_ALIAS) + START_ALIAS.Length;
-            int endIndex = input.IndexOf(END_ALIAS);
-            return input.Substring(startIndex, endIndex - startIndex).Trim();
-        }
-
-        public BaseEntity BuildEntity(string inputLine)
-        {
-            int equalsPos = inputLine.IndexOf("=");
-
-            if (equalsPos == -1)
+            if (list.Count == 0)
             {
-                throw new Exception("Failed to build entity - no equals sign detected");
+                throw new NoAliasException();
             }
 
-
-
-            string lhs = inputLine.Substring(0, equalsPos).Trim();
-            string rhs = inputLine.Substring(equalsPos + 1).Trim();
-
-            return new Humanoid();
-
-            return new Humanoid();
+            this.Entities = list;
         }
+
+        public static CutsceneEntity BuildEntity(string inputLine)
+        {
+            try
+            {
+                int equalsPos = inputLine.IndexOf("=");
+
+                string lhs = inputLine.Substring(0, equalsPos).Trim();
+                string rhs = inputLine.Substring(equalsPos + 1).Trim();
+
+                return new CutsceneEntity(lhs, Convert.ToInt16(rhs));
+            }
+            catch (Exception e)
+            {
+                throw new BadAliasException();
+            }
+        }
+
+        public CutsceneEntity GetEntityByAlias(string alias)
+        {
+            return this.Entities.Where(e => e.Alias == alias).FirstOrDefault();
+        }
+    }
+
+    public class NoAliasException : Exception
+    {
+
+    }
+
+    public class BadAliasException : Exception
+    {
+
     }
 }

@@ -9,15 +9,19 @@ namespace ParserTests
     public class StepBuilderTest
     {
         [TestMethod]
+        [ExpectedException(typeof(NoStepsException))]
+        public void TestExceptionThrownIfNoSteps()
+        {
+            var stepbuilder = new StepBuilder(new MockEntitySupplier());
+            var s = TestHelpers.GetSampleGPL(2, 0);
+            stepbuilder.GetStepsFromInput(s);
+        }
+
+        [TestMethod]
         public void TestParserBuildsMultipleSteps()
         {
-            var step = new StepBuilder();
-
-            StringBuilder builder = new StringBuilder();
-            builder.AppendLine("Joey say \"Hello Good bean!\"");
-            builder.AppendLine("Joey say \"Hello Good bean!\"");
-
-            var result = step.GetStepsFromInput(builder.ToString());
+            var step = new StepBuilder(new MockEntitySupplier());
+            var result = step.GetStepsFromInput(TestHelpers.GetSampleGPL(0, 2));
 
             Assert.AreEqual(typeof(SpeechBubble), result[0].GetType());
             Assert.AreEqual(typeof(SpeechBubble), result[1].GetType());
@@ -29,7 +33,7 @@ namespace ParserTests
         [TestMethod]
         public void TestSpeechBubbleCreated()
         {
-            var builder = new StepBuilder();
+            var builder = new StepBuilder(new MockEntitySupplier());
             BaseStep step = builder.BuildStep("Joey say \"Hello! Good to meet you sir!\"");
             Assert.AreEqual(typeof(SpeechBubble), step.GetType());
         }
@@ -37,15 +41,15 @@ namespace ParserTests
         [TestMethod]
         public void TestEntityIsParsedFromString()
         {
-            var builder = new StepBuilder();
+            var builder = new StepBuilder(new MockEntitySupplier());
             var capitalJoey = builder.GetEntityFromInput("Joey say \"Hello! Good to meet you sir!\"");
-            Assert.AreEqual(typeof(Humanoid), capitalJoey.GetType());
+            Assert.AreEqual(typeof(CutsceneEntity), capitalJoey.GetType());
         }
 
         [TestMethod]
         public void TestActionIsParsedFromString()
         {
-            var builder = new StepBuilder();
+            var builder = new StepBuilder(new MockEntitySupplier());
             StepAction maybeSpeech = builder.GetActionFromInput("Joey say \"Hello! Good to meet you sir!\"");
             StepAction maybeFart = builder.GetActionFromInput("Joey fart \"Hello! Good to meet you sir!\"");
             Assert.AreEqual(StepAction.Speech, maybeSpeech);
@@ -55,7 +59,7 @@ namespace ParserTests
         [TestMethod]
         public void TestParameterIsParsedFromString()
         {
-            var builder = new StepBuilder();
+            var builder = new StepBuilder(new MockEntitySupplier());
             var value = builder.GetParameterFromInput("Joey say \"Hello! Good to meet you sir!\"");
 
             Assert.AreEqual("Hello! Good to meet you sir!", value);

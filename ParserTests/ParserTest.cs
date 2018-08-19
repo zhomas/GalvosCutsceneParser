@@ -143,14 +143,11 @@ namespace ParserTests
         public void TestStepsHaveCorrectIndeces()
         {
             var parser = new Parser();
-            var step = new StepBuilder();
+            var step = new StepBuilder(new MockEntitySupplier());
 
-            StringBuilder builder = new StringBuilder();
-            builder.AppendLine("Joey say \"Hello Good bean!\"");
-            builder.AppendLine("Joey say \"Hello Good bean!\"");
-            builder.AppendLine("Joey say \"Hello Good bean!\"");
-
-            var steps = step.GetStepsFromInput(builder.ToString());
+            string gpl = TestHelpers.GetSampleGPL(0, 3);
+            
+            var steps = step.GetStepsFromInput(gpl);
 
             var testDoc = parser
                 .LoadEventXML("<base><step></step></base>")
@@ -170,14 +167,10 @@ namespace ParserTests
         public void TestStepsHaveCorrectNextSteps()
         {
             var parser = new Parser();
-            var step = new StepBuilder();
+            var step = new StepBuilder(new MockEntitySupplier());
 
-            StringBuilder builder = new StringBuilder();
-            builder.AppendLine("Joey say \"Hello Good bean!\"");
-            builder.AppendLine("Joey say \"Hello Good bean!\"");
-            builder.AppendLine("Joey say \"Hello Good bean!\"");
-
-            var steps = step.GetStepsFromInput(builder.ToString());
+            string gpl = TestHelpers.GetSampleGPL(2, 3);
+            var steps = step.GetStepsFromInput(gpl);
 
             var testDoc = parser
                 .LoadEventXML("<base><step></step></base>")

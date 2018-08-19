@@ -8,11 +8,32 @@ namespace GalvosCutsceneParser
 {
     public class StepBuilder
     {
+        public const string START_STEP = "#steps";
+        public const string END_STEP = "#endsteps";
+
+        private IEntitySupplier entitySupplier;
+
+        public StepBuilder(IEntitySupplier entitySupplier)
+        {
+            this.entitySupplier = entitySupplier;
+        }
+
         public List<BaseStep> GetStepsFromInput(string input)
         {
             List<BaseStep> list = new List<BaseStep>();
 
-            using (StringReader reader = new StringReader(input))
+            string section = "";
+
+            try
+            {
+                section = RegexUtilities.GetTextBetween(input, START_STEP, END_STEP);
+            }
+            catch (Exception e)
+            {
+                throw new NoStepsException();
+            }
+
+            using (StringReader reader = new StringReader(section))
             {
                 string line = string.Empty;
                 do
@@ -20,25 +41,24 @@ namespace GalvosCutsceneParser
                     line = reader.ReadLine();
                     if (line != null)
                     {
-                        BaseStep step = this.BuildStep(line);
-                        list.Add(step);
+                        list.Add(this.BuildStep(line));
                     }
                 }
                 while (line != null);
             }
 
+            if (list.Count == 0)
+            {
+                throw new NoStepsException();
+            }
+
             return list;
         }
 
-        public BaseEntity GetEntityFromInput(string inputLine)
+        public CutsceneEntity GetEntityFromInput(string inputLine)
         {
             var chunks = inputLine.Split(' ');
-            if (chunks[0] == "Joey")
-            {
-                return new Humanoid();
-            }
-
-            return null;
+            return this.entitySupplier.GetEntityByAlias(chunks[0]);
         }
 
         public string GetParameterFromInput(string inputLine)
@@ -61,7 +81,7 @@ namespace GalvosCutsceneParser
 
         public BaseStep BuildStep(string inputLine)
         {
-            BaseEntity entity = this.GetEntityFromInput(inputLine);
+            CutsceneEntity entity = this.GetEntityFromInput(inputLine);
             string parameter = RegexUtilities.PullOutTextInsideQuotes(ref inputLine);
             StepAction action = this.GetActionFromInput(inputLine);
 
@@ -73,5 +93,10 @@ namespace GalvosCutsceneParser
 
             return null;
         }
+    }
+
+    public class NoStepsException : Exception
+    {
+
     }
 }

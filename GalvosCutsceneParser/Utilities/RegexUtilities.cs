@@ -62,5 +62,12 @@ namespace GalvosCutsceneParser
 
             return null;
         }
+
+        public static string GetTextBetween(string input, string from, string to)
+        {
+            int startIndex = input.IndexOf(from) + from.Length;
+            int endIndex = input.IndexOf(to);
+            return input.Substring(startIndex, endIndex - startIndex).Trim();
+        }
     }
 }
