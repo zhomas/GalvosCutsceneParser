@@ -72,7 +72,7 @@ namespace ParserTests
             "<" + Parser.XML_PREFIX + "0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" + 
-                    "< nodePosition " + Parser.XML_PREFIX + "x=\"38\" " + Parser.XML_PREFIX + "y=\"38\" />" +
+                    "< nodePosition " + Parser.XML_PREFIX + "x=\"38\" " + Parser.XML_PREFIX + "x=\"38\" />" +
                 "</ _floatarrays > " +
             "</" + Parser.XML_PREFIX + "0>".WhitespaceCleanupXML();
 
@@ -95,7 +95,7 @@ namespace ParserTests
             "<" + Parser.XML_PREFIX + "0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" +
-                    "< nodePosition " + Parser.XML_PREFIX + "x=\"38\" " + Parser.XML_PREFIX + "y=\"38\" />" +
+                    "< nodePosition " + Parser.XML_PREFIX + "x=\"38\" " + Parser.XML_PREFIX + "x=\"38\" />" +
                 "</ _floatarrays > " +
             "</" + Parser.XML_PREFIX + "0>".WhitespaceCleanupXML();
 
@@ -110,6 +110,25 @@ namespace ParserTests
 
             Assert.AreEqual(valid, invalid.ConvertORKToValidXML());
         }
+
+        [TestMethod]
+        public void TestFloatArraysGetWrappedAsIndividualAttributes()
+        {
+            string badXML = 
+            "<_floatarrays>" +
+                "< nodePosition 38 38 />" +
+            "</ _floatarrays >";
+
+            string goodXML =
+            "<_floatarrays>" +
+                "< nodePosition " + Parser.XML_PREFIX + "x=\"38\" " + Parser.XML_PREFIX + "x=\"38\" />" +
+            "</ _floatarrays >";
+
+            Assert.AreEqual(goodXML, badXML.ConvertORKToValidXML());
+
+        }
+
+
 
         [TestMethod]
         public void TestSaniziterSanitizesXML()
@@ -137,6 +156,36 @@ namespace ParserTests
             Assert.IsTrue(a.IndexOf("<5") == -1);
             Assert.IsTrue(b.IndexOf("<5") == -1);
 
+        }
+
+        [TestMethod]
+        public void TestOutputXMLIsValid()
+        {
+            string input = "<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\" >" +
+                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
+                 "<_floatarrays>" +
+                     "<nodePosition 893 171 />" +
+                 "</_floatarrays>" +
+                 "<_string>" +
+                     "<nodeName><![CDATA[]]></nodeName>" +
+                     "<_type><![CDATA[SpeechBubbleStep]]></_type>" +
+                 "</_string>" +
+                 "<_stringarrays>" +
+                     "<message>" +
+                         "<0><![CDATA[Hello!]]></0>" +
+                     "</message>" +
+                 "</_stringarrays>" +
+             "</5>";
+
+            try
+            {
+                Parser parser = new Parser();
+                parser.LoadEventXML(input);
+            }
+            catch (XmlException e)
+            {
+                Assert.Fail(e.Message);
+            }
         }
 
         [TestMethod]

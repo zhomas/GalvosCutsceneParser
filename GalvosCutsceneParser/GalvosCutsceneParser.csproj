@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Actions\ActionsList.cs" />
     <Compile Include="Chunks\BaseStep.cs" />
+    <Compile Include="Chunks\MoveAiInDirectionStep.cs" />
     <Compile Include="Chunks\SpeechBubble.cs" />
     <Compile Include="Chunks\WaitStep.cs" />
     <Compile Include="Entities\IEntitySupplier.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="Parser\StepBuilder.cs" />
+    <Compile Include="Utilities\Exceptions.cs" />
     <Compile Include="Utilities\RegexUtilities.cs" />
     <Compile Include="Utilities\XmlUtilities.cs" />
   </ItemGroup>

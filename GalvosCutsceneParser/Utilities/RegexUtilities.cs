@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace GalvosCutsceneParser
 {
@@ -27,9 +28,7 @@ namespace GalvosCutsceneParser
             replaced = Regex.Replace(replaced, @"(\/)(\d)(>)", "$1" + Parser.XML_PREFIX + "$2$3");
 
             // Replace bad attribute names
-            replaced = Regex.Replace(replaced, 
-                @"(<\s*\w+)\s+(\d+)\s+(\d+)", 
-                "$1 " + Parser.XML_PREFIX + "x=\"$2\" " + Parser.XML_PREFIX + "y=\"$3\"");
+            replaced = Regex.Replace(replaced, @" (-*\d+)", " " + Parser.XML_PREFIX + "x=\"$1\"");
 
             return replaced;
         }
@@ -43,7 +42,7 @@ namespace GalvosCutsceneParser
             replaced = Regex.Replace(replaced, Parser.XML_PREFIX + @"(\d)>", "$1>");
 
             // Replace the attribute names (just X and Y for now)
-            replaced = Regex.Replace(replaced, Parser.XML_PREFIX + @"[xy]=""(\d+)""", "$1");
+            replaced = Regex.Replace(replaced, Parser.XML_PREFIX + @"x=""(-*\d+)""", "$1");
 
             return replaced;
         }
@@ -75,6 +74,24 @@ namespace GalvosCutsceneParser
             }
 
             return 0;
+        }
+
+        public static Vector3 GetVector3FromString(string original)
+        {
+            string pattern = @"(\d+),\s*(\d+)";
+
+            var match = Regex.Match(original, pattern);
+
+            if (match.Groups.Count == 3 && match.Groups[1].Success && match.Groups[2].Success)
+            {
+                return new Vector3(
+                    float.Parse(match.Groups[1].Value),
+                    0,
+                    float.Parse(match.Groups[2].Value)
+                );
+            }
+
+            throw new Exception();
         }
 
         public static string GetTextBetween(string input, string from, string to)
