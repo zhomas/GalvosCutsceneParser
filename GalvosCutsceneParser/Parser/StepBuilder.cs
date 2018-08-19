@@ -71,6 +71,11 @@ namespace GalvosCutsceneParser
         {
             var chunks = inputLine.Split(' ');
 
+            if (chunks[0] == "wait")
+            {
+                return StepAction.Wait;
+            }
+
             if (chunks[1] == "say")
             {
                 return StepAction.Speech;
@@ -82,13 +87,16 @@ namespace GalvosCutsceneParser
         public BaseStep BuildStep(string inputLine)
         {
             CutsceneEntity entity = this.GetEntityFromInput(inputLine);
-            string parameter = RegexUtilities.PullOutTextInsideQuotes(ref inputLine);
             StepAction action = this.GetActionFromInput(inputLine);
 
             switch (action)
             {
                 case StepAction.Speech:
-                    return new SpeechBubble(entity.ID, parameter);
+                    string message = RegexUtilities.PullOutTextInsideQuotes(ref inputLine);
+                    return new SpeechBubble(entity.ID, message);
+                case StepAction.Wait:
+                    int time = WaitStep.ParseMillisecondsFromInputLine(inputLine);
+                    return new WaitStep(time);
             }
 
             return null;

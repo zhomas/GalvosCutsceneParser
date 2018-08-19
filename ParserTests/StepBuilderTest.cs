@@ -39,6 +39,14 @@ namespace ParserTests
         }
 
         [TestMethod]
+        public void TestWaitStepCreated()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            BaseStep step = builder.BuildStep("wait 1000");
+            Assert.AreEqual(typeof(WaitStep), step.GetType());
+        }
+
+        [TestMethod]
         public void TestEntityIsParsedFromString()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
@@ -47,7 +55,7 @@ namespace ParserTests
         }
 
         [TestMethod]
-        public void TestActionIsParsedFromString()
+        public void TestSpeechActionParsedFromString()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
             StepAction maybeSpeech = builder.GetActionFromInput("Joey say \"Hello! Good to meet you sir!\"");
@@ -55,6 +63,8 @@ namespace ParserTests
             Assert.AreEqual(StepAction.Speech, maybeSpeech);
             Assert.AreEqual(StepAction.Undefined, maybeFart);
         }
+
+
 
         [TestMethod]
         public void TestParameterIsParsedFromString()

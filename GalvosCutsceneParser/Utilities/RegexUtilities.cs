@@ -63,6 +63,20 @@ namespace GalvosCutsceneParser
             return null;
         }
 
+        public static int GetDigitsFromString(string original)
+        {
+            string pattern = @"(\d+)";
+
+            var match = Regex.Match(original, pattern);
+
+            if (match.Groups[1].Success)
+            {
+                return Convert.ToInt32(match.Groups[1].Value);
+            }
+
+            return 0;
+        }
+
         public static string GetTextBetween(string input, string from, string to)
         {
             int startIndex = input.IndexOf(from) + from.Length;

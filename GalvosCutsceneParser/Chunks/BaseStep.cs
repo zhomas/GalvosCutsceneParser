@@ -20,6 +20,11 @@ namespace GalvosCutsceneParser
 
         protected abstract List<XElement> GetStringArrayElements();
 
+        protected virtual List<XElement> GetNodeSpecialElements()
+        {
+            return new List<XElement>();
+        }
+
         protected virtual List<XElement> GetStringElements()
         {
             var nodeName = new XElement("nodeName");
@@ -38,6 +43,7 @@ namespace GalvosCutsceneParser
             var bools = this.GetBooleanAttributes();
             var strings = this.GetStringElements();
             var stringArrays = this.GetStringArrayElements();
+            var special = this.GetNodeSpecialElements();
 
             if (bools.Count > 0)
             {
@@ -52,6 +58,14 @@ namespace GalvosCutsceneParser
             if (stringArrays.Count > 0)
             {
                 element.Add(new XElement("_stringarrays", stringArrays));
+            }
+
+            if (special.Count > 0)
+            {
+                foreach (var item in special)
+                {
+                    element.Add(item);
+                }
             }
 
             return element;

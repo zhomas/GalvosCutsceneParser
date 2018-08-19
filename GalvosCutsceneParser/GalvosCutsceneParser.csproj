@@ -45,6 +45,7 @@
     <Compile Include="Actions\ActionsList.cs" />
     <Compile Include="Chunks\BaseStep.cs" />
     <Compile Include="Chunks\SpeechBubble.cs" />
+    <Compile Include="Chunks\WaitStep.cs" />
     <Compile Include="Entities\IEntitySupplier.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Entities\CutsceneEntity.cs" />

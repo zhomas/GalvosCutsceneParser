@@ -8,6 +8,7 @@ namespace GalvosCutsceneParser
     public enum StepAction
     {
         Speech,
+        Wait,
         Undefined
     }
 }
