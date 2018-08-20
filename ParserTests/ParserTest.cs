@@ -76,16 +76,16 @@ namespace ParserTests
                 "</ _floatarrays > " +
             "</" + Parser.XML_DELIMITER + "0>".WhitespaceCleanupXML();
 
-            string invalid =
+            string expected =
             "<0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" +
                     "< nodePosition 38 -39 />" +
-                "</ _floatarrays > " +
+                "</ _floatarrays> " +
             "</0>".WhitespaceCleanupXML();
 
 
-            Assert.AreEqual(invalid, valid.ConvertValidXMLToORK());
+            Assert.AreEqual(expected, valid.ConvertValidXMLToORK());
         }
 
         [TestMethod]

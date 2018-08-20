@@ -81,7 +81,7 @@ namespace GalvosCutsceneParser
             // Replace bad attribute names
             output = Regex.Replace(output, Parser.XML_DELIMITER + @"\w=""(-*\d+)""", "$1");
 
-            return output;
+            return output.WhitespaceCleanupXML();
         }
 
         public static string PullOutTextInsideQuotes(ref string original)
