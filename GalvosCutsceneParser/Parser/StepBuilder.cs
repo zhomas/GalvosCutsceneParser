@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace GalvosCutsceneParser
 {
@@ -81,6 +82,11 @@ namespace GalvosCutsceneParser
                 return StepAction.Speech;
             }
 
+            if (chunks[1] == "=>")
+            {
+                return StepAction.MoveInDirection;
+            }
+
             return StepAction.Undefined;
         }
 
@@ -97,6 +103,9 @@ namespace GalvosCutsceneParser
                 case StepAction.Wait:
                     int time = WaitStep.ParseMillisecondsFromInputLine(inputLine);
                     return new WaitStep(time);
+                case StepAction.MoveInDirection:
+                    Vector3 dir = MoveAiInDirectionStep.GetDirectionFromInputString(inputLine);
+                    return new MoveAiInDirectionStep(dir);
             }
 
             return null;

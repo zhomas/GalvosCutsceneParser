@@ -91,15 +91,15 @@ namespace ParserTests
         [TestMethod]
         public void TestInvalidXMLCanBeConvertedToValid()
         {
-            string valid =
+            string expected =
             "<" + Parser.XML_DELIMITER + "0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" +
                     "< nodePosition " + Parser.XML_DELIMITER + "a=\"-38\" " + Parser.XML_DELIMITER + "b=\"39\" />" +
-                "</ _floatarrays > " +
+                "</ _floatarrays> " +
             "</" + Parser.XML_DELIMITER + "0>".WhitespaceCleanupXML();
 
-            string invalid =
+            string actual =
             "<0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" +
@@ -108,7 +108,7 @@ namespace ParserTests
             "</0>".WhitespaceCleanupXML();
 
 
-            Assert.AreEqual(valid, invalid.ConvertORKToValidXML());
+            Assert.AreEqual(expected, actual.ConvertORKToValidXML());
         }
 
         [TestMethod]
@@ -116,15 +116,34 @@ namespace ParserTests
         {
             string badXML = 
             "<_floatarrays>" +
-                "< nodePosition -38 -38 />" +
+                "< nodePosition -38 -38 100 100 100 />" +
+                "< nodePosition -38 -38 100 100 100 />" +
+                "< nodePosition -38 -38 100 100 100 />" +
             "</ _floatarrays >";
 
             string goodXML =
             "<_floatarrays>" +
-                "< nodePosition " + Parser.XML_DELIMITER + "a=\"-38\" " + Parser.XML_DELIMITER + "b=\"-38\" />" +
+                "< nodePosition " + 
+                    Parser.XML_DELIMITER + "a=\"-38\" " + 
+                    Parser.XML_DELIMITER + "b=\"-38\" " + 
+                    Parser.XML_DELIMITER + "c=\"100\" " + 
+                    Parser.XML_DELIMITER + "d=\"100\" " + 
+                    Parser.XML_DELIMITER + "e=\"100\" />" +
+                "< nodePosition " +
+                    Parser.XML_DELIMITER + "a=\"-38\" " +
+                    Parser.XML_DELIMITER + "b=\"-38\" " +
+                    Parser.XML_DELIMITER + "c=\"100\" " +
+                    Parser.XML_DELIMITER + "d=\"100\" " +
+                    Parser.XML_DELIMITER + "e=\"100\" />" +
+                "< nodePosition " +
+                    Parser.XML_DELIMITER + "a=\"-38\" " +
+                    Parser.XML_DELIMITER + "b=\"-38\" " +
+                    Parser.XML_DELIMITER + "c=\"100\" " +
+                    Parser.XML_DELIMITER + "d=\"100\" " +
+                    Parser.XML_DELIMITER + "e=\"100\" />" +
             "</ _floatarrays >";
 
-            Assert.AreEqual(goodXML, badXML.ConvertORKToValidXML());
+            Assert.AreEqual(goodXML.WhitespaceCleanupXML(), badXML.ConvertORKToValidXML());
 
         }
 
@@ -150,12 +169,21 @@ namespace ParserTests
              "</5>";
 
             string a = input.WhitespaceCleanupXML().ConvertORKToValidXML();
-            string b = input.ConvertORKToValidXML().WhitespaceCleanupXML();
+            string b = input.ConvertORKToValidXML();
 
             Assert.IsTrue(input.IndexOf("<5") == 0);
             Assert.IsTrue(a.IndexOf("<5") == -1);
             Assert.IsTrue(b.IndexOf("<5") == -1);
 
+        }
+
+        [TestMethod]
+        public void TestTrimWhiteSpace()
+        {
+            string expected = "</ _floatarrays>";
+            string actual =  ("</ _floatarrays >").WhitespaceCleanupXML();
+
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]

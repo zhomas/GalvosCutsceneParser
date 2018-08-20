@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -11,15 +12,38 @@ namespace GalvosCutsceneParser
     {
         public static string WhitespaceCleanupXML(this string original)
         {
-            // Trim whitespace
-            Regex whitespace = new Regex(@"([\s]{2,}|[\r\n\t])");
-            string output = whitespace.Replace(original, "");
-
             // Trim trailing whitespace
-            return Regex.Replace(output, @"\s+>", ">");
+            string output = Regex.Replace(original, @"\s+>", ">");
+
+            // Trim whitespace
+            output = Regex.Replace(output, @"([\s]{2,}|[\r\n\t])", "");
+
+            return output;
         }
 
         public static string ConvertORKToValidXML(this string original)
+        {
+            string joined = String.Join(">\n", original.Split('>'));
+
+            StringBuilder sb = new StringBuilder();
+            using (StringReader reader = new StringReader(joined))
+            {
+                string line = string.Empty;
+                do
+                {
+                    line = reader.ReadLine();
+                    if (line != null)
+                    {
+                        sb.Append(ORKifyLine(line));
+                    }
+                }
+                while (line != null);
+            }
+
+            return sb.ToString().WhitespaceCleanupXML();
+        }
+
+        private static string ORKifyLine(string original)
         {
             // Replace the first weird tag name :: <0
             var output = Regex.Replace(original, @"(<)(\d)", "$1" + Parser.XML_DELIMITER + "$2");
@@ -27,24 +51,24 @@ namespace GalvosCutsceneParser
             // Replace the closing weird tag name
             output = Regex.Replace(output, @"(\/)(\d)(>)", "$1" + Parser.XML_DELIMITER + "$2$3");
 
-            
             // Replace bad attribute names
             Regex loneDigitsFinder = new Regex(@" (-*\d+)");
-            string[] replacements = new string[] { "a", "b", "c", "d" };
+            string[] replacements = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
 
             int i = 0;
-            while(loneDigitsFinder.IsMatch(output))
+            while (loneDigitsFinder.IsMatch(output))
             {
                 if (i > replacements.Length) break;
                 output = loneDigitsFinder.Replace(
-                    output, 
-                    " " + Parser.XML_DELIMITER + replacements[i] + "=\"$1\"", 
+                    output,
+                    " " + Parser.XML_DELIMITER + replacements[i] + "=\"$1\"",
                 1);
                 i++;
             }
 
             return output;
         }
+
 
         public static string ConvertValidXMLToORK(this string original)
         {

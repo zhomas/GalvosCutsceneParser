@@ -18,6 +18,7 @@ namespace GalvosCutsceneParser
         public Parser LoadEventXML(string xml)
         {
             this.inputXml = xml.ConvertORKToValidXML();
+            this.WriteXMLToDesktop(xml);
             this.document = XDocument.Parse(this.inputXml);
             this.document.Root.SetAttributeValue("startIndex", 0);
             return this;

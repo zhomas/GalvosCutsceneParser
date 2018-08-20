@@ -14,7 +14,7 @@ namespace ParserTests
             var sb = new SpeechBubble(0, "Hello!");
             string actual = sb.ToXML(5, true).ToString().WhitespaceCleanupXML();
 
-            Assert.AreEqual(("<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\" >" +
+            Assert.AreEqual(("<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_string>" +
                     "<nodeName><![CDATA[]]></nodeName>" +
@@ -34,7 +34,7 @@ namespace ParserTests
             var sb = new SpeechBubble(0, "Hello!");
             string actual = sb.ToXML(5, true).ToString().WhitespaceCleanupXML();
 
-            Assert.AreEqual(("<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\" >" +
+            Assert.AreEqual(("<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_string>" +
                     "<nodeName><![CDATA[]]></nodeName>" +
@@ -52,7 +52,7 @@ namespace ParserTests
         public void TestSpeechBubbleMessage()
         {
             var sb = new SpeechBubble(0, "Suck My Balls!");
-            string expected = "<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\" >" +
+            string expected = "<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_string>" +
                     "<nodeName><![CDATA[]]></nodeName>" +

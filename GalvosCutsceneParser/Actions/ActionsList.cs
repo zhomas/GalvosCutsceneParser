@@ -9,6 +9,7 @@ namespace GalvosCutsceneParser
     {
         Speech,
         Wait,
+        MoveInDirection,
         Undefined
     }
 }

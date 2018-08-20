@@ -10,13 +10,13 @@ namespace ParserTests.Chunks
         [TestMethod]
         public void TestWaitStepProducesCorrectXML()
         {
-            string expected = "<2 next=\"3\" >" +
+            string expected = "<2 next=\"3\">" +
 				"<_bool random=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
 				"<_string>" +
 					"<nodeName><![CDATA[]]></nodeName>" +
 					"<_type><![CDATA[WaitStep]]></_type>" +
 				"</_string>" +
-				"<time type=\"0\" origin=\"1\" multiVariableUseType=\"0\" formulaID=\"0\" rounding=\"0\" >" +
+				"<time type=\"0\" origin=\"1\" multiVariableUseType=\"0\" formulaID=\"0\" rounding=\"0\">" +
 					"<_float initialValue=\"0\" offset=\"0\" value=\"1\" value2=\"0\" />" +
 					"<_bool useObject=\"True\" isInt=\"False\" isUTC=\"False\" />" +
 					"<_string>" +
