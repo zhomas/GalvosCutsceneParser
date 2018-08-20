@@ -115,7 +115,7 @@ namespace GalvosCutsceneParser
 
         public static Vector3 GetVector3FromString(string original)
         {
-            string pattern = @"(\d+),\s*(\d+)";
+            string pattern = @"(-*\d+),\s*(-*\d+)";
 
             var match = Regex.Match(original, pattern);
 

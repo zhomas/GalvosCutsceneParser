@@ -50,8 +50,12 @@ namespace ParserTests
         public void TestMoveInDirectionStepCreated()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
-            BaseStep step = builder.BuildStep("Joey => 100, 100");
-            Assert.AreEqual(typeof(MoveAiInDirectionStep), step.GetType());
+            BaseStep walk = builder.BuildStep("Joey => 100, 100");
+            BaseStep run = builder.BuildStep("Joey =>> 100, 100");
+            BaseStep sprint = builder.BuildStep("Joey =>>> 100, 100");
+            Assert.AreEqual(typeof(MoveAiInDirectionStep), walk.GetType());
+            Assert.AreEqual(typeof(MoveAiInDirectionStep), run.GetType());
+            Assert.AreEqual(typeof(MoveAiInDirectionStep), sprint.GetType());
         }
 
         [TestMethod]

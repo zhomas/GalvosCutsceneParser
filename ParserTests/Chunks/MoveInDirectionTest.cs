@@ -11,15 +11,19 @@ namespace ParserTests
         [TestMethod]
         public void TestXAxisParsedFromInputString()
         {
-            Vector3 expected = new Vector3(100, 0, 0);
-            Assert.AreEqual(expected, MoveAiInDirectionStep.GetDirectionFromInputString("Joey => 100, 0"));
+            Vector3 left = new Vector3(-100, 0, 0);
+            Vector3 right = new Vector3(100, 0, 0);
+            Assert.AreEqual(left, MoveAiInDirectionStep.GetDirectionFromInputString("Joey => -100, 0"));
+            Assert.AreEqual(right, MoveAiInDirectionStep.GetDirectionFromInputString("Joey => 100, 0"));
         }
 
         [TestMethod]
         public void TestZAxisParsedFromInputString()
         {
-            Vector3 expected = new Vector3(0, 0, 100);
-            Assert.AreEqual(expected, MoveAiInDirectionStep.GetDirectionFromInputString("Joey => 0, 100"));
+            Vector3 forward = new Vector3(0, 0, 100);
+            Vector3 back = new Vector3(0, 0, -100);
+            Assert.AreEqual(forward, MoveAiInDirectionStep.GetDirectionFromInputString("Joey => 0, 100"));
+            Assert.AreEqual(back, MoveAiInDirectionStep.GetDirectionFromInputString("Joey => 0, -100"));
         }
 
         [TestMethod]
@@ -53,17 +57,30 @@ namespace ParserTests
                     "</objectKey>" +
                 "</movingObject>" +
                 "<moveSpeed type=\"3\" >" +
-                    "<_float speed=\"32\" />" +
+                    "<_float speed=\"64\" />" +
                 "</moveSpeed>" +
             "</6>";
 
             expected = expected.WhitespaceCleanupXML();
 
-            var step = new MoveAiInDirectionStep(new Vector3(-32, 0, 0));
+            var step = new MoveAiInDirectionStep(new CutsceneEntity(0), new Vector3(-32, 0, 0), MoveAiInDirectionStep.MoveSpeedType.Run);
 
             string actual = step.ToXML(6, false).ToString().ConvertValidXMLToORK().WhitespaceCleanupXML();
 
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestSpeedIsParsedFromInputString()
+        {
+            CutsceneEntity entity = new CutsceneEntity(0);
+            var walker = MoveAiInDirectionStep.GetFromInputString(entity, "Joey => 100, 100");
+            var runner = MoveAiInDirectionStep.GetFromInputString(entity, "Joey =>> 100, 100");
+            var sprinter = MoveAiInDirectionStep.GetFromInputString(entity, "Joey =>>> 100, 100");
+
+            Assert.AreEqual(MoveAiInDirectionStep.MoveSpeedType.Walk, walker.SpeedType);
+            Assert.AreEqual(MoveAiInDirectionStep.MoveSpeedType.Run, runner.SpeedType);
+            Assert.AreEqual(MoveAiInDirectionStep.MoveSpeedType.Sprint, sprinter.SpeedType);
         }
     }
 }

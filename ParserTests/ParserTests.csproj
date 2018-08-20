@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chunks\SpeechBubbleTest.cs" />
-    <Compile Include="Chunks\UnitTest1.cs" />
+    <Compile Include="Chunks\MoveInDirectionTest.cs" />
     <Compile Include="Chunks\WaitStepTest.cs" />
     <Compile Include="Parser\AliasBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

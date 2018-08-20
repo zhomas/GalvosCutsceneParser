@@ -9,11 +9,39 @@ namespace GalvosCutsceneParser
 {
     public class MoveAiInDirectionStep : BaseStep
     {
+        private CutsceneEntity entity;
         private Vector3 direction;
 
-        public MoveAiInDirectionStep(Vector3 direction)
+        public MoveSpeedType SpeedType { get; private set; }
+
+        public MoveAiInDirectionStep(CutsceneEntity entity, Vector3 direction, MoveSpeedType speedType)
         {
+            this.entity = entity;
             this.direction = direction;
+            this.SpeedType = speedType;
+        }
+
+        public static MoveAiInDirectionStep GetFromInputString(CutsceneEntity entity, string inputLine)
+        {
+            Vector3 dir = GetDirectionFromInputString(inputLine);
+            string[] chunks = inputLine.Split(' ');
+
+            if (chunks[1] == "=>")
+            {
+                return new MoveAiInDirectionStep(entity, dir, MoveSpeedType.Walk);
+            }
+
+            if (chunks[1] == "=>>")
+            {
+                return new MoveAiInDirectionStep(entity, dir, MoveSpeedType.Run);
+            }
+
+            if (chunks[1] == "=>>>")
+            {
+                return new MoveAiInDirectionStep(entity, dir, MoveSpeedType.Sprint);
+            }
+
+            throw new MisformedStepException();
         }
 
         public static Vector3 GetDirectionFromInputString(string inputLine)
@@ -72,7 +100,7 @@ namespace GalvosCutsceneParser
             {
                 new XElement("movingObject",
                         new XAttribute("type", 0),
-                        new XAttribute("aID", 0),
+                        new XAttribute("aID", this.entity.ID),
                         new XAttribute("wID", 0),
                         new XAttribute("pID", 0),
                         new XAttribute("pID2", -1),
@@ -83,7 +111,7 @@ namespace GalvosCutsceneParser
                 new XElement("moveSpeed",
                         new XAttribute("type", 3),
                     new XElement("_float", 
-                        new XAttribute("speed", 32)))
+                        new XAttribute("speed", this.MoveSpeed)))
             };
         }
 
@@ -93,6 +121,30 @@ namespace GalvosCutsceneParser
             {
 
             };
+        }
+
+        private float MoveSpeed
+        {
+            get
+            {
+                switch (this.SpeedType)
+                {
+                    case MoveSpeedType.Walk:
+                        return 32f;
+                    case MoveSpeedType.Run:
+                        return 64f;
+                    case MoveSpeedType.Sprint:
+                    default:
+                        return 96f;
+                }
+            }
+        }
+
+        public enum MoveSpeedType
+        {
+            Walk,
+            Run,
+            Sprint
         }
     }
 }

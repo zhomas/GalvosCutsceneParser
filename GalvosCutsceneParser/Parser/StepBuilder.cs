@@ -82,7 +82,7 @@ namespace GalvosCutsceneParser
                 return StepAction.Speech;
             }
 
-            if (chunks[1] == "=>")
+            if (chunks[1].Contains("=>"))
             {
                 return StepAction.MoveInDirection;
             }
@@ -104,10 +104,10 @@ namespace GalvosCutsceneParser
                     int time = WaitStep.ParseMillisecondsFromInputLine(inputLine);
                     return new WaitStep(time);
                 case StepAction.MoveInDirection:
-                    Vector3 dir = MoveAiInDirectionStep.GetDirectionFromInputString(inputLine);
-                    return new MoveAiInDirectionStep(dir);
+                    return MoveAiInDirectionStep.GetFromInputString(entity, inputLine);
             }
 
+            Debug.LogError("Getting null step :: " + inputLine);
             return null;
         }
     }
