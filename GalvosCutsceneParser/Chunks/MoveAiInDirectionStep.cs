@@ -46,14 +46,14 @@ namespace GalvosCutsceneParser
 
         public static Vector3 GetDirectionFromInputString(string inputLine)
         {
-            try
+            Vector3 dir = RegexUtilities.GetVector3FromString(inputLine);
+
+            if (dir != Vector3.zero)
             {
-                return RegexUtilities.GetVector3FromString(inputLine);
+                return dir;
             }
-            catch (Exception e)
-            {
-                throw new MisformedStepException();
-            }
+
+            throw new MisformedStepException();
         }
 
         protected override List<XAttribute> GetBooleanAttributes()

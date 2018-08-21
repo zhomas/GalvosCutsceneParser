@@ -2,6 +2,7 @@
 using System.Text;
 using GalvosCutsceneParser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UnityEngine;
 
 namespace ParserTests
 {
@@ -52,6 +53,17 @@ namespace ParserTests
             var builder = new StepBuilder(new MockEntitySupplier());
             BaseStep step = builder.BuildStep("Joey camtarget");
             Assert.AreEqual(typeof(SetCameraTargetStep), step.GetType());
+        }
+
+        [TestMethod]
+        public void TestCamTargetRotationCreate()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var zero = builder.BuildStep("Joey camtarget");
+            var ten = builder.BuildStep("Joey camtarget 10, 10, 0");
+            Assert.AreEqual(typeof(SetCameraTargetStep), ten.GetType());
+            Assert.AreEqual(new Vector3(10, 10, 0), ((SetCameraTargetStep)ten).CamRotation);
+            Assert.AreEqual(Vector3.zero, ((SetCameraTargetStep)zero).CamRotation);
         }
 
         [TestMethod]

@@ -115,11 +115,24 @@ namespace GalvosCutsceneParser
 
         public static Vector3 GetVector3FromString(string original)
         {
-            string pattern = @"(-*\d+),\s*(-*\d+)";
+            string pattern = @"(-*\d+),\s*(-*\d+),*\s*(-*\d)*";
 
             var match = Regex.Match(original, pattern);
 
-            if (match.Groups.Count == 3 && match.Groups[1].Success && match.Groups[2].Success)
+
+            if (match.Groups[1].Success && match.Groups[1].Value != "" &&
+                match.Groups[2].Success && match.Groups[2].Value != "" &&
+                match.Groups[3].Success && match.Groups[3].Value != "")
+            {
+                return new Vector3(
+                    float.Parse(match.Groups[1].Value),
+                    float.Parse(match.Groups[2].Value),
+                    float.Parse(match.Groups[3].Value)
+                );
+            }
+
+            if (match.Groups[1].Success && match.Groups[1].Value != "" &&
+                match.Groups[2].Success && match.Groups[2].Value != "")
             {
                 return new Vector3(
                     float.Parse(match.Groups[1].Value),
@@ -128,7 +141,8 @@ namespace GalvosCutsceneParser
                 );
             }
 
-            throw new Exception();
+
+            return Vector3.zero;
         }
 
         public static string GetTextBetween(string input, string from, string to)

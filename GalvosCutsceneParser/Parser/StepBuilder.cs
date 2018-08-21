@@ -111,7 +111,7 @@ namespace GalvosCutsceneParser
                 case StepAction.MoveInDirection:
                     return MoveAiInDirectionStep.GetFromInputString(entity, inputLine);
                 case StepAction.Camera:
-                    return new SetCameraTargetStep(entity);
+                    return SetCameraTargetStep.GetFromInputString(entity, inputLine);
             }
 
             return null;
