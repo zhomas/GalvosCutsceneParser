@@ -32,7 +32,7 @@ namespace ParserTests
                 "</onObject>" +
             "</6>";
 
-            var step = new SetCameraTargetStep();
+            var step = new SetCameraTargetStep(new CutsceneEntity(1));
 
             Assert.AreEqual(expected, step.ToXML(6, false).ToString().ConvertValidXMLToORK());
         }

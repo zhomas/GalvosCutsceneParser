@@ -10,6 +10,7 @@ namespace GalvosCutsceneParser
         Speech,
         Wait,
         MoveInDirection,
+        Camera,
         Undefined
     }
 }

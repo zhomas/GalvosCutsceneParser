@@ -8,6 +8,13 @@ namespace GalvosCutsceneParser
 {
     public class SetCameraTargetStep : BaseStep
     {
+        private CutsceneEntity target;
+
+        public SetCameraTargetStep(CutsceneEntity target)
+        {
+            this.target = target;
+        }
+
         protected override List<XAttribute> GetBooleanAttributes()
         {
             return new List<XAttribute>()
@@ -42,7 +49,7 @@ namespace GalvosCutsceneParser
             {
                 new XElement("onObject",
                         new XAttribute("type", 0),
-                        new XAttribute("aID", 1),
+                        new XAttribute("aID", this.target.ID),
                         new XAttribute("wID", 0),
                         new XAttribute("pID", 0),
                         new XAttribute("pID2", -1),

@@ -47,6 +47,14 @@ namespace ParserTests
         }
 
         [TestMethod]
+        public void TestCamTargetStepCreated()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            BaseStep step = builder.BuildStep("Joey camtarget");
+            Assert.AreEqual(typeof(SetCameraTargetStep), step.GetType());
+        }
+
+        [TestMethod]
         public void TestMoveInDirectionStepCreated()
         {
             var builder = new StepBuilder(new MockEntitySupplier());

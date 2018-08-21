@@ -87,6 +87,11 @@ namespace GalvosCutsceneParser
                 return StepAction.MoveInDirection;
             }
 
+            if (chunks[1] =="camtarget")
+            {
+                return StepAction.Camera;
+            }
+
             return StepAction.Undefined;
         }
 
@@ -105,9 +110,10 @@ namespace GalvosCutsceneParser
                     return new WaitStep(time);
                 case StepAction.MoveInDirection:
                     return MoveAiInDirectionStep.GetFromInputString(entity, inputLine);
+                case StepAction.Camera:
+                    return new SetCameraTargetStep(entity);
             }
 
-            Debug.LogError("Getting null step :: " + inputLine);
             return null;
         }
     }
