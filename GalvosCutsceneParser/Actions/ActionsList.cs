@@ -11,6 +11,7 @@ namespace GalvosCutsceneParser
         Wait,
         MoveInDirection,
         Camera,
+        Turn,
         Undefined
     }
 }

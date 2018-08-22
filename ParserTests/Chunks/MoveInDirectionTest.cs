@@ -74,9 +74,9 @@ namespace ParserTests
         public void TestSpeedIsParsedFromInputString()
         {
             CutsceneEntity entity = new CutsceneEntity(0);
-            var walker = MoveAiInDirectionStep.GetFromInputString(entity, "Joey => 100, 100");
-            var runner = MoveAiInDirectionStep.GetFromInputString(entity, "Joey =>> 100, 100");
-            var sprinter = MoveAiInDirectionStep.GetFromInputString(entity, "Joey =>>> 100, 100");
+            var walker = MoveAiInDirectionStep.CreateFromInputString(entity, "Joey => 100, 100");
+            var runner = MoveAiInDirectionStep.CreateFromInputString(entity, "Joey =>> 100, 100");
+            var sprinter = MoveAiInDirectionStep.CreateFromInputString(entity, "Joey =>>> 100, 100");
 
             Assert.AreEqual(MoveAiInDirectionStep.MoveSpeedType.Walk, walker.SpeedType);
             Assert.AreEqual(MoveAiInDirectionStep.MoveSpeedType.Run, runner.SpeedType);

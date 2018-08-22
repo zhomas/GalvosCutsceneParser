@@ -56,6 +56,14 @@ namespace ParserTests
         }
 
         [TestMethod]
+        public void TestTurnVectorStepCreated()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            BaseStep step = builder.BuildStep("Joey turn south");
+            Assert.AreEqual(typeof(TurnVectorStep), step.GetType());
+        }
+
+        [TestMethod]
         public void TestCamTargetRotationCreate()
         {
             var builder = new StepBuilder(new MockEntitySupplier());

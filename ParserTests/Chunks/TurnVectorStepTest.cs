@@ -31,5 +31,21 @@ namespace ParserTests
             var step = new TurnVectorStep(new CutsceneEntity(0), TurnVectorStep.Direction.North);
             Assert.AreEqual(expected, step.ToXML(8, true).ToString().ConvertValidXMLToORK());
         }
+
+        [TestMethod]
+        public void InputLineParsingTest()
+        {
+            string north = "Joey turn North";
+            string south = "Joey turn south";
+            string east = "Joey turn east";
+            string west = "Joey turn west";
+
+            CutsceneEntity entity = new CutsceneEntity(0);
+
+            Assert.AreEqual(TurnVectorStep.Direction.North, TurnVectorStep.CreateFromInputString(entity, north).LookDirection);
+            Assert.AreEqual(TurnVectorStep.Direction.South, TurnVectorStep.CreateFromInputString(entity, south).LookDirection);
+            Assert.AreEqual(TurnVectorStep.Direction.East, TurnVectorStep.CreateFromInputString(entity, east).LookDirection);
+            Assert.AreEqual(TurnVectorStep.Direction.West, TurnVectorStep.CreateFromInputString(entity, west).LookDirection);
+        }
     }
 }

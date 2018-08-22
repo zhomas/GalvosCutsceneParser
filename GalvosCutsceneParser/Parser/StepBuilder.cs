@@ -72,25 +72,11 @@ namespace GalvosCutsceneParser
         {
             var chunks = inputLine.Split(' ');
 
-            if (chunks[0] == "wait")
-            {
-                return StepAction.Wait;
-            }
-
-            if (chunks[1] == "say")
-            {
-                return StepAction.Speech;
-            }
-
-            if (chunks[1].Contains("=>"))
-            {
-                return StepAction.MoveInDirection;
-            }
-
-            if (chunks[1] =="camtarget")
-            {
-                return StepAction.Camera;
-            }
+            if (chunks[0] == "wait") return StepAction.Wait;
+            if (chunks[1] == "say") return StepAction.Speech;
+            if (chunks[1].Contains("=>")) return StepAction.MoveInDirection;
+            if (chunks[1] =="camtarget") return StepAction.Camera;
+            if (chunks[1] == "turn") return StepAction.Turn;
 
             return StepAction.Undefined;
         }
@@ -109,9 +95,11 @@ namespace GalvosCutsceneParser
                     int time = WaitStep.ParseMillisecondsFromInputLine(inputLine);
                     return new WaitStep(time);
                 case StepAction.MoveInDirection:
-                    return MoveAiInDirectionStep.GetFromInputString(entity, inputLine);
+                    return MoveAiInDirectionStep.CreateFromInputString(entity, inputLine);
                 case StepAction.Camera:
                     return SetCameraTargetStep.GetFromInputString(entity, inputLine);
+                case StepAction.Turn:
+                    return TurnVectorStep.CreateFromInputString(entity, inputLine); 
             }
 
             return null;
