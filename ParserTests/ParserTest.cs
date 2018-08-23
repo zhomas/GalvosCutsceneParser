@@ -69,21 +69,20 @@ namespace ParserTests
         public void TestValidXMLCanBeConvertedToInvalid()
         {
             string valid = 
-            "<" + Parser.XML_DELIMITER + "0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+            "<" + Parser.XML_DELIMITER + "10 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" + 
                     "< nodePosition " + Parser.XML_DELIMITER + "a=\"38\" " + Parser.XML_DELIMITER + "b=\"-39\" />" +
                 "</ _floatarrays > " +
-            "</" + Parser.XML_DELIMITER + "0>".WhitespaceCleanupXML();
+            "</" + Parser.XML_DELIMITER + "10>".WhitespaceCleanupXML();
 
             string expected =
-            "<0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+            "<10 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" +
                     "< nodePosition 38 -39 />" +
                 "</ _floatarrays> " +
-            "</0>".WhitespaceCleanupXML();
-
+            "</10>".WhitespaceCleanupXML();
 
             Assert.AreEqual(expected, valid.ConvertValidXMLToORK());
         }

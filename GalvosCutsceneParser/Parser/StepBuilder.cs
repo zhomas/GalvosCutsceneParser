@@ -77,6 +77,7 @@ namespace GalvosCutsceneParser
             if (chunks[1].Contains("=>")) return StepAction.MoveInDirection;
             if (chunks[1] =="camtarget") return StepAction.Camera;
             if (chunks[1] == "turn") return StepAction.Turn;
+            if (chunks[1] == "look") return StepAction.Turn;
 
             return StepAction.Undefined;
         }
@@ -102,7 +103,7 @@ namespace GalvosCutsceneParser
                     return TurnVectorStep.CreateFromInputString(entity, inputLine); 
             }
 
-            return null;
+            throw new MisformedStepException();
         }
     }
 

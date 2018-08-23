@@ -46,10 +46,10 @@ namespace GalvosCutsceneParser
         private static string ORKifyLine(string original)
         {
             // Replace the first weird tag name :: <0
-            var output = Regex.Replace(original, @"(<)(\d)", "$1" + Parser.XML_DELIMITER + "$2");
+            var output = Regex.Replace(original, @"(<)(\d+)", "$1" + Parser.XML_DELIMITER + "$2");
 
             // Replace the closing weird tag name
-            output = Regex.Replace(output, @"(\/)(\d)(>)", "$1" + Parser.XML_DELIMITER + "$2$3");
+            output = Regex.Replace(output, @"(\/)(\d+)(>)", "$1" + Parser.XML_DELIMITER + "$2$3");
 
             // Replace bad attribute names
             Regex loneDigitsFinder = new Regex(@" (-*\d+)");
@@ -73,10 +73,10 @@ namespace GalvosCutsceneParser
         public static string ConvertValidXMLToORK(this string original)
         {
             // Replace the opening tag
-            var output = Regex.Replace(original, @"<" + Parser.XML_DELIMITER + @"(\d)", "<$1");
+            var output = Regex.Replace(original, @"<" + Parser.XML_DELIMITER + @"(\d+)", "<$1");
 
             // Replace the closing tag
-            output = Regex.Replace(output, Parser.XML_DELIMITER + @"(\d)>", "$1>");
+            output = Regex.Replace(output, Parser.XML_DELIMITER + @"(\d+)>", "$1>");
 
             // Replace bad attribute names
             output = Regex.Replace(output, Parser.XML_DELIMITER + @"\w=""(-*\d+)""", "$1");
