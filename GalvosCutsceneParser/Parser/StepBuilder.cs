@@ -79,6 +79,16 @@ namespace GalvosCutsceneParser
             if (chunks[1] == "turn") return StepAction.Turn;
             if (chunks[1] == "look") return StepAction.Turn;
 
+
+
+            foreach (var item in Enum.GetValues(typeof(PoseMasterStep.PosemasterPose)))
+            {
+                if (chunks[1].ToLower() == item.ToString().ToLower())
+                {
+                    return StepAction.Pose;
+                }
+            }
+
             return StepAction.Undefined;
         }
 
@@ -100,7 +110,9 @@ namespace GalvosCutsceneParser
                 case StepAction.Camera:
                     return SetCameraTargetStep.GetFromInputString(entity, inputLine);
                 case StepAction.Turn:
-                    return TurnVectorStep.CreateFromInputString(entity, inputLine); 
+                    return TurnVectorStep.CreateFromInputString(entity, inputLine);
+                case StepAction.Pose:
+                    return PoseMasterStep.CreateFromInputString(entity, inputLine);
             }
 
             throw new MisformedStepException();

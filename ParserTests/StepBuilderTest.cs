@@ -64,6 +64,14 @@ namespace ParserTests
         }
 
         [TestMethod]
+        public void TestPosemasterStepCreated()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            BaseStep step = builder.BuildStep("Joey celebrate");
+            Assert.AreEqual(typeof(PoseMasterStep), step.GetType());
+        }
+
+        [TestMethod]
         public void TestCamTargetRotationCreate()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
