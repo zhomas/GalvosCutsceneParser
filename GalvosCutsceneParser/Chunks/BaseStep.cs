@@ -20,6 +20,11 @@ namespace GalvosCutsceneParser
 
         protected abstract List<XElement> GetStringArrayElements();
 
+        protected virtual List<XAttribute> GetFloatAttributes()
+        {
+            return new List<XAttribute>();
+        }
+
         protected virtual List<XElement> GetFloatArrayElements()
         {
             return new List<XElement>();
@@ -48,10 +53,20 @@ namespace GalvosCutsceneParser
             XElement element = new XElement(Parser.XML_DELIMITER + index.ToString(), this.GetRootNodeAttributes(index, isFinalStep));
 
             var bools = this.GetBooleanAttributes();
+
+            var floats = this.GetFloatAttributes();
             var floatArrays = this.GetFloatArrayElements();
+
             var strings = this.GetStringElements();
             var stringArrays = this.GetStringArrayElements();
+
             var special = this.GetNodeSpecialElements();
+
+
+            if (floats.Count > 0)
+            {
+                element.Add(new XElement("_float", floats));
+            }
 
             if (bools.Count > 0)
             {

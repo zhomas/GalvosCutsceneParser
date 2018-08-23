@@ -35,10 +35,7 @@ namespace GalvosCutsceneParser
 
         public Direction LookDirection
         {
-            get
-            {
-                return dir;
-            }
+            get { return dir; }
         }
 
         public TurnVectorStep(CutsceneEntity entity, Direction dir)
