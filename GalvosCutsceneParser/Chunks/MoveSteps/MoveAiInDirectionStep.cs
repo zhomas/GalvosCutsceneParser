@@ -13,11 +13,6 @@ namespace GalvosCutsceneParser
 
         public MoveAiInDirectionStep(CutsceneEntity entity, Vector3 direction, MoveSpeedType speedType)
         {
-            if (direction == Vector3.zero)
-            {
-                throw new MisformedStepException();
-            }
-
             this.entity = entity;
             this.direction = direction;
             this.SpeedType = speedType;

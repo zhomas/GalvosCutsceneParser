@@ -90,13 +90,40 @@ namespace ParserTests
         [TestMethod]
         public void TestSpeedIsHonoured()
         {
-            var walk = MoveToPositionStep.CreateFromInputString("Joey => Lucy", new MockEntitySupplier());
-            var run = MoveToPositionStep.CreateFromInputString("Joey =>> Lucy", new MockEntitySupplier());
+            string expected = "<7 next=\"-1\">" +
+                "<_bool WaitUntilComplete=\"True\" active=\"True\" overrideNodeName=\"False\" />" +
+                "<_string>" +
+                    "<nodeName><![CDATA[]]></nodeName>" +
+                    "<_type><![CDATA[SetMoveAITargetStep]]></_type>" +
+                "</_string>" +
+                "<movingObject type=\"0\" aID=\"0\" wID=\"0\" pID=\"0\" pID2=\"-1\">" +
+                    "<_string>" +
+                        "<childName><![CDATA[]]></childName>" +
+                    "</_string>" +
+                    "<objectKey type=\"0\">" +
+                        "<_string>" +
+                            "<value><![CDATA[]]></value>" +
+                        "</_string>" +
+                    "</objectKey>" +
+                "</movingObject>" +
+                "<moveSpeed type=\"3\">" +
+                    "<_float speed=\"111\" />" +
+                "</moveSpeed>" +
+                "<targetObject type=\"0\" aID=\"0\" wID=\"0\" pID=\"0\" pID2=\"-1\">" +
+                    "<_string>" +
+                        "<childName><![CDATA[]]></childName>" +
+                    "</_string>" +
+                    "<objectKey type=\"0\">" +
+                        "<_string>" +
+                            "<value><![CDATA[]]></value>" +
+                        "</_string>" +
+                    "</objectKey>" +
+                "</targetObject>" +
+            "</7>".WhitespaceCleanupXML();
+
             var sprint = MoveToPositionStep.CreateFromInputString("Joey =>>> Lucy", new MockEntitySupplier());
 
-            Assert.AreEqual(BaseMoveStep.MoveSpeedType.Walk, walk.SpeedType);
-            Assert.AreEqual(BaseMoveStep.MoveSpeedType.Run, run.SpeedType);
-            Assert.AreEqual(BaseMoveStep.MoveSpeedType.Sprint, sprint.SpeedType);
+            Assert.AreEqual(expected, sprint.ToXML(7, true).ToString().ConvertValidXMLToORK());
         }
     }
 }

@@ -30,7 +30,7 @@ namespace GalvosCutsceneParser
             if (chunks.Last().ToLower().Contains("west"))
                 return new TurnVectorStep(entity, Direction.West);
 
-            throw new MisformedStepException();
+            throw new MisformedStepException(inputString);
         }
 
         public Direction LookDirection

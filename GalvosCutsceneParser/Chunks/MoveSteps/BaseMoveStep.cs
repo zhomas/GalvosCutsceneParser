@@ -46,7 +46,7 @@ namespace GalvosCutsceneParser
                         return 64f;
                     case MoveSpeedType.Sprint:
                     default:
-                        return 96f;
+                        return 111f;
                 }
             }
         }
@@ -75,7 +75,7 @@ namespace GalvosCutsceneParser
                 return MoveSpeedType.Sprint;
             }
 
-            throw new MisformedStepException();
+            throw new MisformedStepException(str);
         }
     }
 }

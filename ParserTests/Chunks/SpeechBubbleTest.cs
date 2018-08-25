@@ -71,5 +71,11 @@ namespace ParserTests
 
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void TestLongStringsAreParsedCorrectly()
+        {
+
+        }
     }
 }

@@ -121,7 +121,7 @@ namespace GalvosCutsceneParser
                         return moveStep;
                     }
 
-                    throw new MisformedStepException();
+                    throw new MisformedStepException(inputLine);
                 case StepAction.Camera:
                     return SetCameraTargetStep.GetFromInputString(entity, inputLine);
                 case StepAction.Turn:
@@ -130,7 +130,7 @@ namespace GalvosCutsceneParser
                     return PoseMasterStep.CreateFromInputString(entity, inputLine);
             }
 
-            throw new MisformedStepException();
+            throw new MisformedStepException(inputLine);
         }
     }
 

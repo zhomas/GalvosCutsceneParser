@@ -30,12 +30,18 @@ namespace ParserTests
             Assert.AreEqual(2, result.Count);
         }
 
+        [TestMethod]
+        public void TestParserParsesCompleteString()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var result = builder.GetStepsFromInput(TestHelpers.GetCompleteGPL());
+        }
 
         [TestMethod]
         public void TestSpeechBubbleCreated()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
-            BaseStep step = builder.BuildStep("Joey say \"Hello! Good to meet you sir!\"");
+            BaseStep step = builder.BuildStep("Joey say \"Citan told me all about your story. Do you want to talk about it? Why didn't you tell me? It sounds pretty rough.\"");
             Assert.AreEqual(typeof(SpeechBubble), step.GetType());
         }
 

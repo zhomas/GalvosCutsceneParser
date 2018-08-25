@@ -81,7 +81,7 @@ namespace GalvosCutsceneParser
             if (str.Contains("happy")) return PosemasterPose.Happy;
             if (str.Contains("collapse")) return PosemasterPose.Collapse;
 
-            throw new MisformedStepException();
+            throw new MisformedStepException(str);
         }
     }
 }
