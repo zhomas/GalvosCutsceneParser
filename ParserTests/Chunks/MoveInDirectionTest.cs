@@ -27,16 +27,8 @@ namespace ParserTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(MisformedStepException))]
-        public void TestBadSyntaxThrowsException()
-        {
-            MoveAiInDirectionStep.GetDirectionFromInputString("Joey => 0");
-        }
-
-        [TestMethod]
         public void TestStepProducesCorrectXML()
         {
-            
             string expected = "<6 next=\"7\" >" +
                 "<_bool WaitUntilComplete=\"True\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" +

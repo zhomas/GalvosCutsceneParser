@@ -74,7 +74,7 @@ namespace GalvosCutsceneParser
 
             if (chunks[0] == "wait") return StepAction.Wait;
             if (chunks[1] == "say") return StepAction.Speech;
-            if (chunks[1].Contains("=>")) return StepAction.MoveToPosition;
+            if (chunks[1].Contains("=>")) return StepAction.Move;
             if (chunks[1] =="camtarget") return StepAction.Camera;
             if (chunks[1] == "turn") return StepAction.Turn;
             if (chunks[1] == "look") return StepAction.Turn;
@@ -105,8 +105,23 @@ namespace GalvosCutsceneParser
                 case StepAction.Wait:
                     int time = WaitStep.ParseMillisecondsFromInputLine(inputLine);
                     return new WaitStep(time);
-                case StepAction.MoveToPosition:
-                    return MoveAiInDirectionStep.CreateFromInputString(entity, inputLine);
+                case StepAction.Move:
+
+                    BaseMoveStep moveStep = MoveAiInDirectionStep.CreateFromInputString(entity, inputLine);
+
+                    if (moveStep != null)
+                    {
+                        return moveStep;
+                    }
+
+                    moveStep = MoveToPositionStep.CreateFromInputString(inputLine, this.entitySupplier);
+
+                    if (moveStep != null)
+                    {
+                        return moveStep;
+                    }
+
+                    throw new MisformedStepException();
                 case StepAction.Camera:
                     return SetCameraTargetStep.GetFromInputString(entity, inputLine);
                 case StepAction.Turn:

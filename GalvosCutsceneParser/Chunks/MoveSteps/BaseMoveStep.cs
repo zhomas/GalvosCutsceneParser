@@ -57,5 +57,25 @@ namespace GalvosCutsceneParser
             Run,
             Sprint
         }
+
+        public static MoveSpeedType SpeedTypeFromString(string str)
+        {
+            if (str == "=>")
+            {
+                return MoveSpeedType.Walk;
+            }
+
+            if (str == "=>>")
+            {
+                return MoveSpeedType.Run;
+            }
+
+            if (str == "=>>>")
+            {
+                return MoveSpeedType.Sprint;
+            }
+
+            throw new MisformedStepException();
+        }
     }
 }

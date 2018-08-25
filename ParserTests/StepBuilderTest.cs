@@ -95,6 +95,14 @@ namespace ParserTests
         }
 
         [TestMethod]
+        public void TestMoveToPositionStepCreated()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            BaseStep step = builder.BuildStep("Joey => Lucy");
+            Assert.AreEqual(typeof(MoveToPositionStep), step.GetType());
+        }
+
+        [TestMethod]
         public void TestEntityIsParsedFromString()
         {
             var builder = new StepBuilder(new MockEntitySupplier());

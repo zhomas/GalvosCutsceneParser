@@ -8,9 +8,24 @@ namespace GalvosCutsceneParser
 {
     public class MoveToPositionStep : BaseMoveStep
     {
-        public MoveToPositionStep(CutsceneEntity entity)
+        private CutsceneEntity targetObject;
+
+        public static MoveToPositionStep CreateFromInputString(string inputLine, IEntitySupplier supplier)
         {
-            this.entity = entity;
+            string[] chunks = inputLine.Split(' ');
+
+            var mover = supplier.GetEntityByAlias(chunks.First());
+            var target = supplier.GetEntityByAlias(chunks.Last());
+            var speedType = SpeedTypeFromString(chunks[1]);
+
+            return new MoveToPositionStep(mover, target, speedType);
+        }
+
+        public MoveToPositionStep(CutsceneEntity mover, CutsceneEntity target, MoveSpeedType speedType)
+        {
+            this.entity = mover;
+            this.targetObject = target;
+            this.SpeedType = speedType;
         }
 
         protected override List<XAttribute> GetBooleanAttributes()
@@ -36,7 +51,7 @@ namespace GalvosCutsceneParser
                 this.GetMoveSpeedDefinition(this.MoveSpeed),
                 new XElement("targetObject",
                         new XAttribute("type", 0),
-                        new XAttribute("aID", 1),
+                        new XAttribute("aID", this.targetObject.ID),
                         new XAttribute("wID", 0),
                         new XAttribute("pID", 0),
                         new XAttribute("pID2", -1),

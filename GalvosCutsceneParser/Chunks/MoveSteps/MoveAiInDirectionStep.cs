@@ -13,6 +13,11 @@ namespace GalvosCutsceneParser
 
         public MoveAiInDirectionStep(CutsceneEntity entity, Vector3 direction, MoveSpeedType speedType)
         {
+            if (direction == Vector3.zero)
+            {
+                throw new MisformedStepException();
+            }
+
             this.entity = entity;
             this.direction = direction;
             this.SpeedType = speedType;
@@ -21,24 +26,15 @@ namespace GalvosCutsceneParser
         public static MoveAiInDirectionStep CreateFromInputString(CutsceneEntity entity, string inputLine)
         {
             Vector3 dir = GetDirectionFromInputString(inputLine);
-            string[] chunks = inputLine.Split(' ');
 
-            if (chunks[1] == "=>")
+            if (dir != Vector3.zero)
             {
-                return new MoveAiInDirectionStep(entity, dir, MoveSpeedType.Walk);
+                string[] chunks = inputLine.Split(' ');
+                MoveSpeedType moveSpeed = SpeedTypeFromString(chunks[1]);
+                return new MoveAiInDirectionStep(entity, dir, moveSpeed);
             }
 
-            if (chunks[1] == "=>>")
-            {
-                return new MoveAiInDirectionStep(entity, dir, MoveSpeedType.Run);
-            }
-
-            if (chunks[1] == "=>>>")
-            {
-                return new MoveAiInDirectionStep(entity, dir, MoveSpeedType.Sprint);
-            }
-
-            throw new MisformedStepException();
+            return null;
         }
 
         public static Vector3 GetDirectionFromInputString(string inputLine)
@@ -50,7 +46,7 @@ namespace GalvosCutsceneParser
                 return dir;
             }
 
-            throw new MisformedStepException();
+            return Vector3.zero;
         }
 
         protected override List<XAttribute> GetBooleanAttributes()
