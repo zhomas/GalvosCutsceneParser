@@ -51,15 +51,9 @@ namespace GalvosCutsceneParser
             };
         }
 
-        protected override List<XElement> GetStringElements()
+        protected override string GetNodeType()
         {
-            var nodeType = new XElement("_type");
-            nodeType.Add(new XCData("PosemasterStep"));
-
-            return base.GetStringElements().Concat(new List<XElement>()
-            {
-                nodeType
-            }).ToList();
+            return "PosemasterStep";
         }
 
         protected override List<XElement> GetStringArrayElements()

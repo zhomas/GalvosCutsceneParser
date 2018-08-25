@@ -35,16 +35,27 @@ namespace GalvosCutsceneParser
             return new List<XElement>();
         }
 
+        protected abstract string GetNodeType();
 
+        protected XElement GetEmptyCData(string tagName)
+        {
+            var emptyChildName = new XElement(tagName);
+            emptyChildName.Add(new XCData(""));
+            return emptyChildName;
+        }
 
         protected virtual List<XElement> GetStringElements()
         {
             var nodeName = new XElement("nodeName");
             nodeName.Add(new XCData(""));
 
+            var nodeType = new XElement("_type");
+            nodeType.Add(new XCData(this.GetNodeType()));
+
             return new List<XElement>()
             {
-                nodeName
+                nodeName,
+                nodeType
             };
         }
 

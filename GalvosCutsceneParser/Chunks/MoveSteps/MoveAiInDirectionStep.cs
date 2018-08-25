@@ -7,12 +7,9 @@ using UnityEngine;
 
 namespace GalvosCutsceneParser
 {
-    public class MoveAiInDirectionStep : BaseStep
+    public class MoveAiInDirectionStep : BaseMoveStep
     {
-        private CutsceneEntity entity;
         private Vector3 direction;
-
-        public MoveSpeedType SpeedType { get; private set; }
 
         public MoveAiInDirectionStep(CutsceneEntity entity, Vector3 direction, MoveSpeedType speedType)
         {
@@ -77,74 +74,24 @@ namespace GalvosCutsceneParser
             };
         }
 
-        protected override List<XElement> GetStringElements()
+        protected override string GetNodeType()
         {
-            var nodeType = new XElement("_type");
-            nodeType.Add(new XCData("MoveAIByDirection"));
-
-            return base.GetStringElements().Concat(new List<XElement>()
-            {
-                nodeType
-            }).ToList();
+            return "MoveAIByDirection";
         }
-
+        
         protected override List<XElement> GetNodeSpecialElements()
         {
-            var emptyChildName = new XElement("childName");
-            emptyChildName.Add(new XCData(""));
-
-            var emptyValue = new XElement("value");
-            emptyValue.Add(new XCData(""));
-
             return new List<XElement>()
             {
-                new XElement("movingObject",
-                        new XAttribute("type", 0),
-                        new XAttribute("aID", this.entity.ID),
-                        new XAttribute("wID", 0),
-                        new XAttribute("pID", 0),
-                        new XAttribute("pID2", -1),
-                    new XElement("_string", emptyChildName),
-                    new XElement("objectKey",
-                            new XAttribute("type", 0),
-                        new XElement("_string", emptyValue))),
-                new XElement("moveSpeed",
-                        new XAttribute("type", 3),
-                    new XElement("_float", 
-                        new XAttribute("speed", this.MoveSpeed)))
+                this.GetMovingObjectDefinition(this.entity.ID),
+                this.GetMoveSpeedDefinition(this.MoveSpeed)
             };
         }
 
         protected override List<XElement> GetStringArrayElements()
         {
-            return new List<XElement>()
-            {
-
-            };
+            return new List<XElement>();
         }
 
-        private float MoveSpeed
-        {
-            get
-            {
-                switch (this.SpeedType)
-                {
-                    case MoveSpeedType.Walk:
-                        return 32f;
-                    case MoveSpeedType.Run:
-                        return 64f;
-                    case MoveSpeedType.Sprint:
-                    default:
-                        return 96f;
-                }
-            }
-        }
-
-        public enum MoveSpeedType
-        {
-            Walk,
-            Run,
-            Sprint
-        }
     }
 }

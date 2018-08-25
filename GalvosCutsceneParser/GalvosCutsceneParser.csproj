@@ -44,7 +44,9 @@
   <ItemGroup>
     <Compile Include="Actions\ActionsList.cs" />
     <Compile Include="Chunks\BaseStep.cs" />
-    <Compile Include="Chunks\MoveAiInDirectionStep.cs" />
+    <Compile Include="Chunks\MoveSteps\MoveAiInDirectionStep.cs" />
+    <Compile Include="Chunks\MoveSteps\BaseMoveStep.cs" />
+    <Compile Include="Chunks\MoveSteps\MoveToPositionStep.cs" />
     <Compile Include="Chunks\PoseStep.cs" />
     <Compile Include="Chunks\SetCameraTargetStep.cs" />
     <Compile Include="Chunks\SpeechBubble.cs" />

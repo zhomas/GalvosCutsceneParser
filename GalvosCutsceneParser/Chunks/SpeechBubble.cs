@@ -38,15 +38,9 @@ namespace GalvosCutsceneParser
             }.Concat(base.GetRootNodeAttributes(index, isFinal)).ToList();
         }
 
-        protected override List<XElement> GetStringElements()
+        protected override string GetNodeType()
         {
-            var nodeType = new XElement("_type");
-            nodeType.Add(new XCData("SpeechBubbleStep"));
-
-            return base.GetStringElements().Concat(new List<XElement>()
-            {
-                nodeType
-            }).ToList();
+            return "SpeechBubbleStep";
         }
 
         protected override List<XElement> GetStringArrayElements()

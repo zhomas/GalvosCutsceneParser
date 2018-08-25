@@ -9,7 +9,7 @@ namespace GalvosCutsceneParser
     {
         Speech,
         Wait,
-        MoveInDirection,
+        MoveToPosition,
         Camera,
         Turn,
         Pose,

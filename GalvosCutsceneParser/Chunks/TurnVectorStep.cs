@@ -61,15 +61,9 @@ namespace GalvosCutsceneParser
             };
         }
 
-        protected override List<XElement> GetStringElements()
+        protected override string GetNodeType()
         {
-            var nodeType = new XElement("_type");
-            nodeType.Add(new XCData("GalvosTurnVector"));
-
-            return base.GetStringElements().Concat(new List<XElement>()
-            {
-                nodeType
-            }).ToList();
+            return "GalvosTurnVector";
         }
 
         protected override List<XElement> GetStringArrayElements()
