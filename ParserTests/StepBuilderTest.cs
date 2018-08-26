@@ -89,6 +89,15 @@ namespace ParserTests
         }
 
         [TestMethod]
+        public void TestCamTargetDistanceCreate()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var step = builder.BuildStep("Joey camtarget 10, 10, 0 --distance=400");
+            Assert.AreEqual(typeof(SetCameraTargetStep), step.GetType());
+            Assert.AreEqual(400f, ((SetCameraTargetStep)step).Distance);
+        }
+
+        [TestMethod]
         public void TestMoveInDirectionStepCreated()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
