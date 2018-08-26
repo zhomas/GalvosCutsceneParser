@@ -12,8 +12,7 @@ namespace GalvosCutsceneParser
     {
         public static string WhitespaceCleanupXML(this string original)
         {
-            // Trim trailing whitespace
-            string output = Regex.Replace(original, @"\s+>", ">");
+            string output = original;
 
             // Trim whitespace
             output = Regex.Replace(output, @"([\s]{2,}|[\r\n\t])", "");
@@ -80,6 +79,9 @@ namespace GalvosCutsceneParser
 
             // Replace bad attribute names
             output = Regex.Replace(output, Parser.XML_DELIMITER + @"\w=""(-*\d+)""", "$1");
+
+            // Add whitespace to closing tag
+            output = Regex.Replace(output, "\">", "\" >");
 
             return output.WhitespaceCleanupXML();
         }

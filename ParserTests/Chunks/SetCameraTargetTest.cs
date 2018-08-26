@@ -15,17 +15,17 @@ namespace ParserTests
         [TestMethod]
         public void TestSetCameraTargetProducesCorrectOutput()
         {
-            string expected = "<6 next=\"7\">" +
+            string expected = "<6 next=\"7\" >" +
                 "<_bool reset=\"False\" cameraRotation=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_string>" +
                     "<nodeName><![CDATA[]]></nodeName>" +
                     "<_type><![CDATA[CameraControlTargetStep]]></_type>" +
                 "</_string>" +
-                "<onObject type=\"0\" aID=\"1\" wID=\"0\" pID=\"0\" pID2=\"-1\">" +
+                "<onObject type=\"0\" aID=\"1\" wID=\"0\" pID=\"0\" pID2=\"-1\" >" +
                     "<_string>" +
                         "<childName><![CDATA[]]></childName>" +
                     "</_string>" +
-                    "<objectKey type=\"0\">" +
+                    "<objectKey type=\"0\" >" +
                         "<_string>" +
                             "<value><![CDATA[]]></value>" +
                         "</_string>" +
@@ -42,7 +42,7 @@ namespace ParserTests
         public void TestSetCameraTargetCanHaveRotation()
         {
             string expected =
-            "<5 next=\"-1\">" +
+            "<5 next=\"-1\" >" +
                 "<_bool reset=\"False\" cameraRotation=\"True\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" +
                     "<cameraRotationEuler 80 0 0 />" +
@@ -51,11 +51,11 @@ namespace ParserTests
                     "<nodeName><![CDATA[]]></nodeName>" +
                     "<_type><![CDATA[CameraControlTargetStep]]></_type>" +
                 "</_string>" +
-                "<onObject type=\"0\" aID=\"0\" wID=\"0\" pID=\"0\" pID2=\"-1\">" +
+                "<onObject type=\"0\" aID=\"0\" wID=\"0\" pID=\"0\" pID2=\"-1\" >" +
                     "<_string>" +
                         "<childName><![CDATA[]]></childName>" +
                     "</_string>" +
-                    "<objectKey type=\"0\">" +
+                    "<objectKey type=\"0\" >" +
                         "<_string>" +
                             "<value><![CDATA[]]></value>" +
                         "</_string>" +

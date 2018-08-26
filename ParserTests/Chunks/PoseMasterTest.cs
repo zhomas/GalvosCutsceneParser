@@ -14,7 +14,7 @@ namespace ParserTests.Chunks
         [TestMethod]
         public void TestOutputXML()
         {
-            string expected = "<7 aID=\"0\" pose=\"0\" next=\"-1\">" +
+            string expected = "<7 aID=\"0\" pose=\"0\" next=\"-1\" >" +
                 "<_float Duration=\"2\" />" +
                 "<_bool indefinite=\"True\" Remove=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_string>" +

@@ -10,17 +10,17 @@ namespace ParserTests
         [TestMethod]
         public void TestCorrectXMLGenerated()
         {
-            string expected = "<8 direction=\"0\" next=\"-1\">" +
+            string expected = "<8 direction=\"0\" next=\"-1\" >" +
                 "<_bool active=\"True\" overrideNodeName=\"False\" />" +
                 "<_string>" +
                     "<nodeName><![CDATA[]]></nodeName>" +
                     "<_type><![CDATA[GalvosTurnVector]]></_type>" +
                 "</_string>" +
-                "<usedObject type=\"0\" aID=\"0\" wID=\"0\" pID=\"0\" pID2=\"-1\">" +
+                "<usedObject type=\"0\" aID=\"0\" wID=\"0\" pID=\"0\" pID2=\"-1\" >" +
                     "<_string>" +
                         "<childName><![CDATA[]]></childName>" +
                     "</_string>" +
-                    "<objectKey type=\"0\">" +
+                    "<objectKey type=\"0\" >" +
                         "<_string>" +
                             "<value><![CDATA[]]></value>" +
                         "</_string>" +

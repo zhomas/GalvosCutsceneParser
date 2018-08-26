@@ -126,7 +126,13 @@ namespace ParserTests
             Assert.AreEqual(StepAction.Undefined, maybeFart);
         }
 
-
+        [TestMethod]
+        public void TestParsingAction()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            string input = "Magus say \"Citan told me all about your story. Do you want to talk about it?#>Why didn't you tell me? It sounds pretty rough.\"";
+            builder.GetActionFromInput(input);
+        }
 
         [TestMethod]
         public void TestParameterIsParsedFromString()

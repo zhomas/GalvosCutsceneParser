@@ -30,7 +30,6 @@ namespace GalvosCutsceneParser
         {
             return new XElement("moveSpeed",
                     new XAttribute("type", 3),
-                    new XAttribute("chiken", -1),
                 new XElement("_float",
                     new XAttribute("speed", speed))
             );

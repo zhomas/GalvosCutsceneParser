@@ -10,30 +10,30 @@ namespace ParserTests
         [TestMethod]
         public void TestEntitiesAreRespected()
         {
-            string expected = "<7 next=\"-1\">" +
+            string expected = "<7 next=\"-1\" >" +
                 "<_bool WaitUntilComplete=\"True\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_string>" +
                     "<nodeName><![CDATA[]]></nodeName>" +
                     "<_type><![CDATA[SetMoveAITargetStep]]></_type>" +
                 "</_string>" +
-                "<movingObject type=\"0\" aID=\"9\" wID=\"0\" pID=\"0\" pID2=\"-1\">" +
+                "<movingObject type=\"0\" aID=\"9\" wID=\"0\" pID=\"0\" pID2=\"-1\" >" +
                     "<_string>" +
                         "<childName><![CDATA[]]></childName>" +
                     "</_string>" +
-                    "<objectKey type=\"0\">" +
+                    "<objectKey type=\"0\" >" +
                         "<_string>" +
                             "<value><![CDATA[]]></value>" +
                         "</_string>" +
                     "</objectKey>" +
                 "</movingObject>" +
-                "<moveSpeed type=\"3\">" +
+                "<moveSpeed type=\"3\" >" +
                     "<_float speed=\"64\" />" +
                 "</moveSpeed>" +
-                "<targetObject type=\"0\" aID=\"777\" wID=\"0\" pID=\"0\" pID2=\"-1\">" +
+                "<targetObject type=\"0\" aID=\"777\" wID=\"0\" pID=\"0\" pID2=\"-1\" >" +
                     "<_string>" +
                         "<childName><![CDATA[]]></childName>" +
                     "</_string>" +
-                    "<objectKey type=\"0\">" +
+                    "<objectKey type=\"0\" >" +
                         "<_string>" +
                             "<value><![CDATA[]]></value>" +
                         "</_string>" +
@@ -50,30 +50,30 @@ namespace ParserTests
         [TestMethod]
         public void TestXMLIsRendered()
         {
-            string expected = "<7 next=\"-1\">" +
+            string expected = "<7 next=\"-1\" >" +
 				"<_bool WaitUntilComplete=\"True\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_string>" +
                     "<nodeName><![CDATA[]]></nodeName>" +
                     "<_type><![CDATA[SetMoveAITargetStep]]></_type>" +
                 "</_string>" +
-                "<movingObject type=\"0\" aID=\"0\" wID=\"0\" pID=\"0\" pID2=\"-1\">" +
+                "<movingObject type=\"0\" aID=\"0\" wID=\"0\" pID=\"0\" pID2=\"-1\" >" +
                     "<_string>" +
                         "<childName><![CDATA[]]></childName>" +
                     "</_string>" +
-                    "<objectKey type=\"0\">" +
+                    "<objectKey type=\"0\" >" +
                         "<_string>" +
                             "<value><![CDATA[]]></value>" +
                         "</_string>" +
                     "</objectKey>" +
                 "</movingObject>" +
-                "<moveSpeed type=\"3\">" +
+                "<moveSpeed type=\"3\" >" +
                     "<_float speed=\"32\" />" +
                 "</moveSpeed>" +
-                "<targetObject type=\"0\" aID=\"1\" wID=\"0\" pID=\"0\" pID2=\"-1\">" +
+                "<targetObject type=\"0\" aID=\"1\" wID=\"0\" pID=\"0\" pID2=\"-1\" >" +
                     "<_string>" +
                         "<childName><![CDATA[]]></childName>" +
                     "</_string>" +
-                    "<objectKey type=\"0\">" +
+                    "<objectKey type=\"0\" >" +
                         "<_string>" +
                             "<value><![CDATA[]]></value>" +
                         "</_string>" +
@@ -90,30 +90,30 @@ namespace ParserTests
         [TestMethod]
         public void TestSpeedIsHonoured()
         {
-            string expected = "<7 next=\"-1\">" +
+            string expected = "<7 next=\"-1\" >" +
                 "<_bool WaitUntilComplete=\"True\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_string>" +
                     "<nodeName><![CDATA[]]></nodeName>" +
                     "<_type><![CDATA[SetMoveAITargetStep]]></_type>" +
                 "</_string>" +
-                "<movingObject type=\"0\" aID=\"0\" wID=\"0\" pID=\"0\" pID2=\"-1\">" +
+                "<movingObject type=\"0\" aID=\"0\" wID=\"0\" pID=\"0\" pID2=\"-1\" >" +
                     "<_string>" +
                         "<childName><![CDATA[]]></childName>" +
                     "</_string>" +
-                    "<objectKey type=\"0\">" +
+                    "<objectKey type=\"0\" >" +
                         "<_string>" +
                             "<value><![CDATA[]]></value>" +
                         "</_string>" +
                     "</objectKey>" +
                 "</movingObject>" +
-                "<moveSpeed type=\"3\">" +
+                "<moveSpeed type=\"3\" >" +
                     "<_float speed=\"111\" />" +
                 "</moveSpeed>" +
-                "<targetObject type=\"0\" aID=\"0\" wID=\"0\" pID=\"0\" pID2=\"-1\">" +
+                "<targetObject type=\"0\" aID=\"0\" wID=\"0\" pID=\"0\" pID2=\"-1\" >" +
                     "<_string>" +
                         "<childName><![CDATA[]]></childName>" +
                     "</_string>" +
-                    "<objectKey type=\"0\">" +
+                    "<objectKey type=\"0\" >" +
                         "<_string>" +
                             "<value><![CDATA[]]></value>" +
                         "</_string>" +

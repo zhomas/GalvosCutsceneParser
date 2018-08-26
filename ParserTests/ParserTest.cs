@@ -69,15 +69,15 @@ namespace ParserTests
         public void TestValidXMLCanBeConvertedToInvalid()
         {
             string valid = 
-            "<" + Parser.XML_DELIMITER + "10 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+            "<" + Parser.XML_DELIMITER + "10 aID=\"5\" guiBoxID=\"0\" next=\"-1\" >" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" + 
                     "< nodePosition " + Parser.XML_DELIMITER + "a=\"38\" " + Parser.XML_DELIMITER + "b=\"-39\" />" +
-                "</ _floatarrays > " +
+                "</ _floatarrays> " +
             "</" + Parser.XML_DELIMITER + "10>".WhitespaceCleanupXML();
 
             string expected =
-            "<10 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+            "<10 aID=\"5\" guiBoxID=\"0\" next=\"-1\" >" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" +
                     "< nodePosition 38 -39 />" +
@@ -91,7 +91,7 @@ namespace ParserTests
         public void TestInvalidXMLCanBeConvertedToValid()
         {
             string expected =
-            "<" + Parser.XML_DELIMITER + "0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+            "<" + Parser.XML_DELIMITER + "0 aID=\"5\" guiBoxID=\"0\" next=\"-1\" >" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" +
                     "< nodePosition " + Parser.XML_DELIMITER + "a=\"-38\" " + Parser.XML_DELIMITER + "b=\"39\" />" +
@@ -99,11 +99,11 @@ namespace ParserTests
             "</" + Parser.XML_DELIMITER + "0>".WhitespaceCleanupXML();
 
             string actual =
-            "<0 aID=\"5\" guiBoxID=\"0\" next=\"-1\">" +
+            "<0 aID=\"5\" guiBoxID=\"0\" next=\"-1\" >" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_floatarrays>" +
                     "< nodePosition -38 39 />" +
-                "</ _floatarrays > " +
+                "</ _floatarrays> " +
             "</0>".WhitespaceCleanupXML();
 
 
@@ -180,7 +180,7 @@ namespace ParserTests
         public void TestTrimWhiteSpace()
         {
             string expected = "</ _floatarrays>";
-            string actual =  ("</ _floatarrays >").WhitespaceCleanupXML();
+            string actual =  ("</ _floatarrays>").WhitespaceCleanupXML();
 
             Assert.AreEqual(expected, actual);
         }
@@ -261,6 +261,7 @@ namespace ParserTests
             Assert.IsTrue(ones.First().Attribute("next").Value == "2");
             Assert.IsTrue(twos.First().Attribute("next").Value == "-1");
         }
+
 
     }
 }
