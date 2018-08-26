@@ -9,18 +9,21 @@ namespace GalvosCutsceneParser
     public class PoseMasterStep : BaseStep
     {
         public PosemasterPose Pose { get; private set; }
+        public bool RemovePose { get; private set; }
         private CutsceneEntity entity;
 
         public static PoseMasterStep CreateFromInputString(CutsceneEntity entity, string inputString)
         {
             PosemasterPose pose = PoseMasterStep.GetFromString(inputString);
-            return new PoseMasterStep(entity, pose);
+            bool remove = inputString.Contains(" --remove");
+            return new PoseMasterStep(entity, pose, remove);
         }
 
-        public PoseMasterStep(CutsceneEntity entity, PosemasterPose pose)
+        public PoseMasterStep(CutsceneEntity entity, PosemasterPose pose, bool remove)
         {
             this.entity = entity;
             this.Pose = pose;
+            this.RemovePose = remove;
         }
 
         protected override List<XAttribute> GetRootNodeAttributes(int index, bool isFinalStep)
@@ -45,7 +48,7 @@ namespace GalvosCutsceneParser
             return new List<XAttribute>()
             {
                 new XAttribute("indefinite", true.ToString()),
-                new XAttribute("Remove", false.ToString()),
+                new XAttribute("Remove", this.RemovePose.ToString()),
                 new XAttribute("active", true.ToString()),
                 new XAttribute("overrideNodeName", false.ToString())
             };

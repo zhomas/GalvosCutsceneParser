@@ -23,7 +23,7 @@ namespace ParserTests.Chunks
                 "</_string>" +
             "</7>";
 
-            var step = new PoseMasterStep(new CutsceneEntity(0), PoseMasterStep.PosemasterPose.Think);
+            var step = new PoseMasterStep(new CutsceneEntity(0), PoseMasterStep.PosemasterPose.Think, false);
 
             Assert.AreEqual(expected, step.ToXML(7, true).ToString().ConvertValidXMLToORK());
         }
@@ -33,6 +33,24 @@ namespace ParserTests.Chunks
         {
             var step = PoseMasterStep.CreateFromInputString(new CutsceneEntity(0), "Joey celebrate");
             Assert.AreEqual(PoseMasterStep.PosemasterPose.Celebrate, step.Pose);
+        }
+
+        [TestMethod]
+        public void TestPoseCanBeRemoved()
+        {
+            string expected = "<7 aID=\"0\" pose=\"0\" next=\"-1\" >" +
+                "<_float Duration=\"2\" />" +
+                "<_bool indefinite=\"True\" Remove=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
+                "<_string>" +
+                    "<nodeName><![CDATA[]]></nodeName>" +
+                    "<_type><![CDATA[PosemasterStep]]></_type>" +
+                "</_string>" +
+            "</7>".WhitespaceCleanupXML();
+
+            var step = PoseMasterStep.CreateFromInputString(new CutsceneEntity(0), "Joey celebrate --remove");
+
+            Assert.AreEqual(true, step.RemovePose);
+
         }
     }
 }
