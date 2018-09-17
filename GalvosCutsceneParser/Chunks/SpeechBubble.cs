@@ -10,12 +10,14 @@ namespace GalvosCutsceneParser
 {
     public class SpeechBubble : BaseStep
     {
-        private int aID;
+        private CutsceneEntity entity;
         private string message;
 
-        public SpeechBubble(int aID, string message)
+        public SpeechBubble(string inputString, IEntitySupplier supplier)
         {
-            this.aID = aID;
+            string[] chunks = inputString.Split(' ');
+            this.entity = supplier.GetEntityByAlias(chunks[0]);
+            string message = RegexUtilities.PullOutTextInsideQuotes(ref inputString);
             this.message = message;
         }
 
@@ -33,7 +35,7 @@ namespace GalvosCutsceneParser
         {
             return new List<XAttribute>()
             {
-                new XAttribute("aID", this.aID),
+                new XAttribute("aID", this.entity.ID),
                 new XAttribute("guiBoxID", 0),
             }.Concat(base.GetRootNodeAttributes(index, isFinal)).ToList();
         }

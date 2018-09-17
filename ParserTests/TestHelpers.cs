@@ -91,5 +91,10 @@ namespace ParserTests
         {
             return new CutsceneEntity(0);
         }
+
+        public CutsceneEntity GetFirstEntityOnLine(string line)
+        {
+            return new CutsceneEntity(0);
+        }
     }
 }

@@ -12,11 +12,11 @@ namespace GalvosCutsceneParser
         public const string START_STEP = "#steps";
         public const string END_STEP = "#endsteps";
 
-        private IEntitySupplier entitySupplier;
+        private IEntitySupplier supplier;
 
         public StepBuilder(IEntitySupplier entitySupplier)
         {
-            this.entitySupplier = entitySupplier;
+            this.supplier = entitySupplier;
         }
 
         public List<BaseStep> GetStepsFromInput(string input)
@@ -59,7 +59,7 @@ namespace GalvosCutsceneParser
         public CutsceneEntity GetEntityFromInput(string inputLine)
         {
             var chunks = inputLine.Split(' ');
-            return this.entitySupplier.GetEntityByAlias(chunks[0]);
+            return this.supplier.GetEntityByAlias(chunks[0]);
         }
 
         public string GetParameterFromInput(string inputLine)
@@ -93,34 +93,32 @@ namespace GalvosCutsceneParser
 
         public BaseStep BuildStep(string inputLine)
         {
-            CutsceneEntity entity = this.GetEntityFromInput(inputLine);
             StepAction action = this.GetActionFromInput(inputLine);
 
             switch (action)
             {
                 case StepAction.Speech:
-                    string message = RegexUtilities.PullOutTextInsideQuotes(ref inputLine);
-                    return new SpeechBubble(entity.ID, message);
+                    return new SpeechBubble(inputLine, this.supplier);
                 case StepAction.Wait:
                     int time = WaitStep.ParseMillisecondsFromInputLine(inputLine);
                     return new WaitStep(time);
                 case StepAction.Move:
 
-                    BaseMoveStep moveStep = MoveToNextWaypointStep.CreateFromInputString(inputLine, this.entitySupplier);
+                    BaseMoveStep moveStep = MoveToNextWaypointStep.CreateFromInputString(inputLine, this.supplier);
 
                     if (moveStep != null)
                     {
                         return moveStep;
                     }
 
-                    moveStep = MoveAiInDirectionStep.CreateFromInputString(entity, inputLine);
+                    moveStep = MoveAiInDirectionStep.CreateFromInputString(inputLine, this.supplier);
 
                     if (moveStep != null)
                     {
                         return moveStep;
                     }
 
-                    moveStep = MoveToPositionStep.CreateFromInputString(inputLine, this.entitySupplier);
+                    moveStep = MoveToPositionStep.CreateFromInputString(inputLine, this.supplier);
 
                     if (moveStep != null)
                     {
@@ -129,13 +127,13 @@ namespace GalvosCutsceneParser
 
                     throw new MisformedStepException(inputLine);
                 case StepAction.Camera:
-                    return SetCameraTargetStep.GetFromInputString(entity, inputLine);
+                    return SetCameraTargetStep.GetFromInputString(inputLine, this.supplier);
                 case StepAction.Turn:
-                    return TurnVectorStep.CreateFromInputString(entity, inputLine);
+                    return TurnVectorStep.CreateFromInputString(inputLine, this.supplier);
                 case StepAction.Pose:
-                    return PoseMasterStep.CreateFromInputString(entity, inputLine);
+                    return PoseMasterStep.CreateFromInputString(inputLine, this.supplier);
                 case StepAction.OpenDoor:
-                    return MoveThroughDoorStep.CreateFromInputString(inputLine, this.entitySupplier);
+                    return MoveThroughDoorStep.CreateFromInputString(inputLine, this.supplier);
             }
 
             throw new MisformedStepException(inputLine);

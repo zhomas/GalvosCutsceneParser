@@ -31,7 +31,7 @@ namespace ParserTests.Chunks
         [TestMethod]
         public void TestCreatedFromInputString()
         {
-            var step = PoseMasterStep.CreateFromInputString(new CutsceneEntity(0), "Joey celebrate");
+            var step = PoseMasterStep.CreateFromInputString("Joey celebrate", new MockEntitySupplier());
             Assert.AreEqual(PoseMasterStep.PosemasterPose.Celebrate, step.Pose);
         }
 
@@ -47,7 +47,7 @@ namespace ParserTests.Chunks
                 "</_string>" +
             "</7>".WhitespaceCleanupXML();
 
-            var step = PoseMasterStep.CreateFromInputString(new CutsceneEntity(0), "Joey celebrate --remove");
+            var step = PoseMasterStep.CreateFromInputString("Joey celebrate --remove", new MockEntitySupplier());
 
             Assert.AreEqual(true, step.RemovePose);
 

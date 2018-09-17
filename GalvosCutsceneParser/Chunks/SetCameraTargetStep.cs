@@ -13,10 +13,11 @@ namespace GalvosCutsceneParser
         public Vector3 CamRotation { get; private set; }
         public float Distance { get; private set; }
 
-        public static SetCameraTargetStep GetFromInputString(CutsceneEntity target, string inputLine)
+        public static SetCameraTargetStep GetFromInputString(string inputLine, IEntitySupplier supplier)
         {
             Vector3 rotation = RegexUtilities.GetVector3FromString(inputLine);
             float distance = SniffCameraDistanceFromInputString(inputLine);
+            CutsceneEntity target = supplier.GetFirstEntityOnLine(inputLine);
             return new SetCameraTargetStep(target, rotation, distance);
         }
 

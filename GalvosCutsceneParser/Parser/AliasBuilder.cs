@@ -71,7 +71,25 @@ namespace GalvosCutsceneParser
 
         public CutsceneEntity GetEntityByAlias(string alias)
         {
-            return this.Entities.Where(e => e.Alias == alias).FirstOrDefault();
+            if (this.Entities.Any(e => e.Alias == alias))
+            {
+                return this.Entities.Where(e => e.Alias == alias).FirstOrDefault();
+            }
+
+            throw new Exception("Could not create entity with name :: " + alias);
+        }
+
+        public CutsceneEntity GetFirstEntityOnLine(string line)
+        {
+            var chunks = line.Split(' ');
+
+            if (chunks.Count() > 0)
+            {
+                return this.GetEntityByAlias(chunks[0]);
+            }
+
+
+            throw new NotImplementedException();
         }
     }
 

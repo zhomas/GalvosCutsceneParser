@@ -9,5 +9,6 @@ namespace GalvosCutsceneParser
     {
         List<CutsceneEntity> Entities { get; }
         CutsceneEntity GetEntityByAlias(string alias);
+        CutsceneEntity GetFirstEntityOnLine(string line);
     }
 }

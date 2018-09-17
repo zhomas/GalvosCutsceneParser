@@ -12,10 +12,11 @@ namespace GalvosCutsceneParser
         public bool RemovePose { get; private set; }
         private CutsceneEntity entity;
 
-        public static PoseMasterStep CreateFromInputString(CutsceneEntity entity, string inputString)
+        public static PoseMasterStep CreateFromInputString(string inputString, IEntitySupplier supplier)
         {
             PosemasterPose pose = PoseMasterStep.GetFromString(inputString);
             bool remove = inputString.Contains(" --remove");
+            var entity = supplier.GetFirstEntityOnLine(inputString);
             return new PoseMasterStep(entity, pose, remove);
         }
 

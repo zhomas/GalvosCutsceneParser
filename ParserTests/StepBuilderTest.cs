@@ -49,7 +49,7 @@ namespace ParserTests
         public void TestWaitStepCreated()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
-            BaseStep step = builder.BuildStep("wait 1000");
+            BaseStep step = builder.BuildStep("wait 4000");
             Assert.AreEqual(typeof(WaitStep), step.GetType());
         }
 
@@ -129,7 +129,7 @@ namespace ParserTests
         public void TestWalkThroughDoorStepCreated()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
-            BaseStep step = builder.BuildStep("Joey enter Door");
+            BaseStep step = builder.BuildStep("Joey enter Door --asap");
             Assert.AreEqual(typeof(MoveThroughDoorStep), step.GetType());
         }
 

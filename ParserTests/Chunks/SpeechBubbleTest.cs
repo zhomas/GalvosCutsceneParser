@@ -11,7 +11,7 @@ namespace ParserTests
         [TestMethod]
         public void TestSpeechBubbleProducesValidOutputFull()
         {
-            var sb = new SpeechBubble(0, "Hello!");
+            var sb = new SpeechBubble("Joey say \"Hello!\"", new MockEntitySupplier());
             string actual = sb.ToXML(5, true).ToString().WhitespaceCleanupXML();
 
             Assert.AreEqual(("<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\">" +
@@ -31,7 +31,7 @@ namespace ParserTests
         [TestMethod]
         public void TestSpeechBubbleRespectsNextIndex()
         {
-            var sb = new SpeechBubble(0, "Hello!");
+            var sb = new SpeechBubble("Joey say \"Hello!\"", new MockEntitySupplier());
             string actual = sb.ToXML(5, true).ToString().WhitespaceCleanupXML();
 
             Assert.AreEqual(("<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\">" +
@@ -51,7 +51,7 @@ namespace ParserTests
         [TestMethod]
         public void TestSpeechBubbleMessage()
         {
-            var sb = new SpeechBubble(0, "Suck My Balls!");
+            var sb = new SpeechBubble("Joey say \"Suck My Balls!\"", new MockEntitySupplier());
             string expected = "<5 aID=\"0\" guiBoxID=\"0\" next=\"-1\">" +
                 "<_bool cameraTarget=\"False\" active=\"True\" overrideNodeName=\"False\" />" +
                 "<_string>" +

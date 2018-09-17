@@ -101,7 +101,7 @@ namespace ParserTests
         [TestMethod]
         public void TestCreationFromInputStringDistance()
         {
-            var step = SetCameraTargetStep.GetFromInputString(new CutsceneEntity(0), "Joey camtarget --distance=800");
+            var step = SetCameraTargetStep.GetFromInputString("Joey camtarget --distance=800", new MockEntitySupplier());
             Assert.AreEqual(800f, step.Distance);
         }
 

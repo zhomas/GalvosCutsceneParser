@@ -18,13 +18,14 @@ namespace GalvosCutsceneParser
             this.SpeedType = speedType;
         }
 
-        public static MoveAiInDirectionStep CreateFromInputString(CutsceneEntity entity, string inputLine)
+        public static MoveAiInDirectionStep CreateFromInputString(string inputLine, IEntitySupplier supplier)
         {
             Vector3 dir = GetDirectionFromInputString(inputLine);
 
             if (dir != Vector3.zero)
             {
                 string[] chunks = inputLine.Split(' ');
+                CutsceneEntity entity = supplier.GetEntityByAlias(chunks[0]);
                 MoveSpeedType moveSpeed = SpeedTypeFromString(chunks[1]);
                 return new MoveAiInDirectionStep(entity, dir, moveSpeed);
             }

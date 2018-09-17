@@ -16,10 +16,14 @@ namespace GalvosCutsceneParser
         {
             string[] chunks = inputString.Split(' ');
 
-            var user = supplier.GetEntityByAlias(chunks.First());
-            var door = supplier.GetEntityByAlias(chunks.Last());
+            if (chunks.Count() >= 3)
+            {
+                var user = supplier.GetEntityByAlias(chunks[0]);
+                var door = supplier.GetEntityByAlias(chunks[2]);
+                return new MoveThroughDoorStep(user, door, new StepFlags(inputString));
+            }
 
-            return new MoveThroughDoorStep(user, door, new StepFlags(inputString));
+            return null;
         }
 
         public MoveThroughDoorStep(CutsceneEntity user, CutsceneEntity door, StepFlags flags)

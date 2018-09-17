@@ -18,8 +18,8 @@ namespace ParserTests
             var parser = new Parser();
             List<BaseStep> steps = new List<BaseStep>()
             {
-                new SpeechBubble(0, "Hi"),
-                new SpeechBubble(1, "Wooo")
+                new SpeechBubble("Joey say \"Hi\"", new MockEntitySupplier()),
+                new SpeechBubble("Lucy say \"Wooo\"", new MockEntitySupplier()),
             };
 
             string xml =

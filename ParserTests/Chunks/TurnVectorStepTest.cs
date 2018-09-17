@@ -40,12 +40,12 @@ namespace ParserTests
             string east = "Joey turn east";
             string west = "Joey turn west";
 
-            CutsceneEntity entity = new CutsceneEntity(0);
+            var supplier = new MockEntitySupplier();
 
-            Assert.AreEqual(TurnVectorStep.Direction.North, TurnVectorStep.CreateFromInputString(entity, north).LookDirection);
-            Assert.AreEqual(TurnVectorStep.Direction.South, TurnVectorStep.CreateFromInputString(entity, south).LookDirection);
-            Assert.AreEqual(TurnVectorStep.Direction.East, TurnVectorStep.CreateFromInputString(entity, east).LookDirection);
-            Assert.AreEqual(TurnVectorStep.Direction.West, TurnVectorStep.CreateFromInputString(entity, west).LookDirection);
+            Assert.AreEqual(TurnVectorStep.Direction.North, TurnVectorStep.CreateFromInputString(north, supplier).LookDirection);
+            Assert.AreEqual(TurnVectorStep.Direction.South, TurnVectorStep.CreateFromInputString(south, supplier).LookDirection);
+            Assert.AreEqual(TurnVectorStep.Direction.East, TurnVectorStep.CreateFromInputString(east, supplier).LookDirection);
+            Assert.AreEqual(TurnVectorStep.Direction.West, TurnVectorStep.CreateFromInputString(west, supplier).LookDirection);
         }
     }
 }

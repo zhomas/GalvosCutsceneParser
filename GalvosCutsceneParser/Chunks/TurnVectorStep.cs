@@ -17,9 +17,10 @@ namespace GalvosCutsceneParser
         private CutsceneEntity entity;
         private Direction dir;
 
-        public static TurnVectorStep CreateFromInputString(CutsceneEntity entity, string inputString)
+        public static TurnVectorStep CreateFromInputString(string inputString, IEntitySupplier supplier)
         {
             string[] chunks = inputString.Split(' ');
+            var entity = supplier.GetFirstEntityOnLine(inputString);
 
             if (chunks.Last().ToLower().Contains("north"))
                 return new TurnVectorStep(entity, Direction.North);
