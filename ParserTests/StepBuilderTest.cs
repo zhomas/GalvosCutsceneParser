@@ -118,6 +118,22 @@ namespace ParserTests
         }
 
         [TestMethod]
+        public void TestMoveToNextWaypointStepCreated()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            BaseStep step = builder.BuildStep("Joey => nextWP");
+            Assert.AreEqual(typeof(MoveToNextWaypointStep), step.GetType());
+        }
+
+        [TestMethod]
+        public void TestWalkThroughDoorStepCreated()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            BaseStep step = builder.BuildStep("Joey enter Door");
+            Assert.AreEqual(typeof(MoveThroughDoorStep), step.GetType());
+        }
+
+        [TestMethod]
         public void TestEntityIsParsedFromString()
         {
             var builder = new StepBuilder(new MockEntitySupplier());

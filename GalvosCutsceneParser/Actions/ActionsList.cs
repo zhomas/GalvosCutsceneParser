@@ -13,6 +13,7 @@ namespace GalvosCutsceneParser
         Camera,
         Turn,
         Pose,
+        OpenDoor,
         Undefined
     }
 }

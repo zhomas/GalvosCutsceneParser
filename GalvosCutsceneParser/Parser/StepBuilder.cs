@@ -78,8 +78,7 @@ namespace GalvosCutsceneParser
             if (chunks[1] =="camtarget") return StepAction.Camera;
             if (chunks[1] == "turn") return StepAction.Turn;
             if (chunks[1] == "look") return StepAction.Turn;
-
-
+            if (chunks[1] == "enter") return StepAction.OpenDoor;
 
             foreach (var item in Enum.GetValues(typeof(PoseMasterStep.PosemasterPose)))
             {
@@ -107,7 +106,14 @@ namespace GalvosCutsceneParser
                     return new WaitStep(time);
                 case StepAction.Move:
 
-                    BaseMoveStep moveStep = MoveAiInDirectionStep.CreateFromInputString(entity, inputLine);
+                    BaseMoveStep moveStep = MoveToNextWaypointStep.CreateFromInputString(inputLine, this.entitySupplier);
+
+                    if (moveStep != null)
+                    {
+                        return moveStep;
+                    }
+
+                    moveStep = MoveAiInDirectionStep.CreateFromInputString(entity, inputLine);
 
                     if (moveStep != null)
                     {
@@ -128,6 +134,8 @@ namespace GalvosCutsceneParser
                     return TurnVectorStep.CreateFromInputString(entity, inputLine);
                 case StepAction.Pose:
                     return PoseMasterStep.CreateFromInputString(entity, inputLine);
+                case StepAction.OpenDoor:
+                    return MoveThroughDoorStep.CreateFromInputString(inputLine, this.entitySupplier);
             }
 
             throw new MisformedStepException(inputLine);

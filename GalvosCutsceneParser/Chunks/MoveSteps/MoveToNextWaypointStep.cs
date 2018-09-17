@@ -10,13 +10,18 @@ namespace GalvosCutsceneParser
     {
         public static MoveToNextWaypointStep CreateFromInputString(string inputLine, IEntitySupplier supplier)
         {
-            string[] chunks = inputLine.Split(' ');
+            if (inputLine.Contains("nextWP"))
+            {
+                string[] chunks = inputLine.Split(' ');
 
-            var mover = supplier.GetEntityByAlias(chunks.First());
-            var speedType = SpeedTypeFromString(chunks[1]);
-            var flags = new StepFlags(inputLine);
+                var mover = supplier.GetEntityByAlias(chunks.First());
+                var speedType = SpeedTypeFromString(chunks[1]);
+                var flags = new StepFlags(inputLine);
 
-            return new MoveToNextWaypointStep(mover, speedType, flags);
+                return new MoveToNextWaypointStep(mover, speedType, flags);
+            }
+
+            return null;
         }
 
         public MoveToNextWaypointStep(CutsceneEntity mover, MoveSpeedType speedType, StepFlags flags)
@@ -31,7 +36,7 @@ namespace GalvosCutsceneParser
             return new List<XAttribute>()
             {
                 new XAttribute("WaitForMovementComplete", (!this.flags.Contains("nowait")).ToString()),
-                new XAttribute("MakeCameraTarget", false.ToString()),
+                new XAttribute("MakeCameraTarget", this.flags.Contains("camtarget").ToString()),
                 new XAttribute("Instant", false.ToString()),
                 new XAttribute("active", true.ToString()),
                 new XAttribute("overrideNodeName", false.ToString())

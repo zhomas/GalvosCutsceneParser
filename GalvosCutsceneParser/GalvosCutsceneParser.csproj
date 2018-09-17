@@ -46,6 +46,7 @@
     <Compile Include="Chunks\BaseStep.cs" />
     <Compile Include="Chunks\MoveSteps\MoveAiInDirectionStep.cs" />
     <Compile Include="Chunks\MoveSteps\BaseMoveStep.cs" />
+    <Compile Include="Chunks\MoveSteps\MoveThroughDoorStep.cs" />
     <Compile Include="Chunks\MoveSteps\MoveToNextWaypointStep.cs" />
     <Compile Include="Chunks\MoveSteps\MoveToPositionStep.cs" />
     <Compile Include="Chunks\PoseStep.cs" />
