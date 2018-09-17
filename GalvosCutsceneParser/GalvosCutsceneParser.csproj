@@ -50,9 +50,10 @@
     <Compile Include="Chunks\MoveSteps\MoveToNextWaypointStep.cs" />
     <Compile Include="Chunks\MoveSteps\MoveToPositionStep.cs" />
     <Compile Include="Chunks\PoseStep.cs" />
+    <Compile Include="Chunks\RotateSteps\TurnToFaceStep.cs" />
     <Compile Include="Chunks\SetCameraTargetStep.cs" />
     <Compile Include="Chunks\SpeechBubble.cs" />
-    <Compile Include="Chunks\TurnVectorStep.cs" />
+    <Compile Include="Chunks\RotateSteps\TurnVectorStep.cs" />
     <Compile Include="Chunks\WaitStep.cs" />
     <Compile Include="Entities\IEntitySupplier.cs" />
     <Compile Include="Parser.cs" />

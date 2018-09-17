@@ -76,6 +76,7 @@ namespace GalvosCutsceneParser
             if (chunks[1] == "say") return StepAction.Speech;
             if (chunks[1].Contains("=>")) return StepAction.Move;
             if (chunks[1] =="camtarget") return StepAction.Camera;
+            if (chunks[1] == "turnto") return StepAction.TurnTo;
             if (chunks[1] == "turn") return StepAction.Turn;
             if (chunks[1] == "look") return StepAction.Turn;
             if (chunks[1] == "enter") return StepAction.OpenDoor;
@@ -130,6 +131,8 @@ namespace GalvosCutsceneParser
                     return SetCameraTargetStep.GetFromInputString(inputLine, this.supplier);
                 case StepAction.Turn:
                     return TurnVectorStep.CreateFromInputString(inputLine, this.supplier);
+                case StepAction.TurnTo:
+                    return TurnToFaceStep.CreateFromInputString(inputLine, this.supplier);
                 case StepAction.Pose:
                     return PoseMasterStep.CreateFromInputString(inputLine, this.supplier);
                 case StepAction.OpenDoor:
