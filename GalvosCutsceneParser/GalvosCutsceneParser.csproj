@@ -46,6 +46,7 @@
     <Compile Include="Chunks\BaseStep.cs" />
     <Compile Include="Chunks\MoveSteps\MoveAiInDirectionStep.cs" />
     <Compile Include="Chunks\MoveSteps\BaseMoveStep.cs" />
+    <Compile Include="Chunks\MoveSteps\MoveToNextWaypointStep.cs" />
     <Compile Include="Chunks\MoveSteps\MoveToPositionStep.cs" />
     <Compile Include="Chunks\PoseStep.cs" />
     <Compile Include="Chunks\SetCameraTargetStep.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Parser.cs" />
     <Compile Include="Entities\CutsceneEntity.cs" />
     <Compile Include="Parser\AliasBuilder.cs" />
+    <Compile Include="Parser\StepFlags.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="Parser\StepBuilder.cs" />

@@ -8,6 +8,8 @@ namespace GalvosCutsceneParser
 {
     public abstract class BaseStep
     {
+        protected StepFlags flags;
+
         protected virtual List<XAttribute> GetRootNodeAttributes(int index, bool isFinalStep)
         {
             return new List<XAttribute>()
