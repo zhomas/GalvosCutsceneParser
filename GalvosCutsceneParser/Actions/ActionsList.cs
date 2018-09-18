@@ -15,6 +15,7 @@ namespace GalvosCutsceneParser
         TurnTo,
         Pose,
         OpenDoor,
+        NextCam,
         Undefined
     }
 }

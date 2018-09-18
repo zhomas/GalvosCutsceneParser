@@ -85,16 +85,28 @@ namespace ParserTests
 
     public class MockEntitySupplier : IEntitySupplier
     {
+        private int mockID;
+
         public List<CutsceneEntity> Entities => throw new NotImplementedException();
+
+        public MockEntitySupplier()
+        {
+            this.mockID = 0;
+        }
+
+        public MockEntitySupplier(int mockID)
+        {
+            this.mockID = mockID;
+        }
 
         public CutsceneEntity GetEntityByAlias(string alias)
         {
-            return new CutsceneEntity(0);
+            return new CutsceneEntity(this.mockID);
         }
 
         public CutsceneEntity GetFirstEntityOnLine(string line)
         {
-            return new CutsceneEntity(0);
+            return new CutsceneEntity(this.mockID);
         }
     }
 }

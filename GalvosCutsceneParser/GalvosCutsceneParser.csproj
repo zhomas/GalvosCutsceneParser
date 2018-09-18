@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="Actions\ActionsList.cs" />
     <Compile Include="Chunks\BaseStep.cs" />
+    <Compile Include="Chunks\FunctionSteps\BaseFunctionStep.cs" />
+    <Compile Include="Chunks\FunctionSteps\NextCameraStep.cs" />
     <Compile Include="Chunks\MoveSteps\MoveAiInDirectionStep.cs" />
     <Compile Include="Chunks\MoveSteps\BaseMoveStep.cs" />
     <Compile Include="Chunks\MoveSteps\MoveThroughDoorStep.cs" />

@@ -62,6 +62,7 @@
     <Compile Include="Chunks\MoveToPositionTest.cs" />
     <Compile Include="Chunks\MoveThroughDoorTest.cs" />
     <Compile Include="Chunks\TurnToFaceTest.cs" />
+    <Compile Include="Chunks\FunctionStepsTest.cs" />
     <Compile Include="Chunks\WaitStepTest.cs" />
     <Compile Include="Parser\AliasBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

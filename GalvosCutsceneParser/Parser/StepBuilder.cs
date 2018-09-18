@@ -89,6 +89,8 @@ namespace GalvosCutsceneParser
                 }
             }
 
+            if (chunks[1] == "nextcam") return StepAction.NextCam;
+
             return StepAction.Undefined;
         }
 
@@ -137,6 +139,8 @@ namespace GalvosCutsceneParser
                     return PoseMasterStep.CreateFromInputString(inputLine, this.supplier);
                 case StepAction.OpenDoor:
                     return MoveThroughDoorStep.CreateFromInputString(inputLine, this.supplier);
+                case StepAction.NextCam:
+                    return NextCameraStep.CreateFromInputString(inputLine, this.supplier);
             }
 
             throw new MisformedStepException(inputLine);
