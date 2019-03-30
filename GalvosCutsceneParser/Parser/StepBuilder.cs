@@ -13,7 +13,7 @@ namespace GalvosCutsceneParser
         public const string END_STEP = "#endsteps";
 
         private IEntitySupplier entitySupplier;
-
+        
         public StepBuilder(IEntitySupplier entitySupplier)
         {
             this.entitySupplier = entitySupplier;
@@ -58,7 +58,7 @@ namespace GalvosCutsceneParser
 
         public CutsceneEntity GetEntityFromInput(string inputLine)
         {
-            var chunks = inputLine.Split(' ');
+            var chunks = inputLine.Trim().Split(' ');
             return this.entitySupplier.GetEntityByAlias(chunks[0]);
         }
 
@@ -70,7 +70,7 @@ namespace GalvosCutsceneParser
 
         public StepAction GetActionFromInput(string inputLine)
         {
-            var chunks = inputLine.Split(' ');
+            var chunks = inputLine.Trim().Split(' ');
 
             if (chunks[0] == "wait") return StepAction.Wait;
             if (chunks[1] == "say") return StepAction.Speech;
@@ -107,7 +107,10 @@ namespace GalvosCutsceneParser
                     return new WaitStep(time);
                 case StepAction.Move:
 
-                    BaseMoveStep moveStep = MoveAiInDirectionStep.CreateFromInputString(entity, inputLine);
+                    BaseMoveStep moveStep = MoveAiInDirectionStep.CreateFromInputString(
+                        entity, 
+                        inputLine
+                    );
 
                     if (moveStep != null)
                     {

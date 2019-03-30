@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using UnityEngine;
 
 namespace GalvosCutsceneParser
 {
     public abstract class BaseStep
     {
+        public virtual GameObject Target
+        {
+            get { return null; }
+        }
+
+
         protected virtual List<XAttribute> GetRootNodeAttributes(int index, bool isFinalStep)
         {
             return new List<XAttribute>()

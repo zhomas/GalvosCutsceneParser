@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace GalvosCutsceneParser
 {
@@ -10,11 +11,13 @@ namespace GalvosCutsceneParser
     {
         public const string START_ALIAS = "#alias";
         public const string END_ALIAS = "#endalias";
-
         public List<CutsceneEntity> Entities { get; private set; }
 
-        public AliasBuilder(string gplText)
+        private Func<int, GameObject> goGetter;
+
+        public AliasBuilder(string gplText, Func<int, GameObject> goGetter)
         {
+            this.goGetter = goGetter;
             List<CutsceneEntity> list = new List<CutsceneEntity>();
 
             string aliasText = string.Empty;
@@ -37,7 +40,7 @@ namespace GalvosCutsceneParser
                     line = reader.ReadLine();
                     if (line != null)
                     {
-                        CutsceneEntity entity = BuildEntity(line);
+                        CutsceneEntity entity = BuildEntity(line, this.goGetter);
                         list.Add(entity);
                     }
                 }
@@ -52,7 +55,7 @@ namespace GalvosCutsceneParser
             this.Entities = list;
         }
 
-        public static CutsceneEntity BuildEntity(string inputLine)
+        public static CutsceneEntity BuildEntity(string inputLine, Func<int, GameObject> goGetter)
         {
             try
             {
@@ -61,7 +64,7 @@ namespace GalvosCutsceneParser
                 string lhs = inputLine.Substring(0, equalsPos).Trim();
                 string rhs = inputLine.Substring(equalsPos + 1).Trim();
 
-                return new CutsceneEntity(lhs, Convert.ToInt16(rhs));
+                return new CutsceneEntity(lhs, Convert.ToInt16(rhs), goGetter);
             }
             catch (Exception e)
             {
