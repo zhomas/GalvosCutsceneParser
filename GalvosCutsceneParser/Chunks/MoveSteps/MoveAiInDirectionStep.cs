@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalvosCutsceneParser.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,14 +12,14 @@ namespace GalvosCutsceneParser
     {
         private Vector3 direction;
 
-        public MoveAiInDirectionStep(CutsceneEntity entity, Vector3 direction, MoveSpeedType speedType)
+        public MoveAiInDirectionStep(IEntity entity, Vector3 direction, MoveSpeedType speedType) : base()
         {
             this.entity = entity;
             this.direction = direction;
             this.SpeedType = speedType;
         }
 
-        public static MoveAiInDirectionStep CreateFromInputString(CutsceneEntity entity, string inputLine)
+        public static MoveAiInDirectionStep CreateFromInputString(IEntity entity, string inputLine)
         {
             Vector3 dir = GetDirectionFromInputString(inputLine);
 

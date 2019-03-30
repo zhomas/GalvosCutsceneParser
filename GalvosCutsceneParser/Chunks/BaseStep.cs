@@ -4,16 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using UnityEngine;
+using GalvosCutsceneParser.Entities;
 
 namespace GalvosCutsceneParser
 {
     public abstract class BaseStep
     {
-        public virtual GameObject Target
+        protected IEntity entity;
+
+        protected BaseStep()
         {
-            get { return null; }
+            this.entity = new NullEntity();
         }
 
+        public GameObject Target
+        {
+            get { return this.entity.Target; }
+        }
 
         protected virtual List<XAttribute> GetRootNodeAttributes(int index, bool isFinalStep)
         {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace GalvosCutsceneParser
+namespace GalvosCutsceneParser.Entities
 {
-    public class CutsceneEntity
+    public class CutsceneEntity : IEntity
     {
         public string Alias { get; private set; }
         public int ID { get; private set; }
@@ -30,6 +30,7 @@ namespace GalvosCutsceneParser
         {
             get
             {
+                Debug.Log("Fetching the ID :: " + ID);
                 return this.goGetter(this.ID);
             }
         }

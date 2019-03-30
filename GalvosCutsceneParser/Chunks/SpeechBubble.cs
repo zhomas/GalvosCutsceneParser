@@ -13,7 +13,7 @@ namespace GalvosCutsceneParser
         private int aID;
         private string message;
 
-        public SpeechBubble(int aID, string message)
+        public SpeechBubble(int aID, string message) : base()
         {
             this.aID = aID;
             this.message = message;

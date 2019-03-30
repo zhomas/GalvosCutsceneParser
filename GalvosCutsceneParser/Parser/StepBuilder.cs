@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalvosCutsceneParser.Entities;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -56,7 +57,7 @@ namespace GalvosCutsceneParser
             return list;
         }
 
-        public CutsceneEntity GetEntityFromInput(string inputLine)
+        public IEntity GetEntityFromInput(string inputLine)
         {
             var chunks = inputLine.Trim().Split(' ');
             return this.entitySupplier.GetEntityByAlias(chunks[0]);
@@ -94,7 +95,7 @@ namespace GalvosCutsceneParser
 
         public BaseStep BuildStep(string inputLine)
         {
-            CutsceneEntity entity = this.GetEntityFromInput(inputLine);
+            IEntity entity = this.GetEntityFromInput(inputLine);
             StepAction action = this.GetActionFromInput(inputLine);
 
             switch (action)

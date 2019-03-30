@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalvosCutsceneParser.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace GalvosCutsceneParser
 {
     public class MoveToPositionStep : BaseMoveStep
     {
-        private CutsceneEntity targetObject;
+        private IEntity targetObject;
 
         public static MoveToPositionStep CreateFromInputString(string inputLine, IEntitySupplier supplier)
         {
@@ -21,7 +22,7 @@ namespace GalvosCutsceneParser
             return new MoveToPositionStep(mover, target, speedType);
         }
 
-        public MoveToPositionStep(CutsceneEntity mover, CutsceneEntity target, MoveSpeedType speedType)
+        public MoveToPositionStep(IEntity mover, IEntity target, MoveSpeedType speedType) : base()
         {
             this.entity = mover;
             this.targetObject = target;

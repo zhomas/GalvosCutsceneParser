@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using GalvosCutsceneParser.Entities;
 
 namespace GalvosCutsceneParser
 {
@@ -10,16 +11,16 @@ namespace GalvosCutsceneParser
     {
         public PosemasterPose Pose { get; private set; }
         public bool RemovePose { get; private set; }
-        private CutsceneEntity entity;
+        
 
-        public static PoseMasterStep CreateFromInputString(CutsceneEntity entity, string inputString)
+        public static PoseMasterStep CreateFromInputString(IEntity entity, string inputString)
         {
             PosemasterPose pose = PoseMasterStep.GetFromString(inputString);
             bool remove = inputString.Contains(" --remove");
             return new PoseMasterStep(entity, pose, remove);
         }
 
-        public PoseMasterStep(CutsceneEntity entity, PosemasterPose pose, bool remove)
+        public PoseMasterStep(IEntity entity, PosemasterPose pose, bool remove) : base()
         {
             this.entity = entity;
             this.Pose = pose;

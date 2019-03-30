@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalvosCutsceneParser.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +14,10 @@ namespace GalvosCutsceneParser
         {
             North = 0, South = 1, East = 2, West = 3
         }
-
-        private CutsceneEntity entity;
+        
         private Direction dir;
 
-        public static TurnVectorStep CreateFromInputString(CutsceneEntity entity, string inputString)
+        public static TurnVectorStep CreateFromInputString(IEntity entity, string inputString)
         {
             string[] chunks = inputString.Split(' ');
 
@@ -38,7 +38,7 @@ namespace GalvosCutsceneParser
             get { return dir; }
         }
 
-        public TurnVectorStep(CutsceneEntity entity, Direction dir)
+        public TurnVectorStep(IEntity entity, Direction dir) : base()
         {
             this.dir = dir;
             this.entity = entity;

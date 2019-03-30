@@ -2,10 +2,6 @@ C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\bin\Debug\Gal
 C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\bin\Debug\GalvosCutsceneParser.pdb
 C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\bin\Debug\UnityEngine.dll
 C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\bin\Debug\UnityEngine.xml
-C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\obj\Debug\GalvosCutsceneParser.csproj.CoreCompileInputs.cache
-C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\obj\Debug\GalvosCutsceneParser.dll
-C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\obj\Debug\GalvosCutsceneParser.pdb
-C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\obj\Debug\GalvosCutsceneParser.csprojResolveAssemblyReference.cache
 C:\Users\thoma\GalvosCutsceneParser\GalvosCutsceneParser\bin\Debug\GalvosCutsceneParser.dll
 C:\Users\thoma\GalvosCutsceneParser\GalvosCutsceneParser\bin\Debug\GalvosCutsceneParser.pdb
 C:\Users\thoma\GalvosCutsceneParser\GalvosCutsceneParser\bin\Debug\UnityEngine.dll
@@ -17,3 +13,11 @@ C:\Users\thoma\GalvosCutsceneParser\GalvosCutsceneParser\obj\Debug\GalvosCutscen
 C:\Users\thoma\GalvosPrototype\Assets\ORK Framework\DLL\GalvosCutsceneParser.dll
 C:\Users\thoma\GalvosPrototype\Assets\ORK Framework\DLL\GalvosCutsceneParser.pdb
 C:\Users\thoma\GalvosCutsceneParser\GalvosCutsceneParser\obj\Debug\GalvosCutsceneParser.csprojAssemblyReference.cache
+C:\Users\thoma\Documents\GalvosPrototype\Assets\ORK Framework\DLL\GalvosCutsceneParser.dll
+C:\Users\thoma\Documents\GalvosPrototype\Assets\ORK Framework\DLL\GalvosCutsceneParser.pdb
+C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\obj\Debug\GalvosCutsceneParser.csproj.CoreCompileInputs.cache
+C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\obj\Debug\GalvosCutsceneParser.dll
+C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\obj\Debug\GalvosCutsceneParser.pdb
+C:\Unity\GalvosPrototype\Assets\ORK Framework\DLL\GalvosCutsceneParser.dll
+C:\Unity\GalvosPrototype\Assets\ORK Framework\DLL\GalvosCutsceneParser.pdb
+C:\Users\thoma\Documents\GalvosCutsceneParser\GalvosCutsceneParser\obj\Debug\GalvosCutsceneParser.csprojResolveAssemblyReference.cache

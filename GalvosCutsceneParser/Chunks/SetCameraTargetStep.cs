@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalvosCutsceneParser.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -9,20 +10,19 @@ namespace GalvosCutsceneParser
 {
     public class SetCameraTargetStep : BaseStep
     {
-        public CutsceneEntity Target { get; private set; }
         public Vector3 CamRotation { get; private set; }
         public float Distance { get; private set; }
 
-        public static SetCameraTargetStep GetFromInputString(CutsceneEntity target, string inputLine)
+        public static SetCameraTargetStep GetFromInputString(IEntity target, string inputLine)
         {
             Vector3 rotation = RegexUtilities.GetVector3FromString(inputLine);
             float distance = SniffCameraDistanceFromInputString(inputLine);
             return new SetCameraTargetStep(target, rotation, distance);
         }
 
-        public SetCameraTargetStep(CutsceneEntity target, Vector3 rotation, float distance)
+        public SetCameraTargetStep(IEntity target, Vector3 rotation, float distance) : base()
         {
-            this.Target = target;
+            this.entity = target;
             this.CamRotation = rotation;
             this.Distance = distance;
         }
@@ -64,7 +64,7 @@ namespace GalvosCutsceneParser
             {
                 new XElement("onObject",
                         new XAttribute("type", 0),
-                        new XAttribute("aID", this.Target.ID),
+                        new XAttribute("aID", this.entity.ID),
                         new XAttribute("wID", 0),
                         new XAttribute("pID", 0),
                         new XAttribute("pID2", -1),

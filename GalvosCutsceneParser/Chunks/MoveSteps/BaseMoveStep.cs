@@ -9,13 +9,7 @@ namespace GalvosCutsceneParser
 {
     public abstract class BaseMoveStep : BaseStep
     {
-        public GameObject Target
-        {
-            get { return this.entity.Target; }
-        }
-
         public MoveSpeedType SpeedType { get; protected set; }
-        protected CutsceneEntity entity;
 
         protected XElement GetMovingObjectDefinition (int aID)
         {
