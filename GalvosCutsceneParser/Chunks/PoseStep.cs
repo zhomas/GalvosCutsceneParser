@@ -27,44 +27,6 @@ namespace GalvosCutsceneParser
             this.RemovePose = remove;
         }
 
-        protected override List<XAttribute> GetRootNodeAttributes(int index, bool isFinalStep)
-        {
-            return new List<XAttribute>()
-            {
-                new XAttribute("aID", this.entity.ID),
-                new XAttribute("pose", (int)this.Pose)
-            }.Concat(base.GetRootNodeAttributes(index, isFinalStep)).ToList();
-        }
-
-        protected override List<XAttribute> GetFloatAttributes()
-        {
-            return new List<XAttribute>()
-            {
-                new XAttribute("Duration", 2f)
-            };
-        }
-
-        protected override List<XAttribute> GetBooleanAttributes()
-        {
-            return new List<XAttribute>()
-            {
-                new XAttribute("indefinite", true.ToString()),
-                new XAttribute("Remove", this.RemovePose.ToString()),
-                new XAttribute("active", true.ToString()),
-                new XAttribute("overrideNodeName", false.ToString())
-            };
-        }
-
-        protected override string GetNodeType()
-        {
-            return "PosemasterStep";
-        }
-
-        protected override List<XElement> GetStringArrayElements()
-        {
-            return new List<XElement>();
-        }
-
         public enum PosemasterPose
         {
             Think,

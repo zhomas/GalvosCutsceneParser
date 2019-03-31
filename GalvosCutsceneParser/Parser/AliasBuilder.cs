@@ -71,6 +71,7 @@ namespace GalvosCutsceneParser.Entities
             }
             catch (Exception e)
             {
+                Debug.LogError(e.Message);
                 throw new BadAliasException();
             }
         }

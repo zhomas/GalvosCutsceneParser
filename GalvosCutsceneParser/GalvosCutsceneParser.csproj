@@ -55,7 +55,6 @@
     <Compile Include="Chunks\WaitStep.cs" />
     <Compile Include="Entities\IEntitySupplier.cs" />
     <Compile Include="Entities\NullEntity.cs" />
-    <Compile Include="Parser.cs" />
     <Compile Include="Entities\CutsceneEntity.cs" />
     <Compile Include="Parser\AliasBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

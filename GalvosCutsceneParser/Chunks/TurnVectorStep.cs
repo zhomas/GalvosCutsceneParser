@@ -38,60 +38,30 @@ namespace GalvosCutsceneParser
             get { return dir; }
         }
 
+        public Vector3 Forward
+        {
+            get
+            {
+                switch (this.LookDirection)
+                {
+                    case Direction.North:
+                        return Vector3.forward;
+                    case Direction.South:
+                        return Vector3.back;
+                    case Direction.East:
+                        return Vector3.right;
+                    case Direction.West:
+                        return Vector3.left;
+                    default:
+                        throw new MisformedStepException("Could not find a direction.");
+                }
+            }
+        }
+
         public TurnVectorStep(IEntity entity, Direction dir) : base()
         {
             this.dir = dir;
             this.entity = entity;
-        }
-
-        protected override List<XAttribute> GetRootNodeAttributes(int index, bool isFinal)
-        {
-            return new List<XAttribute>()
-            {
-                new XAttribute("direction", (int)this.dir)
-            }.Concat(base.GetRootNodeAttributes(index, isFinal)).ToList();
-        }
-
-        protected override List<XAttribute> GetBooleanAttributes()
-        {
-            return new List<XAttribute>()
-            {
-                new XAttribute("active", true.ToString()),
-                new XAttribute("overrideNodeName", false.ToString())
-            };
-        }
-
-        protected override string GetNodeType()
-        {
-            return "GalvosTurnVector";
-        }
-
-        protected override List<XElement> GetStringArrayElements()
-        {
-            return new List<XElement>();
-        }
-
-        protected override List<XElement> GetNodeSpecialElements()
-        {
-            var emptyChildName = new XElement("childName");
-            emptyChildName.Add(new XCData(""));
-
-            var emptyValue = new XElement("value");
-            emptyValue.Add(new XCData(""));
-
-            return new List<XElement>()
-            {
-                new XElement("usedObject",
-                        new XAttribute("type", 0),
-                        new XAttribute("aID", this.entity.ID),
-                        new XAttribute("wID", 0),
-                        new XAttribute("pID", 0),
-                        new XAttribute("pID2", -1),
-                    new XElement("_string", emptyChildName),
-                    new XElement("objectKey",
-                            new XAttribute("type", 0),
-                        new XElement("_string", emptyValue))),
-            };
         }
     }
 }

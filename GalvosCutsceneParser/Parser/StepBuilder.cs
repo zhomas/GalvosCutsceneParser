@@ -95,6 +95,8 @@ namespace GalvosCutsceneParser
 
         public BaseStep BuildStep(string inputLine)
         {
+            inputLine = inputLine.Trim();
+
             IEntity entity = this.GetEntityFromInput(inputLine);
             StepAction action = this.GetActionFromInput(inputLine);
 
@@ -102,7 +104,7 @@ namespace GalvosCutsceneParser
             {
                 case StepAction.Speech:
                     string message = RegexUtilities.PullOutTextInsideQuotes(ref inputLine);
-                    return new SpeechBubble(entity.ID, message);
+                    return new SpeechBubble(entity, message);
                 case StepAction.Wait:
                     int time = WaitStep.ParseMillisecondsFromInputLine(inputLine);
                     return new WaitStep(time);
