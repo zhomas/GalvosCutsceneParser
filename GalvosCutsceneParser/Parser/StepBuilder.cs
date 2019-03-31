@@ -74,6 +74,7 @@ namespace GalvosCutsceneParser
             var chunks = inputLine.Trim().Split(' ');
 
             if (chunks[0] == "wait") return StepAction.Wait;
+            if (chunks[0] == "fadeIn") return StepAction.FadeIn;
             if (chunks[1] == "say") return StepAction.Speech;
             if (chunks[1].Contains("=>")) return StepAction.Move;
             if (chunks[1] =="camtarget") return StepAction.Camera;
@@ -96,6 +97,29 @@ namespace GalvosCutsceneParser
         public BaseStep BuildStep(string inputLine)
         {
             inputLine = inputLine.Trim();
+
+            var split = inputLine.Split(' ').ToList();
+
+            var types = System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
+                .Where(x => x.BaseType == typeof(BaseStep));
+
+            foreach (var type in types)
+            {
+                var method = type.GetMethod("IsMatch");
+
+                if (method != null)
+                {
+                    bool isMatch = (bool)method.Invoke(null, new [] {split});
+
+                    if (isMatch)
+                    {
+                        var constructor = type.GetConstructor(new[] {typeof(List<string>), typeof(IEntitySupplier)});
+                        BaseStep step = (BaseStep)constructor.Invoke(new object[] {split, this.entitySupplier});
+                        return step;
+                    }
+                }
+                    
+            }
 
             IEntity entity = this.GetEntityFromInput(inputLine);
             StepAction action = this.GetActionFromInput(inputLine);
