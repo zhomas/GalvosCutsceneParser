@@ -52,6 +52,7 @@
     <Compile Include="Chunks\PoseStep.cs" />
     <Compile Include="Chunks\SetCameraTargetStep.cs" />
     <Compile Include="Chunks\SpeechBubble.cs" />
+    <Compile Include="Chunks\TurnToFaceStep.cs" />
     <Compile Include="Chunks\TurnVectorStep.cs" />
     <Compile Include="Chunks\WaitStep.cs" />
     <Compile Include="Entities\IEntitySupplier.cs" />

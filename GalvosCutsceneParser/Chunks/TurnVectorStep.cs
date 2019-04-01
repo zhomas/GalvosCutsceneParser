@@ -10,39 +10,43 @@ namespace GalvosCutsceneParser
 {
     public class TurnVectorStep : BaseStep
     {
+        private Direction dir;
+
+        public static bool IsMatch(List<string> chunks)
+        {
+            return chunks.Count == 3 && (chunks[1] == "turn"); 
+        }
+
+        public TurnVectorStep(List<string> chunks, IEntitySupplier entitySupplier)
+        {
+            this.entity = entitySupplier.GetEntityByAlias(chunks[0]);
+            this.dir = CreateFromInputString(chunks[2]);
+        }
+
         public enum Direction
         {
             North = 0, South = 1, East = 2, West = 3
         }
-        
-        private Direction dir;
 
-        public static TurnVectorStep CreateFromInputString(IEntity entity, string inputString)
+        public static Direction CreateFromInputString(string dir)
         {
-            string[] chunks = inputString.Split(' ');
+            if (dir.ToLower() == ("north"))
+                return Direction.North;
+            if (dir.ToLower() == ("south"))
+                return Direction.South;
+            if (dir.ToLower() == ("east"))
+                return Direction.East;
+            if (dir.ToLower() == ("west"))
+                return Direction.West;
 
-            if (chunks.Last().ToLower().Contains("north"))
-                return new TurnVectorStep(entity, Direction.North);
-            if (chunks.Last().ToLower().Contains("south"))
-                return new TurnVectorStep(entity, Direction.South);
-            if (chunks.Last().ToLower().Contains("east"))
-                return new TurnVectorStep(entity, Direction.East);
-            if (chunks.Last().ToLower().Contains("west"))
-                return new TurnVectorStep(entity, Direction.West);
-
-            throw new MisformedStepException(inputString);
-        }
-
-        public Direction LookDirection
-        {
-            get { return dir; }
+            throw new MisformedStepException(dir);
         }
 
         public Vector3 Forward
         {
             get
             {
-                switch (this.LookDirection)
+                switch (this.dir)
                 {
                     case Direction.North:
                         return Vector3.forward;
@@ -58,10 +62,5 @@ namespace GalvosCutsceneParser
             }
         }
 
-        public TurnVectorStep(IEntity entity, Direction dir) : base()
-        {
-            this.dir = dir;
-            this.entity = entity;
-        }
     }
 }
