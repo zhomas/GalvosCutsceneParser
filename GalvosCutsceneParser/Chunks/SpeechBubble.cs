@@ -5,52 +5,19 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using GalvosCutsceneParser;
+using GalvosCutsceneParser.Entities;
 
 namespace GalvosCutsceneParser
 {
     public class SpeechBubble : BaseStep
     {
         private int aID;
-        private string message;
+        public string Message { get; private set; }
 
-        public SpeechBubble(int aID, string message)
+        public SpeechBubble(IEntity entity, string message) : base()
         {
-            this.aID = aID;
-            this.message = message;
-        }
-
-        protected override List<XAttribute> GetBooleanAttributes()
-        {
-            return new List<XAttribute>()
-            {
-                new XAttribute("cameraTarget", false.ToString()),
-                new XAttribute("active", true.ToString()),
-                new XAttribute("overrideNodeName", false.ToString())
-            };
-        }
-
-        protected override List<XAttribute> GetRootNodeAttributes(int index, bool isFinal)
-        {
-            return new List<XAttribute>()
-            {
-                new XAttribute("aID", this.aID),
-                new XAttribute("guiBoxID", 0),
-            }.Concat(base.GetRootNodeAttributes(index, isFinal)).ToList();
-        }
-
-        protected override string GetNodeType()
-        {
-            return "SpeechBubbleStep";
-        }
-
-        protected override List<XElement> GetStringArrayElements()
-        {
-            return new List<XElement>()
-            {
-                new XElement("message",
-                    new XElement(Parser.XML_DELIMITER + "0", 
-                        new XCData(this.message)))
-            };
+            this.entity = entity;
+            this.Message = message;
         }
     }
 }

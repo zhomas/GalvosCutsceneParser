@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
-namespace GalvosCutsceneParser
+namespace GalvosCutsceneParser.Entities
 {
     public class AliasBuilder : IEntitySupplier
     {
         public const string START_ALIAS = "#alias";
         public const string END_ALIAS = "#endalias";
+        public List<IEntity> Entities { get; private set; }
 
-        public List<CutsceneEntity> Entities { get; private set; }
+        private Func<int, GameObject> goGetter;
 
-        public AliasBuilder(string gplText)
+        public AliasBuilder(string gplText, Func<int, GameObject> goGetter)
         {
-            List<CutsceneEntity> list = new List<CutsceneEntity>();
+            this.goGetter = goGetter;
+            List<IEntity> list = new List<IEntity>();
 
             string aliasText = string.Empty;
 
@@ -37,7 +40,7 @@ namespace GalvosCutsceneParser
                     line = reader.ReadLine();
                     if (line != null)
                     {
-                        CutsceneEntity entity = BuildEntity(line);
+                        CutsceneEntity entity = BuildEntity(line, this.goGetter);
                         list.Add(entity);
                     }
                 }
@@ -52,7 +55,7 @@ namespace GalvosCutsceneParser
             this.Entities = list;
         }
 
-        public static CutsceneEntity BuildEntity(string inputLine)
+        public static CutsceneEntity BuildEntity(string inputLine, Func<int, GameObject> goGetter)
         {
             try
             {
@@ -61,15 +64,19 @@ namespace GalvosCutsceneParser
                 string lhs = inputLine.Substring(0, equalsPos).Trim();
                 string rhs = inputLine.Substring(equalsPos + 1).Trim();
 
-                return new CutsceneEntity(lhs, Convert.ToInt16(rhs));
+                Debug.LogError("Getting Cutscene Entity :: " + rhs);
+                Debug.LogError("Go Getter : " + goGetter);
+
+                return new CutsceneEntity(lhs, Convert.ToInt16(rhs), goGetter);
             }
             catch (Exception e)
             {
+                Debug.LogError(e.Message);
                 throw new BadAliasException();
             }
         }
 
-        public CutsceneEntity GetEntityByAlias(string alias)
+        public IEntity GetEntityByAlias(string alias)
         {
             return this.Entities.Where(e => e.Alias == alias).FirstOrDefault();
         }

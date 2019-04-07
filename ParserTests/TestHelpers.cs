@@ -1,4 +1,5 @@
 ﻿using GalvosCutsceneParser;
+using GalvosCutsceneParser.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,11 +86,11 @@ namespace ParserTests
 
     public class MockEntitySupplier : IEntitySupplier
     {
-        public List<CutsceneEntity> Entities => throw new NotImplementedException();
+        public List<IEntity> Entities => throw new NotImplementedException();
 
-        public CutsceneEntity GetEntityByAlias(string alias)
+        public IEntity GetEntityByAlias(string alias)
         {
-            return new CutsceneEntity(0);
+            return new CutsceneEntity(0, i => null);
         }
     }
 }

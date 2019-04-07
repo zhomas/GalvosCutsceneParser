@@ -1,32 +1,29 @@
-﻿using System;
+﻿using GalvosCutsceneParser.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace GalvosCutsceneParser
 {
     public class Service
     {
         private string gpl;
-        private string parentXML;
+        private Func<int, GameObject> goGetter;
 
-        public Service(string gpl, string parentEventXML)
+
+        public Service(string gpl, Func<int, GameObject> goGetter)
         {
             this.gpl = gpl;
-            this.parentXML = parentEventXML;
+            this.goGetter = goGetter;
         }
 
-        public string GetEventXML()
+        public List<BaseStep> GetSteps()
         {
-            var parser = new Parser();
-            var aliasBuilder = new AliasBuilder(this.gpl);
+            var aliasBuilder = new AliasBuilder(this.gpl, this.goGetter);
             var stepbuilder = new StepBuilder(aliasBuilder);
-
-            var steps = stepbuilder.GetStepsFromInput(this.gpl);
-
-            return parser.LoadEventXML(this.parentXML)
-              .ReplaceXMLStepsWithGPLSteps(steps)
-              .GetXML();
+            return stepbuilder.GetStepsFromInput(this.gpl);
         }
 
     }

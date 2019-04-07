@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalvosCutsceneParser.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,89 +10,57 @@ namespace GalvosCutsceneParser
 {
     public class TurnVectorStep : BaseStep
     {
+        private Direction dir;
+
+        public static bool IsMatch(List<string> chunks)
+        {
+            return chunks.Count == 3 && (chunks[1] == "turn"); 
+        }
+
+        public TurnVectorStep(List<string> chunks, IEntitySupplier entitySupplier)
+        {
+            this.entity = entitySupplier.GetEntityByAlias(chunks[0]);
+            this.dir = CreateFromInputString(chunks[2]);
+        }
+
         public enum Direction
         {
             North = 0, South = 1, East = 2, West = 3
         }
 
-        private CutsceneEntity entity;
-        private Direction dir;
-
-        public static TurnVectorStep CreateFromInputString(CutsceneEntity entity, string inputString)
+        public static Direction CreateFromInputString(string dir)
         {
-            string[] chunks = inputString.Split(' ');
+            if (dir.ToLower() == ("north"))
+                return Direction.North;
+            if (dir.ToLower() == ("south"))
+                return Direction.South;
+            if (dir.ToLower() == ("east"))
+                return Direction.East;
+            if (dir.ToLower() == ("west"))
+                return Direction.West;
 
-            if (chunks.Last().ToLower().Contains("north"))
-                return new TurnVectorStep(entity, Direction.North);
-            if (chunks.Last().ToLower().Contains("south"))
-                return new TurnVectorStep(entity, Direction.South);
-            if (chunks.Last().ToLower().Contains("east"))
-                return new TurnVectorStep(entity, Direction.East);
-            if (chunks.Last().ToLower().Contains("west"))
-                return new TurnVectorStep(entity, Direction.West);
-
-            throw new MisformedStepException(inputString);
+            throw new MisformedStepException(dir);
         }
 
-        public Direction LookDirection
+        public Vector3 Forward
         {
-            get { return dir; }
-        }
-
-        public TurnVectorStep(CutsceneEntity entity, Direction dir)
-        {
-            this.dir = dir;
-            this.entity = entity;
-        }
-
-        protected override List<XAttribute> GetRootNodeAttributes(int index, bool isFinal)
-        {
-            return new List<XAttribute>()
+            get
             {
-                new XAttribute("direction", (int)this.dir)
-            }.Concat(base.GetRootNodeAttributes(index, isFinal)).ToList();
+                switch (this.dir)
+                {
+                    case Direction.North:
+                        return Vector3.forward;
+                    case Direction.South:
+                        return Vector3.back;
+                    case Direction.East:
+                        return Vector3.right;
+                    case Direction.West:
+                        return Vector3.left;
+                    default:
+                        throw new MisformedStepException("Could not find a direction.");
+                }
+            }
         }
 
-        protected override List<XAttribute> GetBooleanAttributes()
-        {
-            return new List<XAttribute>()
-            {
-                new XAttribute("active", true.ToString()),
-                new XAttribute("overrideNodeName", false.ToString())
-            };
-        }
-
-        protected override string GetNodeType()
-        {
-            return "GalvosTurnVector";
-        }
-
-        protected override List<XElement> GetStringArrayElements()
-        {
-            return new List<XElement>();
-        }
-
-        protected override List<XElement> GetNodeSpecialElements()
-        {
-            var emptyChildName = new XElement("childName");
-            emptyChildName.Add(new XCData(""));
-
-            var emptyValue = new XElement("value");
-            emptyValue.Add(new XCData(""));
-
-            return new List<XElement>()
-            {
-                new XElement("usedObject",
-                        new XAttribute("type", 0),
-                        new XAttribute("aID", this.entity.ID),
-                        new XAttribute("wID", 0),
-                        new XAttribute("pID", 0),
-                        new XAttribute("pID2", -1),
-                    new XElement("_string", emptyChildName),
-                    new XElement("objectKey",
-                            new XAttribute("type", 0),
-                        new XElement("_string", emptyValue))),
-            };
-        }
     }
 }

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GalvosCutsceneParser
+namespace GalvosCutsceneParser.Entities
 {
     public interface IEntitySupplier
     {
-        List<CutsceneEntity> Entities { get; }
-        CutsceneEntity GetEntityByAlias(string alias);
+        List<IEntity> Entities { get; }
+        IEntity GetEntityByAlias(string alias);
     }
 }
