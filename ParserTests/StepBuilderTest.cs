@@ -31,14 +31,7 @@ namespace ParserTests
 
             Assert.AreEqual(2, result.Count);
         }
-
-        [TestMethod]
-        public void TestParserParsesCompleteString()
-        {
-            var builder = new StepBuilder(new MockEntitySupplier());
-            var result = builder.GetStepsFromInput(TestHelpers.GetCompleteGPL());
-        }
-
+        
         [TestMethod]
         public void TestSpeechBubbleCreated()
         {

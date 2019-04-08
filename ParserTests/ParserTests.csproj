@@ -53,16 +53,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chunks\PoseMasterTest.cs" />
-    <Compile Include="Chunks\SetCameraTargetTest.cs" />
-    <Compile Include="Chunks\SpeechBubbleTest.cs" />
-    <Compile Include="Chunks\MoveInDirectionTest.cs" />
-    <Compile Include="Chunks\TurnVectorStepTest.cs" />
-    <Compile Include="Chunks\MoveToPositionTest.cs" />
-    <Compile Include="Chunks\WaitStepTest.cs" />
-    <Compile Include="Parser\AliasBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StepBuilderTest.cs" />
+    <Compile Include="Steps\StepTest.cs" />
     <Compile Include="TestHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +66,9 @@
       <Project>{c3ec554b-c134-4f60-b49a-d0e3ead05a46}</Project>
       <Name>GalvosCutsceneParser</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Parser\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
