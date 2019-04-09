@@ -22,4 +22,11 @@ namespace GalvosCutsceneParser
             get { return this.entity.Target; }
         }
     }
+
+    public struct StepInput
+    {
+        public List<string> chunks;
+        public Dictionary<string, string> args;
+        public IEntitySupplier supplier;
+    }
 }

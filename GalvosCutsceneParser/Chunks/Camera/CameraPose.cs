@@ -15,9 +15,9 @@ namespace GalvosCutsceneParser
             return chunks.Count > 2 && chunks[0] == "cam" && chunks[1] == "pose";
         }
 
-        public CameraPose(List<string> chunks, IEntitySupplier entitySupplier)
+        public CameraPose(StepInput input)
         {
-            this.Pose = chunks[2];
+            this.Pose = input.chunks[2];
         }
     }
 }

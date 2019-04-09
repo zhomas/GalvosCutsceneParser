@@ -16,9 +16,9 @@ namespace GalvosCutsceneParser
 
         }
 
-        public GreenTextStep(List<string> chunks, IEntitySupplier entitySupplier)
+        public GreenTextStep(StepInput input)
         {
-            string s = String.Join(" ", chunks.ToArray());
+            string s = String.Join(" ", input.chunks.ToArray());
             string withoutquotes = RegexUtilities.PullOutTextInsideQuotes(ref s);
             this.Message = withoutquotes;
         }

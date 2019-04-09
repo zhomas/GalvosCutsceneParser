@@ -13,9 +13,9 @@ namespace GalvosCutsceneParser
             return chunks[0] == "fadeIn";
         }
 
-        public FadeCameraIn(List<string> chunks, IEntitySupplier entitySupplier)
+        public FadeCameraIn(StepInput input)
         {
-            this.entity = entitySupplier.GetEntityByAlias(chunks[1]);
+            this.entity = input.supplier.GetEntityByAlias(input.chunks[1]);
         }
     }
 }

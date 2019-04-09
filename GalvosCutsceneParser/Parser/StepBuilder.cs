@@ -99,9 +99,29 @@ namespace GalvosCutsceneParser
             inputLine = inputLine.Trim();
 
             var split = inputLine.Split(' ').ToList();
+            var args = split.Where(x => x.StartsWith("--"));
+            var chunks = split.Except(args);
+            var argsDict = args.ToDictionary(
+                s => s.Trim('-').Split('=').ElementAtOrDefault(0) ?? "", 
+                s => s.Trim('-').Split('=').ElementAtOrDefault(1) ?? "");
+
+            System.Diagnostics.Debug.Write(argsDict);
+
+            foreach (var item in argsDict)
+            {
+                System.Diagnostics.Debug.Write(item);
+            }
 
             var types = System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
                 .Where(x => x.BaseType == typeof(BaseStep));
+
+            StepInput input = new StepInput()
+            {
+                chunks = chunks.ToList(),
+                supplier = this.entitySupplier,
+                args = argsDict
+            };
+
 
             foreach (var type in types)
             {
@@ -113,8 +133,9 @@ namespace GalvosCutsceneParser
 
                     if (isMatch)
                     {
-                        var constructor = type.GetConstructor(new[] {typeof(List<string>), typeof(IEntitySupplier)});
-                        BaseStep step = (BaseStep)constructor.Invoke(new object[] {split, this.entitySupplier});
+                        
+                        var constructor = type.GetConstructor(new[] {typeof(StepInput)});
+                        BaseStep step = (BaseStep)constructor.Invoke(new object[] { input });
                         return step;
                     }
                 }
@@ -152,8 +173,6 @@ namespace GalvosCutsceneParser
                     }
 
                     throw new MisformedStepException(inputLine);
-                case StepAction.Camera:
-                    return SetCameraTargetStep.GetFromInputString(entity, inputLine);
                 case StepAction.Pose:
                     return PoseMasterStep.CreateFromInputString(entity, inputLine);
             }

@@ -52,8 +52,8 @@ namespace ParserTests
         public void TestCamTargetStepCreated()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
-            BaseStep step = builder.BuildStep("Joey camtarget");
-            Assert.AreEqual(typeof(SetCameraTargetStep), step.GetType());
+            BaseStep step = builder.BuildStep("cam => Joey");
+            Assert.AreEqual(typeof(CameraTarget), step.GetType());
         }
 
         [TestMethod]
@@ -76,20 +76,20 @@ namespace ParserTests
         public void TestCamTargetRotationCreate()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
-            var zero = builder.BuildStep("Joey camtarget");
-            var ten = builder.BuildStep("Joey camtarget 10, 10, 0");
-            Assert.AreEqual(typeof(SetCameraTargetStep), ten.GetType());
-            Assert.AreEqual(new Vector3(10, 10, 0), ((SetCameraTargetStep)ten).CamRotation);
-            Assert.AreEqual(Vector3.zero, ((SetCameraTargetStep)zero).CamRotation);
+            var zero = builder.BuildStep("cam => Joey");
+            var ten = builder.BuildStep("cam => Joey --angle=(10,10,0)");
+            Assert.AreEqual(typeof(CameraTarget), ten.GetType());
+            Assert.AreEqual(new Vector3(10, 10, 0), ((CameraTarget)ten).CamRotation);
+            Assert.AreEqual(Vector3.zero, ((CameraTarget)zero).CamRotation);
         }
 
         [TestMethod]
         public void TestCamTargetDistanceCreate()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
-            var step = builder.BuildStep("Joey camtarget 10, 10, 0 --distance=400");
-            Assert.AreEqual(typeof(SetCameraTargetStep), step.GetType());
-            Assert.AreEqual(400f, ((SetCameraTargetStep)step).Distance);
+            var step = builder.BuildStep("cam => Joey --angle=(10,10,0) --distance=400 --invert");
+            Assert.AreEqual(typeof(CameraTarget), step.GetType());
+            Assert.AreEqual(400f, ((CameraTarget)step).Distance);
         }
 
         [TestMethod]

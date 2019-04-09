@@ -17,10 +17,10 @@ namespace GalvosCutsceneParser
             return chunks.Count == 3 && (chunks[1] == "turn"); 
         }
 
-        public TurnVectorStep(List<string> chunks, IEntitySupplier entitySupplier)
+        public TurnVectorStep(StepInput input)
         {
-            this.entity = entitySupplier.GetEntityByAlias(chunks[0]);
-            this.dir = CreateFromInputString(chunks[2]);
+            this.entity = input.supplier.GetEntityByAlias(input.chunks[0]);
+            this.dir = CreateFromInputString(input.chunks[2]);
         }
 
         public enum Direction
