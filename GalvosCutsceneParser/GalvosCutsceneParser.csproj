@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ActionsList.cs" />
-    <Compile Include="Chunks\Camera\CameraPose.cs" />
     <Compile Include="Chunks\BaseStep.cs" />
     <Compile Include="Chunks\FadeCameraIn.cs" />
     <Compile Include="Chunks\GreenTextStep.cs" />

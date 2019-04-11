@@ -8,41 +8,23 @@ using UnityEngine;
 
 namespace GalvosCutsceneParser
 {
-    public class MoveAiInDirectionStep : BaseMoveStep
+    public class MoveAiInDirectionStep : BaseStep
     {
+        public MoveSpeedType SpeedType { get; protected set; }
         public Vector3 Direction { get; private set; }
 
-        public MoveAiInDirectionStep(IEntity entity, Vector3 direction, MoveSpeedType speedType) : base()
+        public static bool IsMatch(StepInput input)
         {
-            this.entity = entity;
-            this.Direction = direction;
-            this.SpeedType = speedType;
+            return input.chunks.Count > 2 && input.chunks[1].StartsWith("=>") &&
+                   input.supplier.IsEntity(input.chunks[0]) &&
+                   RegexUtilities.GetVector3FromString(input.line) != Vector3.zero;
         }
 
-        public static MoveAiInDirectionStep CreateFromInputString(IEntity entity, string inputLine)
+        public MoveAiInDirectionStep(StepInput input)
         {
-            Vector3 dir = GetDirectionFromInputString(inputLine);
-
-            if (dir != Vector3.zero)
-            {
-                string[] chunks = inputLine.Split(' ');
-                MoveSpeedType moveSpeed = SpeedTypeFromString(chunks[1]);
-                return new MoveAiInDirectionStep(entity, dir, moveSpeed);
-            }
-
-            return null;
-        }
-
-        public static Vector3 GetDirectionFromInputString(string inputLine)
-        {
-            Vector3 dir = RegexUtilities.GetVector3FromString(inputLine);
-
-            if (dir != Vector3.zero)
-            {
-                return dir;
-            }
-
-            return Vector3.zero;
+            this.Direction = RegexUtilities.GetVector3FromString(input.line);
+            this.SpeedType = BaseMoveStep.SpeedTypeFromString(input.chunks[1]);
+            this.entity = input.supplier.GetEntityByAlias(input.chunks[0]);
         }
     }
 }

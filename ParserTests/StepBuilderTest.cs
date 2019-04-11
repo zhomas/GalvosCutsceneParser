@@ -49,6 +49,14 @@ namespace ParserTests
         }
 
         [TestMethod]
+        public void TestIfWaitCanBeSkipped()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            WaitStep step = builder.BuildStep("wait 1000 !!") as WaitStep;
+            Assert.IsFalse(step.Wait);
+        }
+
+        [TestMethod]
         public void TestCamTargetStepCreated()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
@@ -77,10 +85,47 @@ namespace ParserTests
         {
             var builder = new StepBuilder(new MockEntitySupplier());
             var zero = builder.BuildStep("cam => Joey");
-            var ten = builder.BuildStep("cam => Joey --angle=(10,10,0)");
-            Assert.AreEqual(typeof(CameraTarget), ten.GetType());
-            Assert.AreEqual(new Vector3(10, 10, 0), ((CameraTarget)ten).CamRotation);
-            Assert.AreEqual(Vector3.zero, ((CameraTarget)zero).CamRotation);
+            var ten = builder.BuildStep("cam => Joey --low");
+            Assert.AreEqual("low", ((CameraTarget)ten).Pose);
+        }
+
+        [TestMethod]
+        public void TestCamPose()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var c = builder.BuildStep("cam --low");
+            Assert.AreEqual("low", ((CameraTarget)c).Pose);
+        }
+
+        [TestMethod]
+        public void TestCamSpeedMatch()
+        {
+            StepInput i = new StepInput()
+            {
+                chunks = new System.Collections.Generic.List<string>() {"cam", "speed=180"}
+            };
+
+            bool match = CameraTarget.IsMatch(i);
+            Assert.IsTrue(match);
+        }
+
+        [TestMethod]
+        public void TestCamSpeed()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var c = builder.BuildStep("cam --speed=180") as CameraTarget;
+            Assert.AreEqual(180f, (c.Speed));
+
+
+        }
+
+        [TestMethod]
+        public void TestCamPoseWithSpeed()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var c = builder.BuildStep("cam --low --speed=180");
+            Assert.AreEqual("low", ((CameraTarget)c).Pose);
+            Assert.AreEqual(180, ((CameraTarget)c).Speed);
         }
 
         [TestMethod]

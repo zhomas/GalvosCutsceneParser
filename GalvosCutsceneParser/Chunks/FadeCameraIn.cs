@@ -8,9 +8,9 @@ namespace GalvosCutsceneParser
 {
     public class FadeCameraIn : BaseStep
     {
-        public static bool IsMatch(List<string> chunks)
+        public static bool IsMatch(StepInput input)
         {
-            return chunks[0] == "fadeIn";
+            return input.chunks[0] == "fadeIn";
         }
 
         public FadeCameraIn(StepInput input)

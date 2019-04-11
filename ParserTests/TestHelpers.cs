@@ -92,5 +92,10 @@ namespace ParserTests
         {
             return new CutsceneEntity(0, i => null);
         }
+
+        public bool IsEntity(string alias)
+        {
+            return alias != "cam";
+        }
     }
 }

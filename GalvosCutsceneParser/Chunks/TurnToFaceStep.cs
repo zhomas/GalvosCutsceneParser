@@ -12,9 +12,9 @@ namespace GalvosCutsceneParser
     {
         public IEntity FaceTarget { get; private set; }
         
-        public static bool IsMatch(List<string> chunks)
+        public static bool IsMatch(StepInput input)
         {
-            return chunks.Count == 3 && chunks[1] == "=:";
+            return input.chunks.Count == 3 && input.chunks[1] == "=:";
         }
 
         public TurnToFaceStep(StepInput input)

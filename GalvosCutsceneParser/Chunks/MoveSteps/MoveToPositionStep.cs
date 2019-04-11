@@ -15,6 +15,7 @@ namespace GalvosCutsceneParser
             get { return this.targetObject.Target.transform.position; }
         }
 
+
         private IEntity targetObject;
 
         public static MoveToPositionStep CreateFromInputString(string inputLine, IEntitySupplier supplier)

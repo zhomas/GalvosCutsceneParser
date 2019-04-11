@@ -12,9 +12,9 @@ namespace GalvosCutsceneParser
     {
         private Direction dir;
 
-        public static bool IsMatch(List<string> chunks)
+        public static bool IsMatch(StepInput input)
         {
-            return chunks.Count == 3 && (chunks[1] == "turn"); 
+            return input.chunks.Count == 3 && (input.chunks[1] == "turn"); 
         }
 
         public TurnVectorStep(StepInput input)

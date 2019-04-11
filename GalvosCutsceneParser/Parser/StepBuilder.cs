@@ -99,43 +99,43 @@ namespace GalvosCutsceneParser
             inputLine = inputLine.Trim();
 
             var split = inputLine.Split(' ').ToList();
+
             var args = split.Where(x => x.StartsWith("--"));
+
             var chunks = split.Except(args);
+
             var argsDict = args.ToDictionary(
                 s => s.Trim('-').Split('=').ElementAtOrDefault(0) ?? "", 
                 s => s.Trim('-').Split('=').ElementAtOrDefault(1) ?? "");
 
-            System.Diagnostics.Debug.Write(argsDict);
-
-            foreach (var item in argsDict)
-            {
-                System.Diagnostics.Debug.Write(item);
-            }
-
-            var types = System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
+            var types = System.Reflection.Assembly
+                .GetExecutingAssembly()
+                .GetTypes()
                 .Where(x => x.BaseType == typeof(BaseStep));
 
             StepInput input = new StepInput()
             {
                 chunks = chunks.ToList(),
                 supplier = this.entitySupplier,
-                args = argsDict
+                args = argsDict.ToDictionary(x => x.Key, x => x.Value.TrimEnd(',')),
+                line = inputLine
             };
-
-
+            
             foreach (var type in types)
             {
                 var method = type.GetMethod("IsMatch");
 
                 if (method != null)
                 {
-                    bool isMatch = (bool)method.Invoke(null, new [] {split});
+                    bool isMatch = (bool)method.Invoke(null, new [] { input as object });
 
                     if (isMatch)
                     {
                         
                         var constructor = type.GetConstructor(new[] {typeof(StepInput)});
                         BaseStep step = (BaseStep)constructor.Invoke(new object[] { input });
+                        
+                        step.Wait = !inputLine.EndsWith("!!");
                         return step;
                     }
                 }
@@ -150,22 +150,9 @@ namespace GalvosCutsceneParser
                 case StepAction.Speech:
                     string message = RegexUtilities.PullOutTextInsideQuotes(ref inputLine);
                     return new SpeechBubble(entity, message);
-                case StepAction.Wait:
-                    int time = WaitStep.ParseMillisecondsFromInputLine(inputLine);
-                    return new WaitStep(time);
                 case StepAction.Move:
 
-                    BaseMoveStep moveStep = MoveAiInDirectionStep.CreateFromInputString(
-                        entity, 
-                        inputLine
-                    );
-
-                    if (moveStep != null)
-                    {
-                        return moveStep;
-                    }
-
-                    moveStep = MoveToPositionStep.CreateFromInputString(inputLine, this.entitySupplier);
+                    BaseMoveStep moveStep = MoveToPositionStep.CreateFromInputString(inputLine, this.entitySupplier);
 
                     if (moveStep != null)
                     {

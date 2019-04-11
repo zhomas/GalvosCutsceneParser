@@ -28,12 +28,6 @@ namespace GalvosCutsceneParser
             }
         }
 
-        public enum MoveSpeedType
-        {
-            Walk,
-            Run,
-            Sprint
-        }
 
         public static MoveSpeedType SpeedTypeFromString(string str)
         {
@@ -55,4 +49,12 @@ namespace GalvosCutsceneParser
             throw new MisformedStepException(str);
         }
     }
+
+    public enum MoveSpeedType
+    {
+        Walk,
+        Run,
+        Sprint
+    }
+
 }
