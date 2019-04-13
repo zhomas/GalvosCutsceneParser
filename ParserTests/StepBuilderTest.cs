@@ -98,6 +98,15 @@ namespace ParserTests
         }
 
         [TestMethod]
+        public void TestInstantMove()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var step = builder.BuildStep("Joey !=> WP1");
+            Assert.AreEqual(typeof(InstantMove), step.GetType());
+        }
+
+
+        [TestMethod]
         public void TestCamSpeedMatch()
         {
             StepInput i = new StepInput()
