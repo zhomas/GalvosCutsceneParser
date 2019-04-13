@@ -98,14 +98,21 @@ namespace ParserTests
         }
 
         [TestMethod]
-        public void TestInstantMove()
+        public void TestWaypointMove()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
-            var step = builder.BuildStep("Joey !=> WP1");
-            Assert.AreEqual(typeof(InstantMove), step.GetType());
+            var step = builder.BuildStep("Joey =>");
+            Assert.AreEqual(typeof(WaypointMove), step.GetType());
         }
 
-
+        [TestMethod]
+        public void TestWaypointMoveBack()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var step = builder.BuildStep("Joey <=") as WaypointMove;
+            Assert.AreEqual(step.Increment, -1);
+        }
+        
         [TestMethod]
         public void TestCamSpeedMatch()
         {
