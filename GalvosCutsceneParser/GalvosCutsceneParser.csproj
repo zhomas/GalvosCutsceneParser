@@ -50,6 +50,7 @@
     <Compile Include="Chunks\FadeCameraIn.cs" />
     <Compile Include="Chunks\FadeScreenStep.cs" />
     <Compile Include="Chunks\GreenTextStep.cs" />
+    <Compile Include="Chunks\LoadSceneStep.cs" />
     <Compile Include="Chunks\MoveSteps\WaypointMove.cs" />
     <Compile Include="Chunks\MoveSteps\MoveAiInDirectionStep.cs" />
     <Compile Include="Chunks\MoveSteps\BaseMoveStep.cs" />

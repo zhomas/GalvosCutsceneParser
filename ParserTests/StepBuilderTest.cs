@@ -221,6 +221,15 @@ namespace ParserTests
         }
 
         [TestMethod]
+        public void TestLoadSceneStep()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            BaseStep step = builder.BuildStep("load_scene test_scene");
+            Assert.AreEqual(typeof(LoadSceneStep), step.GetType());
+            Assert.IsTrue((step as LoadSceneStep).SceneName == "test_scene");
+        }
+
+        [TestMethod]
         public void TestEntityIsParsedFromString()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
