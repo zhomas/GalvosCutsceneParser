@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using GalvosCutsceneParser;
 using GalvosCutsceneParser.Entities;
@@ -31,14 +32,7 @@ namespace ParserTests
 
             Assert.AreEqual(2, result.Count);
         }
-
-        [TestMethod]
-        public void TestParserParsesCompleteString()
-        {
-            var builder = new StepBuilder(new MockEntitySupplier());
-            var result = builder.GetStepsFromInput(TestHelpers.GetCompleteGPL());
-        }
-
+        
         [TestMethod]
         public void TestSpeechBubbleCreated()
         {
@@ -56,11 +50,19 @@ namespace ParserTests
         }
 
         [TestMethod]
+        public void TestIfWaitCanBeSkipped()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            WaitStep step = builder.BuildStep("wait 1000 !!") as WaitStep;
+            Assert.IsFalse(step.Wait);
+        }
+
+        [TestMethod]
         public void TestCamTargetStepCreated()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
-            BaseStep step = builder.BuildStep("Joey camtarget");
-            Assert.AreEqual(typeof(SetCameraTargetStep), step.GetType());
+            BaseStep step = builder.BuildStep("cam => Joey");
+            Assert.AreEqual(typeof(CameraTarget), step.GetType());
         }
 
         [TestMethod]
@@ -83,20 +85,98 @@ namespace ParserTests
         public void TestCamTargetRotationCreate()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
-            var zero = builder.BuildStep("Joey camtarget");
-            var ten = builder.BuildStep("Joey camtarget 10, 10, 0");
-            Assert.AreEqual(typeof(SetCameraTargetStep), ten.GetType());
-            Assert.AreEqual(new Vector3(10, 10, 0), ((SetCameraTargetStep)ten).CamRotation);
-            Assert.AreEqual(Vector3.zero, ((SetCameraTargetStep)zero).CamRotation);
+            var zero = builder.BuildStep("cam => Joey");
+            var ten = builder.BuildStep("cam => Joey --low");
+            Assert.AreEqual("low", ((CameraTarget)ten).Pose);
+        }
+
+        [TestMethod]
+        public void TestCamPose()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var c = builder.BuildStep("cam --low");
+            Assert.AreEqual("low", ((CameraTarget)c).Pose);
+        }
+
+        [TestMethod]
+        public void TestWaypointMove()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var step = builder.BuildStep("Joey =>");
+            Assert.AreEqual(typeof(WaypointMove), step.GetType());
+        }
+
+        [TestMethod]
+        public void TestWaypointMoveNoWaiting()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var step = builder.BuildStep("Joey => !!");
+            Assert.AreEqual(typeof(WaypointMove), step.GetType());
+            Assert.AreEqual(step.Wait, false);
+        }
+
+        [TestMethod]
+        public void TestStepRef()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var step = builder.BuildStep("Joey say \"Hello\" --ref=banana");
+            Assert.AreEqual("banana", step.RefID);
+        }
+
+        [TestMethod]
+        public void TestWaypointMoveBack()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var step = builder.BuildStep("Joey <=") as WaypointMove;
+            Assert.AreEqual(step.Increment, -1);
+        }
+
+        [TestMethod]
+        public void TestActivateStep()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var step = builder.BuildStep("activate Door");
+            Assert.AreEqual(typeof(ActivateStep), step.GetType());
+        }
+
+        [TestMethod]
+        public void TestCamSpeedMatch()
+        {
+            StepInput i = new StepInput()
+            {
+                chunks = new System.Collections.Generic.List<string>() {"cam", "speed=180"}
+            };
+
+            bool match = CameraTarget.IsMatch(i);
+            Assert.IsTrue(match);
+        }
+
+        [TestMethod]
+        public void TestCamSpeed()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var c = builder.BuildStep("cam --speed=180") as CameraTarget;
+            Assert.AreEqual(180f, (c.Speed));
+
+
+        }
+
+        [TestMethod]
+        public void TestCamPoseWithSpeed()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var c = builder.BuildStep("cam --low --speed=180");
+            Assert.AreEqual("low", ((CameraTarget)c).Pose);
+            Assert.AreEqual(180, ((CameraTarget)c).Speed);
         }
 
         [TestMethod]
         public void TestCamTargetDistanceCreate()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
-            var step = builder.BuildStep("Joey camtarget 10, 10, 0 --distance=400");
-            Assert.AreEqual(typeof(SetCameraTargetStep), step.GetType());
-            Assert.AreEqual(400f, ((SetCameraTargetStep)step).Distance);
+            var step = builder.BuildStep("cam => Joey --angle=(10,10,0) --distance=400 --invert");
+            Assert.AreEqual(typeof(CameraTarget), step.GetType());
+            Assert.AreEqual(400f, ((CameraTarget)step).Distance);
         }
 
         [TestMethod]
@@ -117,6 +197,36 @@ namespace ParserTests
             var builder = new StepBuilder(new MockEntitySupplier());
             BaseStep step = builder.BuildStep("Joey => Lucy");
             Assert.AreEqual(typeof(MoveToPositionStep), step.GetType());
+        }
+
+        [TestMethod]
+        public void TestYieldStep()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            BaseStep step = builder.BuildStep("fade => 1");
+            Assert.AreEqual(typeof(FadeScreenStep), step.GetType());
+
+            Assert.IsTrue((step as FadeScreenStep).Alpha == 1);
+            Assert.IsTrue((step as FadeScreenStep).SpeedType == SpeedType.Slow);
+        }
+
+        [TestMethod]
+        public void TestFadeScreenStep()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            BaseStep step = builder.BuildStep("yield banana cherry");
+            Assert.AreEqual(typeof(YieldStep), step.GetType());
+            Assert.IsTrue((step as YieldStep).IDs.Contains("banana"));
+            Assert.IsTrue((step as YieldStep).IDs.Contains("cherry"));
+        }
+
+        [TestMethod]
+        public void TestLoadSceneStep()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            BaseStep step = builder.BuildStep("load_scene test_scene");
+            Assert.AreEqual(typeof(LoadSceneStep), step.GetType());
+            Assert.IsTrue((step as LoadSceneStep).SceneName == "test_scene");
         }
 
         [TestMethod]

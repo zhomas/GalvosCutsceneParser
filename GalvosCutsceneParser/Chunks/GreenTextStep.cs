@@ -10,15 +10,15 @@ namespace GalvosCutsceneParser
     {
         public string Message { get; private set; }
 
-        public static bool IsMatch(List<string> chunks)
+        public static bool IsMatch(StepInput input)
         {
-            return chunks[0] == ">>";
+            return input.chunks[0] == ">>";
 
         }
 
-        public GreenTextStep(List<string> chunks, IEntitySupplier entitySupplier)
+        public GreenTextStep(StepInput input)
         {
-            string s = String.Join(" ", chunks.ToArray());
+            string s = String.Join(" ", input.chunks.ToArray());
             string withoutquotes = RegexUtilities.PullOutTextInsideQuotes(ref s);
             this.Message = withoutquotes;
         }

@@ -12,15 +12,15 @@ namespace GalvosCutsceneParser
     {
         public IEntity FaceTarget { get; private set; }
         
-        public static bool IsMatch(List<string> chunks)
+        public static bool IsMatch(StepInput input)
         {
-            return chunks.Count == 3 && chunks[1] == "=:";
+            return input.chunks.Count == 3 && input.chunks[1] == "=:";
         }
 
-        public TurnToFaceStep(List<string> chunks, IEntitySupplier entitySupplier)
+        public TurnToFaceStep(StepInput input)
         {
-            this.entity = entitySupplier.GetEntityByAlias(chunks[0]);
-            this.FaceTarget = entitySupplier.GetEntityByAlias(chunks[2]);
+            this.entity = input.supplier.GetEntityByAlias(input.chunks[0]);
+            this.FaceTarget = input.supplier.GetEntityByAlias(input.chunks[2]);
         }
 
     }

@@ -11,27 +11,14 @@ namespace GalvosCutsceneParser
     {
         public int milliseconds { get; private set; }
 
-        public WaitStep(int milliseconds)
+        public static bool IsMatch(StepInput input)
         {
-            this.milliseconds = milliseconds;
+            return input.chunks.Count > 1 && input.chunks[0] == "wait";
         }
-
-        public float Seconds
+        
+        public WaitStep(StepInput input)
         {
-            get
-            {
-                return ((float)this.milliseconds / 1000);
-            }
-        }
-
-        public static int ParseMillisecondsFromInputLine(string inputLine)
-        {
-            if (inputLine.Contains("wait"))
-            {
-                return RegexUtilities.GetDigitsFromString(inputLine);
-            }
-
-            return 0;
+            this.milliseconds = RegexUtilities.GetDigitsFromString(input.chunks[1]);
         }
     }
 }

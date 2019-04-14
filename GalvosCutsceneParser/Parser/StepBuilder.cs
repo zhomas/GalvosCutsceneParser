@@ -41,7 +41,7 @@ namespace GalvosCutsceneParser
                 do
                 {
                     line = reader.ReadLine();
-                    if (line != null)
+                    if (line != null && !line.StartsWith("#"))
                     {
                         list.Add(this.BuildStep(line));
                     }
@@ -100,8 +100,39 @@ namespace GalvosCutsceneParser
 
             var split = inputLine.Split(' ').ToList();
 
-            var types = System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
+            var args = split.Where(x => x.StartsWith("--"));
+
+            var chunks = split
+                .Except(args)
+                .Where(chunk => chunk != "!!");
+
+            var argsDict = args.ToDictionary(
+                s => s.Trim('-').Split('=').ElementAtOrDefault(0) ?? "", 
+                s => s.Trim('-').Split('=').ElementAtOrDefault(1) ?? "");
+
+            var types = System.Reflection.Assembly
+                .GetExecutingAssembly()
+                .GetTypes()
                 .Where(x => x.BaseType == typeof(BaseStep));
+
+            StepInput input = new StepInput()
+            {
+                chunks = chunks.ToList(),
+                supplier = this.entitySupplier,
+                args = argsDict.ToDictionary(x => x.Key, x => x.Value.TrimEnd(',')),
+                line = inputLine
+            };
+
+            foreach (var item in argsDict)
+            {
+                System.Diagnostics.Debug.WriteLine(item.Key);
+                System.Diagnostics.Debug.WriteLine(item.Value);
+            }
+
+            bool containsRef = argsDict.ContainsKey("ref");
+
+            //System.Diagnostics.Debug.WriteLine("Contains ref :: " + containsRef.ToString());
+            //System.Diagnostics.Debug.WriteLine("Ref ID :: " + argsDict["ref"]);
 
             foreach (var type in types)
             {
@@ -109,12 +140,16 @@ namespace GalvosCutsceneParser
 
                 if (method != null)
                 {
-                    bool isMatch = (bool)method.Invoke(null, new [] {split});
+                    bool isMatch = (bool)method.Invoke(null, new [] { input as object });
 
                     if (isMatch)
                     {
-                        var constructor = type.GetConstructor(new[] {typeof(List<string>), typeof(IEntitySupplier)});
-                        BaseStep step = (BaseStep)constructor.Invoke(new object[] {split, this.entitySupplier});
+                        
+                        var constructor = type.GetConstructor(new[] {typeof(StepInput)});
+                        BaseStep step = (BaseStep)constructor.Invoke(new object[] { input });
+
+                        step.RefID = argsDict.ContainsKey("ref") ? argsDict["ref"] : "";
+                        step.Wait = !inputLine.EndsWith("!!");
                         return step;
                     }
                 }
@@ -126,25 +161,9 @@ namespace GalvosCutsceneParser
 
             switch (action)
             {
-                case StepAction.Speech:
-                    string message = RegexUtilities.PullOutTextInsideQuotes(ref inputLine);
-                    return new SpeechBubble(entity, message);
-                case StepAction.Wait:
-                    int time = WaitStep.ParseMillisecondsFromInputLine(inputLine);
-                    return new WaitStep(time);
                 case StepAction.Move:
 
-                    BaseMoveStep moveStep = MoveAiInDirectionStep.CreateFromInputString(
-                        entity, 
-                        inputLine
-                    );
-
-                    if (moveStep != null)
-                    {
-                        return moveStep;
-                    }
-
-                    moveStep = MoveToPositionStep.CreateFromInputString(inputLine, this.entitySupplier);
+                    BaseMoveStep moveStep = MoveToPositionStep.CreateFromInputString(inputLine, this.entitySupplier);
 
                     if (moveStep != null)
                     {
@@ -152,13 +171,13 @@ namespace GalvosCutsceneParser
                     }
 
                     throw new MisformedStepException(inputLine);
-                case StepAction.Camera:
-                    return SetCameraTargetStep.GetFromInputString(entity, inputLine);
                 case StepAction.Pose:
                     return PoseMasterStep.CreateFromInputString(entity, inputLine);
             }
 
+
             throw new MisformedStepException(inputLine);
+
         }
     }
 

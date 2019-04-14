@@ -76,6 +76,11 @@ namespace GalvosCutsceneParser.Entities
             }
         }
 
+        public bool IsEntity(string alias)
+        {
+            return this.Entities.Where(e => e.Alias == alias).Count() > 0;
+        }
+
         public IEntity GetEntityByAlias(string alias)
         {
             return this.Entities.Where(e => e.Alias == alias).FirstOrDefault();
