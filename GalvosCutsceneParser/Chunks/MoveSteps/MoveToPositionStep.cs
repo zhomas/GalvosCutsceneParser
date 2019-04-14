@@ -24,12 +24,12 @@ namespace GalvosCutsceneParser
 
             var mover = supplier.GetEntityByAlias(chunks.First());
             var target = supplier.GetEntityByAlias(chunks.Last());
-            var speedType = SpeedTypeFromString(chunks[1]);
+            var speedType = StepUtilities.SpeedTypeFromString(chunks[1]);
 
             return new MoveToPositionStep(mover, target, speedType);
         }
 
-        public MoveToPositionStep(IEntity mover, IEntity target, MoveSpeedType speedType) : base()
+        public MoveToPositionStep(IEntity mover, IEntity target, SpeedType speedType) : base()
         {
             this.entity = mover;
             this.targetObject = target;

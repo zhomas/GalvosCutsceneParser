@@ -23,6 +23,7 @@ namespace GalvosCutsceneParser
         }
 
         public bool Wait { get; set; } = true;
+        public string RefID { get; set; } = "";
     }
 
     public struct StepInput

@@ -102,7 +102,9 @@ namespace GalvosCutsceneParser
 
             var args = split.Where(x => x.StartsWith("--"));
 
-            var chunks = split.Except(args);
+            var chunks = split
+                .Except(args)
+                .Where(chunk => chunk != "!!");
 
             var argsDict = args.ToDictionary(
                 s => s.Trim('-').Split('=').ElementAtOrDefault(0) ?? "", 
@@ -120,7 +122,18 @@ namespace GalvosCutsceneParser
                 args = argsDict.ToDictionary(x => x.Key, x => x.Value.TrimEnd(',')),
                 line = inputLine
             };
-            
+
+            foreach (var item in argsDict)
+            {
+                System.Diagnostics.Debug.WriteLine(item.Key);
+                System.Diagnostics.Debug.WriteLine(item.Value);
+            }
+
+            bool containsRef = argsDict.ContainsKey("ref");
+
+            //System.Diagnostics.Debug.WriteLine("Contains ref :: " + containsRef.ToString());
+            //System.Diagnostics.Debug.WriteLine("Ref ID :: " + argsDict["ref"]);
+
             foreach (var type in types)
             {
                 var method = type.GetMethod("IsMatch");
@@ -134,7 +147,8 @@ namespace GalvosCutsceneParser
                         
                         var constructor = type.GetConstructor(new[] {typeof(StepInput)});
                         BaseStep step = (BaseStep)constructor.Invoke(new object[] { input });
-                        
+
+                        step.RefID = argsDict.ContainsKey("ref") ? argsDict["ref"] : "";
                         step.Wait = !inputLine.EndsWith("!!");
                         return step;
                     }
@@ -147,9 +161,6 @@ namespace GalvosCutsceneParser
 
             switch (action)
             {
-                case StepAction.Speech:
-                    string message = RegexUtilities.PullOutTextInsideQuotes(ref inputLine);
-                    return new SpeechBubble(entity, message);
                 case StepAction.Move:
 
                     BaseMoveStep moveStep = MoveToPositionStep.CreateFromInputString(inputLine, this.entitySupplier);
@@ -164,7 +175,9 @@ namespace GalvosCutsceneParser
                     return PoseMasterStep.CreateFromInputString(entity, inputLine);
             }
 
+
             throw new MisformedStepException(inputLine);
+
         }
     }
 

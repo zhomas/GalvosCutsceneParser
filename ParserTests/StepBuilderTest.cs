@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using GalvosCutsceneParser;
 using GalvosCutsceneParser.Entities;
@@ -106,13 +107,38 @@ namespace ParserTests
         }
 
         [TestMethod]
+        public void TestWaypointMoveNoWaiting()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var step = builder.BuildStep("Joey => !!");
+            Assert.AreEqual(typeof(WaypointMove), step.GetType());
+            Assert.AreEqual(step.Wait, false);
+        }
+
+        [TestMethod]
+        public void TestStepRef()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var step = builder.BuildStep("Joey say \"Hello\" --ref=banana");
+            Assert.AreEqual("banana", step.RefID);
+        }
+
+        [TestMethod]
         public void TestWaypointMoveBack()
         {
             var builder = new StepBuilder(new MockEntitySupplier());
             var step = builder.BuildStep("Joey <=") as WaypointMove;
             Assert.AreEqual(step.Increment, -1);
         }
-        
+
+        [TestMethod]
+        public void TestActivateStep()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var step = builder.BuildStep("activate Door");
+            Assert.AreEqual(typeof(ActivateStep), step.GetType());
+        }
+
         [TestMethod]
         public void TestCamSpeedMatch()
         {
@@ -171,6 +197,27 @@ namespace ParserTests
             var builder = new StepBuilder(new MockEntitySupplier());
             BaseStep step = builder.BuildStep("Joey => Lucy");
             Assert.AreEqual(typeof(MoveToPositionStep), step.GetType());
+        }
+
+        [TestMethod]
+        public void TestYieldStep()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            BaseStep step = builder.BuildStep("fade => 1");
+            Assert.AreEqual(typeof(FadeScreenStep), step.GetType());
+
+            Assert.IsTrue((step as FadeScreenStep).Alpha == 1);
+            Assert.IsTrue((step as FadeScreenStep).SpeedType == SpeedType.Slow);
+        }
+
+        [TestMethod]
+        public void TestFadeScreenStep()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            BaseStep step = builder.BuildStep("yield banana cherry");
+            Assert.AreEqual(typeof(YieldStep), step.GetType());
+            Assert.IsTrue((step as YieldStep).IDs.Contains("banana"));
+            Assert.IsTrue((step as YieldStep).IDs.Contains("cherry"));
         }
 
         [TestMethod]

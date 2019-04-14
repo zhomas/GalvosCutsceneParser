@@ -11,12 +11,17 @@ namespace GalvosCutsceneParser
 {
     public class SpeechBubble : BaseStep
     {
-        private int aID;
         public string Message { get; private set; }
 
-        public SpeechBubble(IEntity entity, string message) : base()
+        public static bool IsMatch(StepInput input)
         {
-            this.entity = entity;
+            return input.chunks.Count > 1 && input.supplier.IsEntity(input.chunks[0]) && input.chunks[1] == "say";
+        }
+
+        public SpeechBubble(StepInput input)
+        {
+            string message = RegexUtilities.PullOutTextInsideQuotes(ref input.line);
+            this.entity = input.supplier.GetEntityByAlias(input.chunks[0]);
             this.Message = message;
         }
     }

@@ -10,7 +10,7 @@ namespace GalvosCutsceneParser
 {
     public class MoveAiInDirectionStep : BaseStep
     {
-        public MoveSpeedType SpeedType { get; protected set; }
+        public SpeedType SpeedType { get; protected set; }
         public Vector3 Direction { get; private set; }
 
         public static bool IsMatch(StepInput input)
@@ -23,7 +23,7 @@ namespace GalvosCutsceneParser
         public MoveAiInDirectionStep(StepInput input)
         {
             this.Direction = RegexUtilities.GetVector3FromString(input.line);
-            this.SpeedType = BaseMoveStep.SpeedTypeFromString(input.chunks[1]);
+            this.SpeedType = StepUtilities.SpeedTypeFromString(input.chunks[1]);
             this.entity = input.supplier.GetEntityByAlias(input.chunks[0]);
         }
     }

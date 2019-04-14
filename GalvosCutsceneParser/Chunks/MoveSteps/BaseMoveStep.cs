@@ -9,7 +9,7 @@ namespace GalvosCutsceneParser
 {
     public abstract class BaseMoveStep : BaseStep
     {
-        public MoveSpeedType SpeedType { get; protected set; }
+        public SpeedType SpeedType { get; protected set; }
 
         protected float MoveSpeed
         {
@@ -17,11 +17,11 @@ namespace GalvosCutsceneParser
             {
                 switch (this.SpeedType)
                 {
-                    case MoveSpeedType.Walk:
+                    case SpeedType.Slow:
                         return 32f;
-                    case MoveSpeedType.Run:
+                    case SpeedType.Medium:
                         return 64f;
-                    case MoveSpeedType.Sprint:
+                    case SpeedType.Fast:
                     default:
                         return 111f;
                 }
@@ -29,32 +29,8 @@ namespace GalvosCutsceneParser
         }
 
 
-        public static MoveSpeedType SpeedTypeFromString(string str)
-        {
-            if (str == "=>")
-            {
-                return MoveSpeedType.Walk;
-            }
 
-            if (str == "=>>")
-            {
-                return MoveSpeedType.Run;
-            }
-
-            if (str == "=>>>")
-            {
-                return MoveSpeedType.Sprint;
-            }
-
-            throw new MisformedStepException(str);
-        }
     }
 
-    public enum MoveSpeedType
-    {
-        Walk,
-        Run,
-        Sprint
-    }
 
 }

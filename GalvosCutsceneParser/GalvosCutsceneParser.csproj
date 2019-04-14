@@ -44,8 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\ActionsList.cs" />
+    <Compile Include="Chunks\ActivateStep.cs" />
     <Compile Include="Chunks\BaseStep.cs" />
+    <Compile Include="Chunks\ChangeVisibilityStep.cs" />
     <Compile Include="Chunks\FadeCameraIn.cs" />
+    <Compile Include="Chunks\FadeScreenStep.cs" />
     <Compile Include="Chunks\GreenTextStep.cs" />
     <Compile Include="Chunks\MoveSteps\WaypointMove.cs" />
     <Compile Include="Chunks\MoveSteps\MoveAiInDirectionStep.cs" />
@@ -57,6 +60,7 @@
     <Compile Include="Chunks\TurnToFaceStep.cs" />
     <Compile Include="Chunks\TurnVectorStep.cs" />
     <Compile Include="Chunks\WaitStep.cs" />
+    <Compile Include="Chunks\YieldStep.cs" />
     <Compile Include="Entities\IEntitySupplier.cs" />
     <Compile Include="Entities\NullEntity.cs" />
     <Compile Include="Entities\CutsceneEntity.cs" />
@@ -66,6 +70,7 @@
     <Compile Include="Parser\StepBuilder.cs" />
     <Compile Include="Utilities\Exceptions.cs" />
     <Compile Include="Utilities\RegexUtilities.cs" />
+    <Compile Include="Utilities\StepUtilities.cs" />
     <Compile Include="Utilities\XmlUtilities.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
