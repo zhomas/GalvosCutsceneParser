@@ -47,7 +47,7 @@
     <Compile Include="Chunks\ActivateStep.cs" />
     <Compile Include="Chunks\BaseStep.cs" />
     <Compile Include="Chunks\ChangeVisibilityStep.cs" />
-    <Compile Include="Chunks\FadeCameraIn.cs" />
+    <Compile Include="Chunks\Camera\FadeCameraIn.cs" />
     <Compile Include="Chunks\FadeScreenStep.cs" />
     <Compile Include="Chunks\GreenTextStep.cs" />
     <Compile Include="Chunks\LoadSceneStep.cs" />
@@ -62,6 +62,7 @@
     <Compile Include="Chunks\TurnVectorStep.cs" />
     <Compile Include="Chunks\WaitStep.cs" />
     <Compile Include="Chunks\YieldStep.cs" />
+    <Compile Include="Entities\CameraHome.cs" />
     <Compile Include="Entities\IEntitySupplier.cs" />
     <Compile Include="Entities\NullEntity.cs" />
     <Compile Include="Entities\CutsceneEntity.cs" />

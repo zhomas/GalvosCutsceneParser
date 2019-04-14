@@ -52,6 +52,8 @@ namespace GalvosCutsceneParser.Entities
                 throw new NoAliasException();
             }
 
+            list.Add(new CameraHome(this.goGetter));
+
             this.Entities = list;
         }
 
