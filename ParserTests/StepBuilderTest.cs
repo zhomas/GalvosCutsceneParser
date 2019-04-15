@@ -157,8 +157,15 @@ namespace ParserTests
             var builder = new StepBuilder(new MockEntitySupplier());
             var c = builder.BuildStep("cam --speed=180") as CameraTarget;
             Assert.AreEqual(180f, (c.Speed));
+        }
 
-
+        [TestMethod]
+        public void TestCamFade()
+        {
+            var builder = new StepBuilder(new MockEntitySupplier());
+            var step = builder.BuildStep("cam => Magus --ease --nofollow");
+            Assert.AreEqual(typeof(FadeCameraIn), step.GetType());
+            Assert.AreEqual(false, ((FadeCameraIn)step).Follow);
         }
 
         [TestMethod]
