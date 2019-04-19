@@ -13,25 +13,21 @@ namespace GalvosCutsceneParser
         public float Distance { get; private set; }
         public string Pose { get; private set; }
         public float Speed { get; private set; }
+        public bool Instant { get; private set; }
+        public bool Follow { get; private set; } = true;
 
         public static bool IsMatch(StepInput input)
         {
             bool match = input.chunks[0] == "cam";
-
-            foreach (var chunk in input.chunks)
-            {
-                System.Diagnostics.Debug.WriteLine(chunk);
-            }
-
-            System.Diagnostics.Debug.WriteLine("Testing cam match... " + match.ToString());
             return match;
         }
 
         public CameraTarget(StepInput input)
         {
-            if (input.chunks.Count > 2 && input.chunks[1] == "=>")
+            if (input.chunks.Count > 2 && input.chunks[1].Contains("=>"))
             {
                 this.entity = input.supplier.GetEntityByAlias(input.chunks[2]);
+                this.Instant = input.chunks[1].StartsWith("!");
             }
 
             if (input.args.ContainsKey("distance"))
@@ -42,11 +38,6 @@ namespace GalvosCutsceneParser
             if (input.args.ContainsKey("speed"))
             {
                 this.Speed = float.Parse(input.args["speed"]);
-            }
-
-            foreach (var item in input.args.Keys)
-            {
-                System.Diagnostics.Debug.WriteLine(item);
             }
             
             if (input.args.ContainsKey("low"))
@@ -68,6 +59,8 @@ namespace GalvosCutsceneParser
             {
                 this.Pose = "right";
             }
+
+            this.Follow = !input.args.ContainsKey("nofollow");
         }
     }
 }

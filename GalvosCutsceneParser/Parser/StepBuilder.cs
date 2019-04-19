@@ -41,7 +41,7 @@ namespace GalvosCutsceneParser
                 do
                 {
                     line = reader.ReadLine();
-                    if (line != null && !line.StartsWith("#"))
+                    if (line != null && !line.Trim().StartsWith("#"))
                     {
                         list.Add(this.BuildStep(line));
                     }
